@@ -1,0 +1,13 @@
+<md-bottom-sheet class="md-grid" layout="column">
+  <div ng-cloak>
+    <md-grid-list md-cols="2" md-cols-sm="5" md-row-height="5:7" md-gutter="4px">
+      <md-grid-tile ng-cloak ng-repeat="card in vm.hand()" md-colspan="1" md-rowspan="1">
+				<div class="mini card consequence" ng-click="vm.handClick(card)">
+						<p class="primary">{{card.primary}}</p>
+						<p class="secondary" ng-if="card.secondary">{{card.secondary}}</p>
+						<span class="type">{{card.type}} CARD</span>
+				</div>
+      </md-grid-tile>
+    </md-grid-list>
+  </div>
+</md-bottom-sheet>

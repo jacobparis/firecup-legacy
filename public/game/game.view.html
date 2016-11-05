@@ -1,0 +1,43 @@
+<div ng-cloak>
+<md-toolbar>
+	<md-tabs md-selected="vm.selectedPlayer" md-stretch-tabs md-dynamic-height>
+		<md-tab id="tab_{{player.name}}" ng-repeat="player in vm.players" md-on-select="vm.hand()">
+			<md-tab-label>
+				{{(vm.turn == $index) ? player.name + "'S TURN" : player.name}}
+			</md-tab-label>
+		</md-tab>
+
+	</md-tabs>
+</md-toolbar>
+</div>
+
+<div class="large card {{vm.card.deck}}" ng-class="{'facedown': vm.facedown}" ng-click="vm.click($event)">
+	<div class="top">
+		<p class="primary">{{vm.card.primary}}</p>
+	</div>
+	<div class="bottom {{vm.card.color}}">
+		<p class="secondary">{{vm.card.secondary}}</p>
+		<span class="type">{{vm.card.type}} CARD</span>
+	</div>
+</div>
+
+<div ng-cloak>
+<md-fab-speed-dial md-open="vm.dialOpen" class="md-fling md-fab-bottom-right" md-direction="up">
+	<md-fab-trigger>
+    <md-button aria-label="menu" class="mainButton md-fab md-warn">
+    </md-button>
+  </md-fab-trigger>
+
+  <md-fab-actions>
+		<md-button ng-click="vm.smite(vm.selectedPlayer)" class="md-fab md-raised md-mini">
+			Smite
+		</md-button>
+		<md-button ng-click="vm.showGridBottomSheet()" ng-disabled="!vm.handLength" class="md-fab md-raised md-mini">
+			Hand
+		</md-button>
+		<md-button ng-click="vm.setTurn(vm.selectedPlayer)" ng-disabled="vm.turn == vm.selectedPlayer" class="md-fab md-raised md-mini">
+			Turn
+		</md-button>
+	</md-fab-actions>
+</md-fab-speed-dial>
+</div>

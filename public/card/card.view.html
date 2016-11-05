@@ -1,0 +1,21 @@
+<!-- HEADER -->
+<nav class="navbar navbar-inverse">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="/">Cards App</a>
+	</div>
+</nav>
+
+<div class="jumbotron text-center">
+	<h1>Cards and Proud</h1>
+
+</div>
+
+<div ng-repeat='card in vm.cards' class="large card">
+	<div class="top">
+		<p class="primary">{{card.primary}}</p>
+	</div>
+	<div class="bottom {{card.color}}">
+		<p class="secondary">{{card.secondary}}</p>
+		<span class="type">{{card.type}} CARD</span>
+	</div>
+</div>

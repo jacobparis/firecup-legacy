@@ -1,0 +1,155 @@
+/** Angular Material Overrides **/
+md-toolbar {
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);
+    md-tabs-canvas {
+      overflow-x: scroll !important;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    md-tabs.noTabPanel md-tabs-wrapper {
+        display: none !important;
+    }
+}
+
+
+.large {
+width: 100vw;
+height: 140vw;
+  .primary {
+    font-size: 18px;
+    padding: 1rem;
+  }
+  .secondary {
+    font-size: 20px;
+    padding: 2rem 1rem 1rem 1rem;
+  }
+
+  &.float {
+    width: 85vw;
+    height: 119vw;
+    margin: 1rem;
+  }
+}
+
+.mini {
+  width: 110px;
+  min-height: 160px;
+  font-size: 50%;
+      margin: 0 !important;
+  .primary {
+    font-size: 9px;
+    padding: 0 1rem;
+  }
+  .secondary {
+    font-size: 10px;
+    padding: 0 1rem;
+  }
+}
+.card {
+  font-family: 'Roboto', sans-serif;
+  font-weight:500;
+  background: #eee;
+  border-radius: 0.5rem;
+  position: relative;
+  display: inline-block;
+
+  .BoxShadowHelper(1, true);
+  .NoSelect();
+  &:hover {
+    cursor: pointer;
+    .BoxShadowHelper(3, true);
+  }
+  .type {
+    font-weight: 500;
+    text-transform: uppercase;
+    position: absolute;
+    bottom: 0.4rem;
+    right: 1rem;
+  }
+
+  &.facedown::after {
+    content: '';
+    color: white;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-size: contain;
+    border-radius: 0.5rem;
+
+  }
+  &.event {
+    background: #d1d1d1;
+    .bottom {
+      position: absolute;
+      bottom: 0;
+      height: 50%;
+      width: 100%;
+      color: white;
+      font-weight: 400;
+      -webkit-clip-path: polygon(0 4rem,100% 0,100% 100%,0 100%,0 10%);
+      padding-top: 2rem;
+      box-sizing: content-box;
+      border-radius: 0 0 0.5rem 0.5rem;
+      &.black {
+        background-color: #212121;
+      }
+      &.blue {
+        background-color: #0D47A1;
+      }
+    }
+    &::after {
+      background-image: url(/assets/img/eventcard.png);
+    }
+  }
+  &.consequence {
+    background: #2f2f2f;
+    color: #d1d1d1;
+    &::after {
+      background-image: url(/assets/img/cardback.png);
+    }
+  }
+}
+
+.mainButton {
+  background-image: url(/assets/img/icon.png);
+  background-size: 50%;
+    background-repeat: no-repeat;
+    background-position: 50%;
+}
+.BoxShadowHelper(@level: 1, @hover: false){
+    & when (@level = 1) {
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    }
+    & when (@level = 2) {
+        box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    }
+    & when (@level = 3) {
+        box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    }
+    & when (@level = 4) {
+        box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    }
+    & when (@level = 5) {
+        box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+    }
+    & when (@hover) {
+      transition: all 250ms;
+      &:hover {
+        transform: translateY(-5px);
+      }
+    }
+}
+
+.NoSelect() {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* Internet Explorer/Edge */
+  user-select: none;           /* Non-prefixed version, currently
+                                  not supported by any browser */
+}
