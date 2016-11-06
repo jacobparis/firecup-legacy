@@ -1,21 +1,83 @@
 <!-- HEADER -->
-<nav class="navbar navbar-inverse">
-	<div class="navbar-header">
-		<a class="navbar-brand" href="/">Cards App</a>
-	</div>
-</nav>
-
-<div class="jumbotron text-center">
-	<h1>Cards and Proud</h1>
-
+<div ng-cloak>
+	<md-toolbar>
+		<md-tabs md-selected="vm.card.deck" md-stretch-tabs md-dynamic-height>
+			<md-tab ng-repeat="type in vm.cardTypes" md-on-select="vm.getCards()">
+				<md-tab-label>
+					{{type}}
+				</md-tab-label>
+			</md-tab>
+		</md-tabs>
+	</md-toolbar>
 </div>
 
-<div ng-repeat='card in vm.cards' class="large card">
-	<div class="top">
-		<p class="primary">{{card.primary}}</p>
+<div layout="row" layout-xs="column">
+	<div flex>
+		<div class="large contained card {{vm.cardTypes[vm.card.deck]}}" ng-class="{'facedown': vm.facedown}" ng-click="vm.click($event)">
+			<div class="top">
+				<p class="primary">{{vm.card.primary}}</p>
+			</div>
+			<div class="bottom {{vm.card.color}}">
+				<p class="secondary">{{vm.card.secondary}}</p>
+				<span class="type">{{vm.card.type}} CARD</span>
+			</div>
+		</div>
 	</div>
-	<div class="bottom {{card.color}}">
-		<p class="secondary">{{card.secondary}}</p>
-		<span class="type">{{card.type}} CARD</span>
+	<div flex>
+		<md-content>
+			<md-input-container>
+			  <label>Primary</label>
+			  <input ng-model="vm.card.primary" ng-keyup="$event.keyCode == 13 && vm.postCard()">
+			</md-input-container>
+
+			<md-input-container>
+			  <label>Secondary</label>
+			  <input ng-model="vm.card.secondary" ng-keyup="$event.keyCode == 13 && vm.postCard()">
+			</md-input-container>
+
+			<md-content>TYPE</md-content>
+
+			<md-radio-group ng-model="vm.card.type" ng-if="vm.card.deck == 0">
+			  <md-radio-button value="category">Category</md-radio-button>
+				<md-radio-button value="action">Action</md-radio-button>
+			</md-radio-group>
+
+			<md-radio-group ng-model="vm.card.type" ng-if="vm.card.deck == 1">
+			  <md-radio-button value="action">Action</md-radio-button>
+			  <md-radio-button value="status">Status</md-radio-button>
+				<md-radio-button value="trap">Trap</md-radio-button>
+			</md-radio-group>
+
+			<md-content>Expansion</md-content>
+			<md-radio-group ng-model="vm.card.color">
+			  <md-radio-button value="black">Stock</md-radio-button>
+			  <md-radio-button value="blue">Drinking</md-radio-button>
+			</md-radio-group>
+
+			<md-content>Theme</md-content>
+			<md-radio-group ng-model="vm.card.theme">
+			  <md-radio-button value="popculture">Pop Culture</md-radio-button>
+				<md-radio-button value="party">Party</md-radio-button>
+				<md-radio-button value="internet">Internet</md-radio-button>
+			</md-radio-group>
+
+			<div layout="row">
+				<div flex></div>
+					<md-button class="md-primary md-raised" ng-click="vm.postCard()" >UPLOAD</md-button>
+				</div>
+		</md-content>
 	</div>
+</div>
+
+
+<div layout="row">
+	<md-grid-list md-cols-xs="3" md-cols="4" md-row-height="1:1" md-row-height-xs="2:3">
+		<md-grid-tile ng-repeat="card in vm.cards">
+			<div class="mini card {{card.deck}}">
+					<p class="primary">{{card.primary}}</p>
+					<p class="secondary" ng-if="card.secondary">{{card.secondary}}</p>
+					<span class="type">{{card.type}} CARD</span>
+			</div>
+		</md-grid-tile>
+	</md-grid-list>
 </div>

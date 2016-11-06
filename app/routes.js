@@ -6,13 +6,13 @@ module.exports = function(app) {
   // handle things like api calls
   // authentication routes
 
-  app.route('/api/cards')
-    .get(cards.list)
+  app.route('/api/cards/')
     .post(cards.create);
 
   app.route('/api/decks/:deckId')
     .get(cards.shuffle)
-    .get(cards.list);
+    .get(cards.list)
+    .post(cards.create);
 
   app.param('deckId', cards.getDeck);
   // frontend routes =========================================================
