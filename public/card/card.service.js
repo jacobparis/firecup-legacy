@@ -11,7 +11,7 @@ function DeckResource($resource) {
 }
 
 function CardResource($resource) {
-  return $resource('/api/card/');
+  return $resource('/api/cards/');
 }
 
 function DeckService(DeckResource, CardResource) {
