@@ -6,7 +6,7 @@ module.exports = function(app) {
   // handle things like api calls
   // authentication routes
 
-  app.route('/api/cards/')
+  app.route('/api/card/')
     .post(cards.create);
 
   app.route('/api/decks/:deckId')
