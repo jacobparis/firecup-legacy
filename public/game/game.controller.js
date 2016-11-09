@@ -1,5 +1,6 @@
 angular
   .module('GameCtrl', [])
+
   .controller('GameController', [
     '$scope',
     '$q',
@@ -12,6 +13,9 @@ angular
   ]);
 
 function GameController($scope, $q, $mdDialog, $mdBottomSheet, DeckService, DialogService, PlayerService) {
+  //Lock scrolling hack
+  angular.element(document.body).addClass("noscroll");
+  
   var vm = this;
   /* Properties **/
 
@@ -52,6 +56,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, DeckService, Dial
           "input": "Player Name",
           "confirm": "Add Player"
         };
+
       if(vm.playerNames.length > 0) {
         prompt.text = "What is the next player's name?";
         prompt.input = "Player " + (vm.playerNames.length + 1) + " Name";
