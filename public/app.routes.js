@@ -10,7 +10,7 @@ function Routes($routeProvider, $locationProvider) {
   $routeProvider
     .when('/', {
       templateUrl: 'home/home.view.html',
-      controller: 'MainController',
+      controller: 'HomeController',
       controllerAs: 'vm'
     })
     .when('/cards', {

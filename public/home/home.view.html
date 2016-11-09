@@ -1,12 +1,48 @@
 <!-- HEADER -->
-<nav class="navbar navbar-inverse">
-	<div class="navbar-header">
-		<a class="navbar-brand" href="/">Cards App</a>
+<header class="home">
+	<h1>The Game of Sins</h1>
+	<h2>A party game for saints</h2>
+</header>
+<section class="home intro">
+	<h2>What is Sins?</h2>
+	<p>A long long time ago, a proud deity named Simon kept the world safe from
+		evil. Since all bad deeds were heavily punished, everyone decided to be
+		polite and get along. But with no one misbehaving, no one needed Simon, so
+		he decided to make more and more choices off-limits.</p>
+</section>
+<section class="home">
+	<div layout="row" layout-xs="column">
+		<div flex>
+		<h2>How to Start?</h2>
+		<p>Sit everyone in a circle and enter their names in clock-wise. When everyone
+			is in, click THAT'S EVERYONE and the game will begin with the draw of a card.</p>
+		<h2>Category Cards</h2>
+		<p>CATEGORY cards are divided into two colours. The top half is to be read aloud
+			and performed until the condition on the bottom half (which you don't read aloud)
+			is met. Then, the next player starts their turn.</p>
+		<h2>Trap Cards</h2>
+		<p>When your turn starts, you might draw a TRAP card, which will automatically
+			go into your hand once clicked. You can play a TRAP card at any time, as long
+			as the condition is met.</p>
+		<h2>Smiting</h2>
+		<p>If a card tells you to smite a player, select their name from the top bar,
+			click the action button, and click SMITE. This will draw them a card which
+			will either be an ACTION or a STATUS card. ACTIONs are to be performed immediately,
+			while STATUS cards go into the player's hand and must be followed continuously.</p>
+		</div>
+		<div flex>
+			<div class="large contained card event">
+				<div class="top">
+					<p class="primary">Name an action movie</p>
+				</div>
+				<div class="bottom black">
+					<p class="secondary">If the movie is based on a comic book, SMITE them.</p>
+					<span class="type">CATEGORY CARD</span>
+				</div>
+			</div>
+		</div>
 	</div>
-</nav>
-
-<div class="jumbotron text-center">
-	<h1>Home Page</h1>
-	<a href="/cards">View all cards</a>
-	<a href="/game">Play the game</a>
-</div>
+</section>
+<section class="home action">
+	<md-button ng-href="game" class="md-raised md-primary large">PLAY GAME</md-button>
+</section>

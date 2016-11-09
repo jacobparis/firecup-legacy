@@ -19,6 +19,9 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, DeckService, Dial
   vm.eventDeck = [];
   vm.consequenceDeck = [];
   vm.selectedPlayer = vm.turn;
+  vm.selectedPlayerName = playerName;
+  vm.selectedHand = 4;
+  vm.playerNames = [];
   vm.players = PlayerService.getPlayers();
   vm.dialOpen = false;
   vm.showGridBottomSheet = showHand;
@@ -28,26 +31,64 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, DeckService, Dial
   vm.setCard = setCard;
   vm.smite = smite;
   vm.hand = hand;
+  vm.handClick = handClick;
   vm.startGame = activate;
+  vm.startEh = false;
 
   activate();
 
   function activate() {
-    $q.all([
+    showAddPlayerPrompt()
+      .then(buildDecks)
+      .then(firstDeal)
+      .then(function() {
+        vm.startEh = true;
+        console.log('Game Start!');
+      });
+
+    function showAddPlayerPrompt() {
+      var prompt = {
+          "text": "What is your first player's name?",
+          "input": "Player Name",
+          "confirm": "Add Player"
+        };
+      if(vm.playerNames.length > 0) {
+        prompt.text = "What is the next player's name?";
+        prompt.input = "Player " + (vm.playerNames.length + 1) + " Name";
+        prompt.cancel = "That's everyone";
+      }
+      return DialogService.showPrompt(prompt).then(addPlayer, registerPlayers);
+    }
+
+    function addPlayer(name) {
+      vm.playerNames.push(name);
+      return showAddPlayerPrompt();
+    }
+
+    function registerPlayers() {
+      return PlayerService.addPlayers(vm.playerNames);
+    }
+
+    function buildDecks() {
+      console.log(vm.playerNames);
+      return $q.all([
         vm.newDeck('event'),
         vm.newDeck('consequence')
-      ])
-      .then(function() {
-        newCard('event');
-        DialogService.showAlert({
-            "title": "Choose your actions carefully.",
-            "text": PlayerService.getPlayer(vm.turn)
-              .name + "'s turn is starting"
-          })
-          .then(function() {
-            console.log('Game Start!');
-          });
+      ]);
+    }
+
+    function firstDeal() {
+      newCard('event');
+      return DialogService.showAlert({
+        "title": "Choose your actions carefully.",
+        "text": PlayerService.getPlayer(vm.turn)
+          .name + "'s turn is starting"
       });
+    }
+  }
+
+  function playerName() {
+    return PlayerService.getPlayer(vm.selectedPlayer).name;
   }
 
   function showHand() {
@@ -138,7 +179,19 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, DeckService, Dial
 
 
   function hand() {
-    vm.handLength = PlayerService.getHandSize(vm.selectedPlayer);
+    //Should display all status and trap cards of current player
+      vm.handLength = PlayerService.getHandSize(vm.selectedPlayer);
+      return PlayerService.getHand(vm.selectedPlayer);
+  }
+
+  function handClick(item, index) {
+    if(vm.selectedHand == index) {
+      DialogService.showHandInput(vm.selectedPlayer, item);
+    } else {
+      vm.selectedHand = index;
+
+    }
+
   }
 
   /* Internal functions **/

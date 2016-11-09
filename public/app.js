@@ -3,6 +3,7 @@ angular.module('app', [
   'ngResource',
   'ngMaterial',
   'appRoutes',
+  'Home',
   'CardService',
   'CardCtrl',
   'GameCtrl',

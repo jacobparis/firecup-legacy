@@ -8,6 +8,7 @@ angular
 
 function DialogService($q, $mdDialog) {
   this.showAlert = showAlert;
+  this.showPrompt = showPrompt;
   this.showHandInput = showHandInput;
 
   function showAlert(context) {
@@ -24,6 +25,24 @@ function DialogService($q, $mdDialog) {
     return $mdDialog.show(alert);
   }
 
+  function showPrompt(context) {
+    var alert = $mdDialog.prompt()
+      .textContent(context.text)
+      .ariaLabel(context.input)
+      .placeholder(context.input)
+      .clickOutsideToClose(false)
+      .ok(context.confirm);
+
+    //Most alerts don't need titles
+    if (context.title)
+      alert.title(context.title);
+
+    if (context.cancel) {
+      alert.clickOutsideToClose(true)
+      alert.cancel(context.cancel);
+    }
+    return $mdDialog.show(alert);
+  }
 
   function showHandInput(player, card) {
     var alert = {
@@ -34,6 +53,7 @@ function DialogService($q, $mdDialog) {
       locals: {
         player: player,
         card: card
+
       },
       bindToController: true
     };

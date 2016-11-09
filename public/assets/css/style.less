@@ -1,6 +1,7 @@
 /** Angular Material Overrides **/
 md-toolbar {
     box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);
+    min-height: 48px !important;
     md-tabs-canvas {
       overflow-x: scroll !important;
       &::-webkit-scrollbar {
@@ -17,9 +18,102 @@ md-grid-list {
   width: 100%;
 }
 
-.large {
-width: 100vw;
-height: 140vw;
+body {
+  overflow: hidden;
+}
+header.game {
+    border-bottom: 10rem solid #b71c1c;
+}
+
+main.game {
+  max-width: 1000px;
+  margin: auto;
+  margin-top: -10rem;
+  background: white;
+
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  @media (min-width: 600px) and (min-aspect-ratio: 5/7) {
+    margin-top: -9rem;
+    padding: 1rem;
+  }
+}
+
+@rise: 7;
+@run:  5;
+@size: 50;
+.cardarea {
+
+  @media (max-width: 599px) {
+    width: 100vw;
+    height: calc(7/5 *100vw);
+    overflow: hidden;
+  }
+
+  @media (min-width: 600px) {
+    width: 50vw;
+    height: calc(7/5 * 50vw);
+    overflow: hidden;
+    @media (min-aspect-ratio:5/7) {
+      height: 80vh;
+      width: calc(5/7 * 90vh);
+    }
+  }
+
+}
+
+.options {
+  @media (min-width: 600px) {
+    max-height: calc(7/5 * 50vw);
+    @media (min-aspect-ratio:5/7) {
+      max-height: 80vh;
+    }
+  }
+
+  .hand {
+    position: relative;
+    .mini2 {
+      position: absolute;
+      width: 80%;
+      max-width: 20vw;
+      height: calc(7/5 * 20vw);
+      overflow: hidden;
+      margin: 0 !important;
+      padding: 1rem;
+      font-size: 2vw;
+      .BoxShadowHelper(3);
+      &.selected {
+        z-index: 10 !important;
+        .BoxShadowHelper(5);
+      }
+      &.hand-0 {
+        left: 1rem;
+        transform: rotate(-4deg);
+        z-index: 5+0;
+      }
+      &.hand-1 {
+        left: 20%;
+        transform: rotate(-2deg);
+        z-index: 5+1;
+      }
+      &.hand-2 {
+        left: 40%;
+        top: 1.5rem;
+        transform: rotate(0deg);
+        z-index: 5+2;
+      }
+      &.hand-3 {
+        left: 60%;
+        top: 3rem;
+        transform: rotate(2deg);
+        z-index: 5+3;
+      }
+    }
+  }
+}
+.card.large {
+  width: 100%;
+  height: 100%;
+  max-height: 90vh;
   .primary {
     font-size: 18px;
     padding: 1rem;
@@ -56,6 +150,9 @@ height: 140vw;
     padding: 0 1rem;
   }
 }
+
+
+
 .card {
   font-family: 'Roboto', sans-serif;
   font-weight:500;
@@ -64,11 +161,11 @@ height: 140vw;
   position: relative;
   display: inline-block;
 
-  .BoxShadowHelper(1, true);
+  .BoxShadowHelper(1);
   .NoSelect();
   &:hover {
     cursor: pointer;
-    .BoxShadowHelper(3, true);
+    .BoxShadowHelper(3);
   }
   .type {
     font-weight: 500;
@@ -86,7 +183,7 @@ height: 140vw;
     right: 0;
     top: 0;
     bottom: 0;
-    background-size: contain;
+    background-size: 100% 100%;
     border-radius: 0.5rem;
 
   }
@@ -147,9 +244,6 @@ height: 140vw;
     }
     & when (@hover) {
       transition: all 250ms;
-      &:hover {
-        transform: translateY(-5px);
-      }
     }
 }
 
