@@ -5,12 +5,10 @@ var mongoose = require('mongoose');
 // module.exports allows us to pass this to other files when it is called
 mongoose.model('Card', {
   primary: {
-    type: String,
-    uppercase: true
+    type: String
   },
   secondary: {
-    type: String,
-    lowercase: true
+    type: String
   },
   type: {
     type: String,

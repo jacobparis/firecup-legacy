@@ -16,6 +16,7 @@ function CardResource($resource) {
 
 function DeckService(DeckResource, CardResource) {
   this.getDeck = getDeck;
+  this.getCards = getCards;
   this.postCard = postCard;
 
   function getDeck(deck) {
@@ -23,6 +24,10 @@ function DeckService(DeckResource, CardResource) {
         "deckId": deck
       })
       .$promise;
+  }
+
+  function getCards(query) {
+    return DeckResource.query(query);
   }
 
   function postCard(card) {

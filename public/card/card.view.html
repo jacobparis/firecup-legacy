@@ -31,20 +31,20 @@
 			  <input ng-model="vm.card.secondary" ng-keyup="$event.keyCode == 13 && vm.postCard()">
 			</md-input-container>
 
-			<md-content>TYPE</md-content>
+			<md-content class="md-padding" >TYPE</md-content>
 
-			<md-radio-group ng-model="vm.card.type" ng-if="vm.card.deck == 0">
+			<md-radio-group class="md-padding" ng-model="vm.card.type" ng-if="vm.card.deck == 0">
 			  <md-radio-button value="event">Event</md-radio-button>
 				<md-radio-button value="trap">Trap</md-radio-button>
 			</md-radio-group>
 
-			<md-radio-group ng-model="vm.card.type" ng-if="vm.card.deck == 1">
+			<md-radio-group class="md-padding" ng-model="vm.card.type" ng-if="vm.card.deck == 1">
 			  <md-radio-button value="action">Action</md-radio-button>
 			  <md-radio-button value="status">Status</md-radio-button>
 			</md-radio-group>
 
-			<md-content ng-if="vm.card.deck == 0 && vm.card.type == 'event'">
-				EVENT MODEL
+			<md-content class="md-padding" ng-if="vm.card.deck == 0 && vm.card.type == 'event'">
+				Event Model
 			</md-content>
 			<md-radio-group ng-model="vm.card.model" ng-if="vm.card.deck == 0 && vm.card.type == 'event'">
 			  <md-radio-button value="circle">Circle</md-radio-button>
@@ -52,9 +52,13 @@
 
 			<md-content>Theme</md-content>
 			<md-radio-group ng-model="vm.card.theme">
-			  <md-radio-button value="popculture">Pop Culture</md-radio-button>
+			  <md-radio-button value="movies">Movies</md-radio-button>
 				<md-radio-button value="party">Party</md-radio-button>
 				<md-radio-button value="internet">Internet</md-radio-button>
+				<md-radio-button value="sports">Sports</md-radio-button>
+				<md-radio-button value="animals">Animals</md-radio-button>
+				<md-radio-button value="food">Food</md-radio-button>
+				<md-radio-button value="other">Other</md-radio-button>
 			</md-radio-group>
 
 			<div layout="row">
@@ -68,7 +72,7 @@
 
 <div layout="row">
 	<md-grid-list md-cols-xs="3" md-cols="4" md-row-height="1:1" md-row-height-xs="2:3">
-		<md-grid-tile ng-repeat="card in vm.cards">
+		<md-grid-tile ng-repeat="card in vm.cards | filter : {theme: vm.card.theme, type: vm.card.type}">
 			<div class="mini card {{card.deck}}">
 					<p class="primary">{{card.primary}}</p>
 					<p class="secondary" ng-if="card.secondary">{{card.secondary}}</p>
