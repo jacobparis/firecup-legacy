@@ -12,8 +12,7 @@ function CardController(DeckService) {
     'consequence'
   ];
   vm.card = {};
-  vm.card.type = 'category';
-  vm.card.color = 'black';
+  vm.card.type = 'event';
 
   vm.eventDeck = {
     "count": 0
@@ -30,11 +29,20 @@ function CardController(DeckService) {
     var card = {
       "deck": vm.cardTypes[vm.card.deck],
       "primary": vm.card.primary,
-      "secondary": vm.card.secondary,
-      "type": vm.card.type,
-      "color": vm.card.color,
-      "theme": vm.card.theme
+      "type": vm.card.type
     };
+
+    if(vm.card.secondary) {
+      card.secondary = vm.card.secondary;
+    }
+
+    if(vm.card.theme) {
+      card.theme = vm.card.theme;
+    }
+
+    if(vm.card.type == "event") {
+      card.model = vm.card.model;
+    }
 
     console.log(card);
     DeckService.postCard(card);

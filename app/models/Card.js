@@ -14,7 +14,10 @@ mongoose.model('Card', {
   },
   type: {
     type: String,
-    enum: ["category", "other", "action", "status", "trap"]
+    enum: ["event", "action", "status", "trap"]
+  },
+  model: {
+    type: String,
   },
   theme: {
     type: String
@@ -22,9 +25,5 @@ mongoose.model('Card', {
   deck: {
     type: String,
     enum: ["event", "consequence"]
-  },
-  color: {
-    type: String,
-    enum: ["black", "blue"]
   }
 });

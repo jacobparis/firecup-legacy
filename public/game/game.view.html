@@ -15,13 +15,9 @@
 	<div layout="row" layout-xs="column" ng-if="vm.startEh">
 		<div class="cardarea" ng-cloak>
 			<div class="large card {{vm.card.deck}}" ng-class="{'facedown': vm.facedown}" ng-click="vm.click($event)">
-				<div class="top">
 					<p class="primary">{{vm.card.primary}}</p>
-				</div>
-				<div class="bottom {{vm.card.color}}">
 					<p class="secondary">{{vm.card.secondary}}</p>
 					<span class="type">{{vm.card.type}} CARD</span>
-				</div>
 			</div>
 		</div>
 		<div class="options" ng-cloak flex>

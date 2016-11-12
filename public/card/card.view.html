@@ -14,13 +14,9 @@
 <div layout="row" layout-xs="column">
 	<div flex>
 		<div class="large contained card {{vm.cardTypes[vm.card.deck]}}" ng-class="{'facedown': vm.facedown}" ng-click="vm.click($event)">
-			<div class="top">
-				<p class="primary">{{vm.card.primary}}</p>
-			</div>
-			<div class="bottom {{vm.card.color}}">
-				<p class="secondary">{{vm.card.secondary}}</p>
-				<span class="type">{{vm.card.type}} CARD</span>
-			</div>
+			<p class="primary">{{vm.card.primary}}</p>
+			<p class="secondary">{{vm.card.secondary}}</p>
+			<span class="type">{{vm.card.type}} CARD</span>
 		</div>
 	</div>
 	<div flex>
@@ -38,8 +34,7 @@
 			<md-content>TYPE</md-content>
 
 			<md-radio-group ng-model="vm.card.type" ng-if="vm.card.deck == 0">
-			  <md-radio-button value="category">Category</md-radio-button>
-				<md-radio-button value="action">Action</md-radio-button>
+			  <md-radio-button value="event">Event</md-radio-button>
 				<md-radio-button value="trap">Trap</md-radio-button>
 			</md-radio-group>
 
@@ -48,10 +43,11 @@
 			  <md-radio-button value="status">Status</md-radio-button>
 			</md-radio-group>
 
-			<md-content>Expansion</md-content>
-			<md-radio-group ng-model="vm.card.color">
-			  <md-radio-button value="black">Stock</md-radio-button>
-			  <md-radio-button value="blue">Drinking</md-radio-button>
+			<md-content ng-if="vm.card.deck == 0 && vm.card.type == 'event'">
+				EVENT MODEL
+			</md-content>
+			<md-radio-group ng-model="vm.card.model" ng-if="vm.card.deck == 0 && vm.card.type == 'event'">
+			  <md-radio-button value="circle">Circle</md-radio-button>
 			</md-radio-group>
 
 			<md-content>Theme</md-content>

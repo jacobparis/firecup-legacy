@@ -185,28 +185,9 @@ main.game {
     bottom: 0;
     background-size: 100% 100%;
     border-radius: 0.5rem;
-
   }
   &.event {
-    background: #d1d1d1;
-    .bottom {
-      position: absolute;
-      bottom: 0;
-      height: 50%;
-      width: 100%;
-      color: white;
-      font-weight: 400;
-      -webkit-clip-path: polygon(0 4rem,100% 0,100% 100%,0 100%,0 10%);
-      padding-top: 2rem;
-      box-sizing: content-box;
-      border-radius: 0 0 0.5rem 0.5rem;
-      &.black {
-        background-color: #212121;
-      }
-      &.blue {
-        background-color: #0D47A1;
-      }
-    }
+    background: white;
     &::after {
       background-image: url(/assets/img/eventcard.png);
     }

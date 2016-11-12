@@ -1,6 +1,6 @@
-var port = 8080;
+var port = 80;
 
 module.exports = {
   port: port,
-  db: 'mongodb://localhost/greed'
+  db: 'mongodb://localhost/beta'
 };
