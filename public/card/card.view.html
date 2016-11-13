@@ -58,12 +58,21 @@
 			<md-radio-group ng-model="vm.card.theme">
 			  <md-radio-button value="movies">Movies</md-radio-button>
 				<md-radio-button value="party">Party</md-radio-button>
+				<md-radio-button value="cards">Cards</md-radio-button>
 				<md-radio-button value="internet">Internet</md-radio-button>
 				<md-radio-button value="sports">Sports</md-radio-button>
 				<md-radio-button value="animals">Animals</md-radio-button>
 				<md-radio-button value="food">Food</md-radio-button>
 				<md-radio-button value="other">Other</md-radio-button>
 			</md-radio-group>
+
+			<md-content>Requirements</md-content>
+			<md-radio-group ng-model="vm.card.reqs">
+			  <md-radio-button value="none">None</md-radio-button>
+				<md-radio-button value="coins">Coins</md-radio-button>
+				<md-radio-button value="cards">Cards</md-radio-button>
+			</md-radio-group>
+
 
 			<div layout="row">
 				<div flex></div>

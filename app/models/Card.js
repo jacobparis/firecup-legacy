@@ -20,6 +20,9 @@ mongoose.model('Card', {
   theme: {
     type: String
   },
+  reqs: {
+    type: String
+  },
   deck: {
     type: String,
     enum: ["event", "consequence"]
