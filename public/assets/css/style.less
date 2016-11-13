@@ -14,6 +14,9 @@ md-toolbar {
     }
 }
 
+md-content {
+  overflow: inherit !important;
+}
 md-grid-list {
   width: 100%;
 }
@@ -21,15 +24,14 @@ md-grid-list {
 body.noscroll {
   overflow: hidden;
 }
-header.game {
+header {
     border-bottom: 10rem solid #b71c1c;
 }
-
-main.game {
-  max-width: 1000px;
+main {
+  max-width: 800px;
   margin: auto;
   margin-top: -10rem;
-  background: white;
+  background: rgb(250,250,250);
 
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   @media (min-width: 600px) and (min-aspect-ratio: 5/7) {

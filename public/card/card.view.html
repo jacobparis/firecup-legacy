@@ -1,5 +1,5 @@
 <!-- HEADER -->
-<div ng-cloak>
+<header ng-cloak>
 	<md-toolbar>
 		<md-tabs md-selected="vm.card.deck" md-stretch-tabs md-dynamic-height>
 			<md-tab ng-repeat="type in vm.cardTypes" md-on-select="vm.getCards()">
@@ -9,8 +9,9 @@
 			</md-tab>
 		</md-tabs>
 	</md-toolbar>
-</div>
+</header>
 
+<main>
 <div layout="row" layout-xs="column">
 	<div flex>
 		<div class="large contained card {{vm.cardTypes[vm.card.deck]}}" ng-class="{'facedown': vm.facedown}" ng-click="vm.click($event)">
@@ -21,16 +22,17 @@
 	</div>
 	<div flex>
 		<md-content>
-			<md-input-container>
-			  <label>Primary</label>
-			  <input ng-model="vm.card.primary" ng-keyup="$event.keyCode == 13 && vm.postCard()">
-			</md-input-container>
+			<div layout="column">
+				<md-input-container flex>
+				  <label>Primary</label>
+				  <input ng-model="vm.card.primary" ng-keyup="$event.keyCode == 13 && vm.postCard()">
+				</md-input-container>
 
-			<md-input-container>
-			  <label>Secondary</label>
-			  <input ng-model="vm.card.secondary" ng-keyup="$event.keyCode == 13 && vm.postCard()">
-			</md-input-container>
-
+				<md-input-container flex>
+				  <label>Secondary</label>
+				  <input ng-model="vm.card.secondary" ng-keyup="$event.keyCode == 13 && vm.postCard()">
+				</md-input-container>
+			</div>
 			<md-content class="md-padding" >TYPE</md-content>
 
 			<md-radio-group class="md-padding" ng-model="vm.card.type" ng-if="vm.card.deck == 0">
@@ -81,3 +83,4 @@
 		</md-grid-tile>
 	</md-grid-list>
 </div>
+</main>

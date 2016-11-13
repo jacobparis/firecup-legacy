@@ -51,12 +51,10 @@ function CardController(DeckService) {
   }
 
   function getCards() {
-    console.log('Get Cards');
     if (vm.cardTypes[vm.card.deck] == "event") {
       DeckService.getDeck('event')
         .then(function(deck) {
           vm.cards = deck;
-          console.log(vm.cards);
         });
     }
 
