@@ -29,7 +29,8 @@ function CardController(DeckService) {
     var card = {
       "deck": vm.cardTypes[vm.card.deck],
       "primary": vm.card.primary,
-      "type": vm.card.type
+      "type": vm.card.type,
+      "reqs": vm.card.reqs
     };
 
     if(vm.card.secondary) {
