@@ -1,5 +1,5 @@
 angular
-  .module('GameCtrl', [])
+  .module('Game', [])
 
   .controller('GameController', [
     '$scope',
