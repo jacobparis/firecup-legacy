@@ -1,5 +1,5 @@
 angular
-  .module('CardCtrl', [])
+  .module('Card', [])
   .controller('CardController', [
     'DeckService',
     CardController

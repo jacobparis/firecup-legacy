@@ -4,10 +4,8 @@ angular.module('app', [
   'ngMaterial',
   'appRoutes',
   'Home',
-  'CardService',
-  'CardCtrl',
-  'GameCtrl',
-  'GameService',
+  'Card',
+  'Game',
   'DialogService',
   'HandCtrl'
 ])

@@ -1,5 +1,5 @@
 angular
-  .module('GameCtrl', [])
+  .module('Game', [])
 
   .controller('GameController', [
     '$scope',
@@ -15,7 +15,7 @@ angular
 function GameController($scope, $q, $mdDialog, $mdBottomSheet, DeckService, DialogService, PlayerService) {
   //Lock scrolling hack
   angular.element(document.body).addClass("noscroll");
-  
+
   var vm = this;
   /* Properties **/
 

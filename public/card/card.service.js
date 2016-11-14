@@ -1,5 +1,5 @@
 angular
-  .module('CardService', [])
+  .module('Card')
   .service('DeckResource', ['$resource', DeckResource])
   .service('CardResource', ['$resource', CardResource])
   .service('DeckService', DeckService);

@@ -1,5 +1,5 @@
 angular
-  .module('GameService', [])
+  .module('Game')
   .service('PlayerService', ['$q', PlayerService]);
 
 function PlayerService($q) {

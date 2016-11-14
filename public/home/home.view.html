@@ -1,50 +1,58 @@
 <!-- HEADER -->
-<header class="home">
+<header class="md-padding home">
 	<h1>The Game of Sins</h1>
 	<h2>A party game for saints</h2>
 </header>
-<section class="home intro">
-	<h2>What is Sins?</h2>
-	<p>A long long time ago, a proud deity named Simon kept the world safe from
-		evil. Since all bad deeds were heavily punished, everyone decided to be
-		polite and get along. But with no one misbehaving, no one needed Simon, so
-		he decided to make more and more choices off-limits.</p>
-</section>
-<section class="home">
-	<div layout="row" layout-xs="column">
-		<div flex>
-		<h2>How to Start?</h2>
-		<p>Sit everyone in a circle and enter their names in clock-wise. When everyone
-			is in, click THAT'S EVERYONE and the game will begin with the draw of a card.</p>
-		<h2>Category Cards</h2>
-		<p>CATEGORY cards are divided into two colours. The top half is to be read aloud
-			and performed until the condition on the bottom half (which you don't read aloud)
-			is met. Then, the next player starts their turn.</p>
-		<h2>Trap Cards</h2>
-		<p>Trap Cards stay in your hand and are hidden from other players. When the
-		condition is met, you may activate the card. If the action is 'SMITE them',
-	  the 'player' the card refers to must draw a SMITE card. Trap cards may only
-	  be played on one player unless written otherwise, so if two people do something
-	  at the same time, you must choose who to smite.</p>
-		<h2>Smiting</h2>
-		<p>If a card tells you to smite a player, select their name from the top bar,
-			click the action button, and click SMITE. This will draw them a card which
-			will either be an ACTION or a STATUS card. ACTIONs are to be performed immediately,
-			while STATUS cards go into the player's hand and must be followed continuously.</p>
-		</div>
-		<div flex>
-			<div class="large contained card event">
-				<div class="top">
-					<p class="primary">Name an action movie</p>
-				</div>
-				<div class="bottom black">
-					<p class="secondary">If the movie is based on a comic book, SMITE them.</p>
-					<span class="type">CATEGORY CARD</span>
+<main class="home">
+	<section class="home intro">
+		<h2>What is Sins?</h2>
+		<p>A long long time ago, a proud deity named Simon kept the world safe from
+			evil. Since all bad deeds were heavily punished, everyone decided to be
+			polite and get along. But with no one misbehaving, no one needed Simon, so
+			the punishments got more and more frequent.</p>
+	</section>
+	<section class="home">
+		<div layout="row" layout-xs="column">
+			<div flex>
+			<h2>How to Start?</h2>
+			<p>Sit everyone in a circle and enter their names in clock-wise. When everyone
+				is in, click THAT'S EVERYONE and the game will begin with the draw of a card.</p>
+
+			<h2>The Cards</h2>
+			<p>There are three types of cards: EVENT, TRAP, and SMITE</p>
+			<h2>Event Cards</h2>
+			<p>At the start of your turn, the random card you draw will either be an
+				EVENT or TRAP card. EVENT cards start little minigames. A common type is
+				a Category card, where the players take turns listing items that fit the
+				category. If a player takes too long, says something wrong, or something
+				that another player has mentioned already, they must draw a SMITE card.
+			<h2>Trap Cards</h2>
+			<p>You can play a TRAP card at any point in the game, as long as its
+			condition is met. Unless the card says otherwise, a TRAP card will only work
+			on 1 player. If a TRAP card says to SMITE a player when they stand up, and 2
+			players stand at the same time, you must choose which one to SMITE.</p>
+			<h2>Smite Cards</h2>
+			<p>If a card tells you to smite a player, select their name from the top bar,
+				click the action button, and click SMITE. This will draw a SMITE card.
+				<br />
+			There are two types of SMITE cards: ACTION, and STATUS. ACTION cards are to
+			be performed immediately and discarded, while STATUS cards remain active until
+			another card says otherwise.</p>
+			<h2>Disclaimer</h2>
+		<p>All drinks referred to in the game are defined as large sips of homeopathic
+			snake oil diluted to roughly 5%. All shots are defined as tiny glasses diluted
+			to roughly 40%. Please drink responsibly.</p>
+			</div>
+			<div flex>
+				<div class="large contained card event">
+					<p class="primary">Categories</p>
+					<p class="secondary">Name a movie that takes place in the past</p>
+					<span class="type">EVENT CARD</span>
 				</div>
 			</div>
 		</div>
-	</div>
-</section>
-<section class="home action">
-	<md-button ng-href="game" class="md-raised md-primary large">PLAY GAME</md-button>
-</section>
+	</section>
+	<section class="home action">
+		<md-button ng-href="game" class="md-raised md-primary large">PLAY GAME</md-button>
+	</section>
+</main>
