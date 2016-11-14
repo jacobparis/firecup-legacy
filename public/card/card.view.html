@@ -14,10 +14,12 @@
 <main>
 <div layout="row" layout-xs="column">
 	<div flex>
-		<div class="large contained card {{vm.cardTypes[vm.card.deck]}}" ng-class="{'facedown': vm.facedown}" ng-click="vm.click($event)">
-			<p class="primary">{{vm.card.primary}}</p>
-			<p class="secondary">{{vm.card.secondary}}</p>
-			<span class="type">{{vm.card.type}} CARD</span>
+		<div class="large card-container">
+			<div class="{{vm.cardTypes[vm.card.deck]}} card" ng-class="{'facedown': vm.facedown}" ng-click="vm.click($event)">
+				<p class="primary">{{vm.card.primary}}</p>
+				<p class="secondary">{{vm.card.secondary}}</p>
+				<span class="type">{{vm.card.type}} CARD</span>
+			</div>
 		</div>
 	</div>
 	<div flex>

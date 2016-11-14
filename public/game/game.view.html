@@ -14,10 +14,12 @@
 <main class="game">
 	<div layout="row" layout-xs="column" ng-if="vm.startEh">
 		<div class="cardarea" ng-cloak>
-			<div class="large card {{vm.card.deck}}" ng-class="{'facedown': vm.facedown}" ng-click="vm.click($event)">
+			<div class="large card-container">
+				<div class="clickable {{vm.card.deck}} card" ng-class="{'facedown': vm.facedown}" ng-click="vm.click($event)">
 					<p class="primary">{{vm.card.primary}}</p>
 					<p class="secondary">{{vm.card.secondary}}</p>
 					<span class="type">{{vm.card.type}} CARD</span>
+				</div>
 			</div>
 		</div>
 		<div class="options" ng-cloak flex>
