@@ -25,7 +25,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, DeckSer
 
   vm.turn = 0;
   vm.eventDeck = [];
-  vm.consequenceDeck = [];
+  vm.smiteDeck = [];
   vm.selectedPlayer = vm.turn;
   vm.selectedPlayerName = playerName;
   vm.selectedHand = 4;
@@ -34,9 +34,14 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, DeckSer
   vm.dialOpen = false;
   vm.showGridBottomSheet = showHand;
   vm.newDeck = newDeck;
-  vm.click = click;
-  vm.setTurn = setTurn;
-  vm.setCard = setCard;
+
+  vm.drawEvent = drawEvent;
+  vm.drawSmite = drawSmite;
+
+  vm.turnChange = turnChange;
+  vm.getRandomEventCard = getRandomEventCard;
+  vm.getRandomSmiteCard = getRandomSmiteCard;
+
   vm.smite = smite;
   vm.startGame = activate;
   vm.startEh = false;
@@ -83,12 +88,19 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, DeckSer
       console.log(vm.playerNames);
       return $q.all([
         vm.newDeck('event'),
-        vm.newDeck('consequence')
+        vm.newDeck('smite')
       ]);
     }
 
     function firstDeal() {
-      newCard('event');
+      getRandomEventCard().then(function (card) {
+        vm.eventCard = card;
+      });
+
+      getRandomSmiteCard().then(function (card) {
+        vm.smiteCard = card;
+      });
+
       return DialogService.showAlert({
         "title": "Choose your actions carefully.",
         "text": PlayerService.getPlayer(vm.turn)
@@ -122,12 +134,12 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, DeckSer
           });
       }
 
-      if (deck == "consequence") {
-        DeckService.getDeck('consequence')
-          .then(function(consequenceDeck) {
+      if (deck == "smite") {
+        DeckService.getDeck('smite')
+          .then(function(smiteDeck) {
             //Returns a shuffled list of all the event cards
 
-            resolve(vm.consequenceDeck = consequenceDeck);
+            resolve(vm.smiteDeck = smiteDeck);
           });
       }
     });
@@ -137,85 +149,95 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, DeckSer
   /* External functions **/
 
 
-  function click(e) {
-    if (vm.facedown) {
-      //Flip card
-      vm.facedown = false;
-    } else {
-      if (vm.card.type == "status" ||
-        vm.card.type == "trap") {
-        //Take status and trap cards
-        vm.setCard(vm.selectedPlayer);
-      } else {
-        //Discard other cards, continue to next player
-        nextTurn();
-        newCard('event');
-      }
+  function drawEvent(e) {
+    if (vm.eventCard.facedown) {
+      vm.eventCard.facedown = false;
+      return;
     }
-  }
+    //Take status and trap cards
+    if (vm.eventCard.type == "trap") {
+      PlayerService.giveCard(vm.selectedPlayer, vm.eventCard);
+      return turnChange();
+    }
 
-
-  function setTurn(player) {
-    vm.turn = player;
-    vm.dialOpen = false;
-    vm.selectedPlayer = vm.turn;
-    DialogService.showAlert({
-      "text": PlayerService.getPlayer(vm.turn)
-        .name + "'s turn is starting"
+    getRandomEventCard().then(function (card) {
+      vm.eventCard = card;
+      return turnChange();
     });
-    newCard('event');
   }
 
+  function drawSmite(e) {
+    if (vm.smiteCard.facedown) {
+      vm.smiteCard.facedown = false;
+      return;
+    }
 
+    //Take status and trap cards
+    if (vm.smiteCard.type == "status") {
+      PlayerService.giveCard(vm.selectedPlayer, vm.smiteCard);
+      return;
+    }
 
-  function setCard(player) {
-    vm.dialOpen = false;
-
-    PlayerService.giveCard(player, vm.card);
-    nextTurn();
-    newCard('event');
+    getRandomSmiteCard().then(function (card) {
+      vm.smiteCard = card;
+    });
   }
 
 
 
   function smite(player) {
     vm.dialOpen = false;
-    newCard('consequence');
+
+    getRandomSmiteCard().then(function (card) {
+      vm.smiteCard = card;
+    });
   }
 
   /* Internal functions **/
 
-  var nextTurn = function() {
-    vm.turn = (vm.turn + 1) % PlayerService.getNumberOfPlayers();
-    vm.selectedPlayer = vm.turn;
-    DialogService.showAlert({
-      "text": PlayerService.getPlayer(vm.turn)
+  function turnChange(player) {
+      player = player || (vm.turn + 1) % PlayerService.getNumberOfPlayers();
+      vm.turn = player;
+      vm.dialOpen = false;
+      vm.selectedPlayer = vm.turn;
+      DialogService.showAlert({
+        "text": PlayerService.getPlayer(vm.turn)
         .name + "'s turn is starting"
-    });
-  };
+      });
 
-  var newCard = function(deck) {
+      getRandomEventCard()
+      .then(function (card) {
+        vm.eventCard = card;
+      });
+  }
+
+  function getRandomEventCard() {
     return $q(function(resolve, reject) {
-      if (deck == "event") {
-        vm.card = vm.eventDeck.splice(randomIndex(vm.eventDeck.length - 1), 1)[0];
-        vm.facedown = true;
-        if (vm.eventDeck.length < 3) {
-          vm.newDeck(deck);
-        }
-        resolve(vm.card);
-      } else if (deck == "consequence") {
-        vm.card = vm.consequenceDeck.splice(randomIndex(vm.consequenceDeck.length - 1), 1)[0];
-        vm.facedown = true;
-        if (vm.consequenceDeck.length < 3) {
-          vm.newDeck(deck);
-        }
-        resolve(vm.card);
-      } else {
-        reject(new Error(500, "No deck found."));
-      }
-    });
-  };
+      var card = vm.eventDeck.splice(randomIndex(vm.eventDeck.length - 1), 1)[0];
+      card.facedown = true;
 
+      //Shuffle deck if low
+      if (vm.eventDeck.length < 3) {
+        vm.newDeck(deck);
+      }
+
+      resolve(card);
+    });
+  }
+
+  function getRandomSmiteCard() {
+    return $q(function(resolve, reject) {
+      var card = vm.smiteDeck.splice(randomIndex(vm.smiteDeck.length - 1), 1)[0];
+      card.facedown = true;
+
+      //Shuffle deck if low
+      if (vm.smiteDeck.length < 3) {
+        vm.newDeck(deck);
+      }
+
+      resolve(card);
+    });
+  }
 }
 
 

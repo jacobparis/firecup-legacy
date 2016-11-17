@@ -91,6 +91,7 @@ function PlayerService($q) {
 
   function getHand(id) {
     var hand = [];
+    console.log(players[id].hand);
     for (var i = 0; i < players[id].hand.length; i++) {
       if (players[id].hand[i].type == "trap") {
         hand.push(players[id].hand[i]);
@@ -118,6 +119,8 @@ function PlayerService($q) {
 
   function giveCard(id, card) {
     return $q(function(resolve, reject) {
+      if(!card) reject('No valid card.');
+      
       players[id].hand.push(card);
       resolve();
     });

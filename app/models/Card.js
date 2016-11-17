@@ -25,6 +25,6 @@ mongoose.model('Card', {
   },
   deck: {
     type: String,
-    enum: ["event", "consequence"]
+    enum: ["event", "smite"]
   }
 });

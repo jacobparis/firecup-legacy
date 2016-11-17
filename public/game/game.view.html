@@ -13,16 +13,26 @@
 
 <main class="game">
 	<div layout="row" layout-xs="column" ng-if="vm.startEh">
-		<div class="cardarea" ng-cloak>
-			<div class="large card-container">
-				<div class="clickable {{vm.card.deck}} card" ng-class="{'facedown': vm.facedown}" ng-click="vm.click($event)">
-					<p class="primary">{{vm.card.primary}}</p>
-					<p class="secondary">{{vm.card.secondary}}</p>
-					<span class="type">{{vm.card.type}} CARD</span>
-				</div>
+
+		<!-- EVENT DECK -->
+		<div class="large card-container">
+			<div class="clickable event card" ng-class="{'facedown': vm.eventCard.facedown}" ng-click="vm.drawEvent($event)">
+				<p class="primary">{{vm.eventCard.primary}}</p>
+				<p class="secondary">{{vm.eventCard.secondary}}</p>
+				<span class="type">{{vm.eventCard.type}} CARD</span>
 			</div>
 		</div>
-		<div class="options" ng-cloak flex>
+
+		<!-- SMITE DECK -->
+		<div class="large card-container flex-right">
+			<div class="clickable smite card" ng-class="{'facedown': vm.smiteCard.facedown}" ng-click="vm.drawSmite($event)">
+				<p class="primary">{{vm.smiteCard.primary}}</p>
+				<p class="secondary">{{vm.smiteCard.secondary}}</p>
+				<span class="type">{{vm.smiteCard.type}} CARD</span>
+			</div>
+		</div>
+
+		<!-- div class="options" ng-cloak flex>
 			<md-fab-speed-dial hide-gt-xs ng-click="logscope()" md-open="vm.dialOpen" class="md-fling md-fab-bottom-right" md-direction="left">
 				<md-fab-trigger>
 			    <md-button aria-label="menu" class="mainButton md-fab md-warn">
@@ -36,7 +46,7 @@
 					<md-button ng-click="vm.showGridBottomSheet()" class="md-fab md-raised md-mini">
 						Hand
 					</md-button>
-					<md-button ng-click="vm.setTurn(vm.selectedPlayer)" ng-disabled="vm.turn == vm.selectedPlayer" class="md-fab md-raised md-mini">
+					<md-button ng-click="vm.turnChange(vm.selectedPlayer)" ng-disabled="vm.turn == vm.selectedPlayer" class="md-fab md-raised md-mini">
 						Turn
 					</md-button>
 				</md-fab-actions>
@@ -44,7 +54,7 @@
 
 			<div layout="column"  layout-fill hide show-gt-xs>
 				<div layout="row" layout-padding>
-					<md-button flex ng-click="vm.setTurn(vm.selectedPlayer)" ng-disabled="vm.turn == vm.selectedPlayer" class="md-raised md-primary">
+					<md-button flex ng-click="vm.turnChange(vm.selectedPlayer)" ng-disabled="vm.turn == vm.selectedPlayer" class="md-raised md-primary">
 						Skip to {{vm.selectedPlayerName()}}'s turn
 					</md-button>
 				</div>
@@ -53,15 +63,8 @@
 						Smite {{vm.selectedPlayerName()}}
 					</md-button>
 				</div>
-				<!-- div layout="row" flex layout-padding layout-margin layout-fill>
-					<div class="hand" ng-cloak flex>
-								<div class="mini2 card consequence hand-{{$index}}" ng-class="{'selected': vm.selectedHand == $index}" ng-repeat="card in vm.hand()" ng-click="vm.handClick(card, $index)">
-										<p class="primary">{{card.primary}}</p>
-										<span class="type">{{card.type}} CARD</span>
-								</div>
-				  </div>
-				</div -->
-		</div>
+
+		</div -->
 	</div>
 	<handsheet ng-if="$mdMedia('gt-xs')" class="hide show-gt-xs">
 </main>

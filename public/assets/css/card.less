@@ -7,6 +7,9 @@
     .secondary {
       padding: 1rem;
       font-size: 3vw;
+      &.verbose {
+        font-size: 2vw;
+      }
     }
     .type {
       padding: 1rem;
@@ -23,12 +26,14 @@
       overflow: hidden;
       .primary {
         @media (min-width: 800px) {
+          padding: 0.5rem 0;
           font-size: 48px !important;
         }
       }
       .secondary {
-        @media (min-width: 800px) {
-          font-size: 24px !important;
+        @media (min-width: 700px) {
+          padding: 0 1rem !important;
+          font-size: 21px !important;
         }
       }
       .type {
@@ -95,21 +100,12 @@
   position: relative;
   border-radius: 0.5rem;
   .BoxShadowHelper(3);
-  &.consequence {
+  &.smite {
     background: #2f2f2f;
     color: #f5f5f5;
   }
   &.clickable {
     cursor: pointer;
-  }
-  .primary {
-
-  }
-  .secondary {
-
-  }
-  .type {
-
   }
   .primary {
     margin: 0;
@@ -175,7 +171,7 @@
       background-image: url(/assets/img/eventcard.png);
     }
   }
-  &.consequence {
+  &.smite {
     background: #2f2f2f;
     color: #d1d1d1;
     &::after {
