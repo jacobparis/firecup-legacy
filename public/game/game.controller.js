@@ -6,16 +6,20 @@ angular
     '$q',
     '$mdDialog',
     '$mdBottomSheet',
+    '$mdMedia',
     'DeckService',
     'DialogService',
     'PlayerService',
     GameController
   ]);
 
-function GameController($scope, $q, $mdDialog, $mdBottomSheet, DeckService, DialogService, PlayerService) {
+function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, DeckService, DialogService, PlayerService) {
   //Lock scrolling hack
 //  angular.element(document.body).addClass("noscroll");
-
+  $scope.$mdMedia = $mdMedia;
+  $scope.logscope = function () {
+    console.log($scope);
+  };
   var vm = this;
   /* Properties **/
 
@@ -34,15 +38,13 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, DeckService, Dial
   vm.setTurn = setTurn;
   vm.setCard = setCard;
   vm.smite = smite;
-  vm.hand = hand;
-  vm.handClick = handClick;
   vm.startGame = activate;
   vm.startEh = false;
 
   activate();
 
   function activate() {
-    showAddPlayerPrompt()
+    showAddPlayerPrompt(true) //true means 5 random players, no dialog
       .then(buildDecks)
       .then(firstDeal)
       .then(function() {
@@ -50,7 +52,10 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, DeckService, Dial
         console.log('Game Start!');
       });
 
-    function showAddPlayerPrompt() {
+    function showAddPlayerPrompt(debug) {
+      if(debug) {
+        return PlayerService.demoPlayers();
+      }
       var prompt = {
           "text": "What is your first player's name?",
           "input": "Player Name",
@@ -98,16 +103,13 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, DeckService, Dial
 
   function showHand() {
     $mdBottomSheet.show({
-        templateUrl: 'game/hand/hand.template.html',
-        controller: 'HandController',
-        controllerAs: 'vm',
-        locals: {
-          players: PlayerService.getPlayers(),
-          selectedPlayer: vm.selectedPlayer,
-          turn: vm.turn
-        }
-      })
-      .then(function(clickedItem) {});
+      templateUrl: 'game/hand/hand.template.html',
+      controller: 'HandController',
+      controllerAs: 'hm',
+      scope: $scope.$new()
+    })
+    .then(function(clickedItem) {
+    });
   }
 
   function newDeck(deck) {
@@ -181,24 +183,6 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, DeckService, Dial
     newCard('consequence');
   }
 
-
-
-  function hand() {
-    //Should display all status and trap cards of current player
-      vm.handLength = PlayerService.getHandSize(vm.selectedPlayer);
-      return PlayerService.getHand(vm.selectedPlayer);
-  }
-
-  function handClick(item, index) {
-    if(vm.selectedHand == index) {
-      DialogService.showHandInput(vm.selectedPlayer, item);
-    } else {
-      vm.selectedHand = index;
-
-    }
-
-  }
-
   /* Internal functions **/
 
   var nextTurn = function() {
@@ -208,25 +192,24 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, DeckService, Dial
       "text": PlayerService.getPlayer(vm.turn)
         .name + "'s turn is starting"
     });
-    vm.hand();
   };
 
   var newCard = function(deck) {
     return $q(function(resolve, reject) {
       if (deck == "event") {
         vm.card = vm.eventDeck.splice(randomIndex(vm.eventDeck.length - 1), 1)[0];
-        resolve(vm.card);
         vm.facedown = true;
         if (vm.eventDeck.length < 3) {
           vm.newDeck(deck);
         }
+        resolve(vm.card);
       } else if (deck == "consequence") {
         vm.card = vm.consequenceDeck.splice(randomIndex(vm.consequenceDeck.length - 1), 1)[0];
-        resolve(vm.card);
         vm.facedown = true;
         if (vm.consequenceDeck.length < 3) {
           vm.newDeck(deck);
         }
+        resolve(vm.card);
       } else {
         reject(new Error(500, "No deck found."));
       }

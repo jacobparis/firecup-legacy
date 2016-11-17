@@ -4,36 +4,57 @@ angular
     '$scope',
     '$mdBottomSheet',
     'DialogService',
-    'players',
-    'selectedPlayer',
-    'turn',
+    'PlayerService',
     HandController
-  ]);
+  ])
+  .directive('handsheet', HandDirective);
 
-function HandController($scope, $mdBottomSheet, DialogService, players, selectedPlayer, turn) {
-  var vm = this;
-  vm.players = players;
-  vm.hand = hand;
-  vm.handClick = handClick;
+function HandController($scope, $mdBottomSheet, DialogService, PlayerService) {
+  var hm = this;
+  hm.hand = hand;
+  hm.handCards = 0;
+  hm.table = table;
+  hm.tableCards = 0;
+  hm.handClick = handClick;
+  $scope.logscope = function () {
+    console.log("HAND: " + $scope);
+  };
+
+  $scope.$watch('$parent.vm.selectedPlayer', function (delta, prime) {
+    hand();
+    table();
+  });
 
   function hand() {
     //Should display all status and trap cards of current player
-    //And all status cards of players when not their turn
-    if (selectedPlayer == turn) {
-      return players[selectedPlayer].hand;
-    } else {
-      var hand = [];
-      for (var i = 0; i < players[selectedPlayer].hand.length; i++) {
-        if (players[selectedPlayer].hand[i].type != "trap") {
-          hand.push(players[selectedPlayer].hand[i]);
-        }
-      }
-      return hand;
-    }
+    var player = $scope.$parent.vm.selectedPlayer;
+    console.log(player);
+    var hand = PlayerService.getHand(player);
+    hm.handCards = hand.length;
+    return hand;
+  }
 
+  function table() {
+    var player = $scope.$parent.vm.selectedPlayer;
+    var table = PlayerService.getTable(player);
+    hm.tableCards = table.length;
+    return table;
   }
 
   function handClick(item) {
-    DialogService.showHandInput(selectedPlayer, item);
+    console.log(item);
+    DialogService.showHandInput($scope.$parent.vm.selectedPlayer, item);
   }
+}
+
+function HandDirective() {
+  return {
+    templateUrl: 'game/hand/hand.template.html',
+    controller: 'HandController',
+    controllerAs: 'hm',
+    scope: {
+      selectedPlayer: '@',
+      turn: '@'
+    }
+  };
 }

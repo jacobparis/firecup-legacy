@@ -1,7 +1,7 @@
 <header class="game" ng-cloak>
 	<md-toolbar>
 		<md-tabs md-selected="vm.selectedPlayer" md-stretch-tabs md-dynamic-height>
-			<md-tab id="tab_{{player.name}}" ng-repeat="player in vm.players" md-on-select="vm.hand()">
+			<md-tab id="tab_{{player.name}}" ng-repeat="player in vm.players" md-on-select="vm.checkHand()">
 				<md-tab-label>
 					{{(vm.turn == $index) ? player.name + "'S TURN" : player.name}}
 				</md-tab-label>
@@ -23,7 +23,7 @@
 			</div>
 		</div>
 		<div class="options" ng-cloak flex>
-			<md-fab-speed-dial hide-gt-xs md-open="vm.dialOpen" class="md-fling md-fab-bottom-right" md-direction="left">
+			<md-fab-speed-dial hide-gt-xs ng-click="logscope()" md-open="vm.dialOpen" class="md-fling md-fab-bottom-right" md-direction="left">
 				<md-fab-trigger>
 			    <md-button aria-label="menu" class="mainButton md-fab md-warn">
 			    </md-button>
@@ -33,7 +33,7 @@
 					<md-button ng-click="vm.smite(vm.selectedPlayer)" class="md-fab md-raised md-mini">
 						Smite
 					</md-button>
-					<md-button ng-click="vm.showGridBottomSheet()" ng-disabled="!vm.handLength" class="md-fab md-raised md-mini">
+					<md-button ng-click="vm.showGridBottomSheet()" class="md-fab md-raised md-mini">
 						Hand
 					</md-button>
 					<md-button ng-click="vm.setTurn(vm.selectedPlayer)" ng-disabled="vm.turn == vm.selectedPlayer" class="md-fab md-raised md-mini">
@@ -53,15 +53,15 @@
 						Smite {{vm.selectedPlayerName()}}
 					</md-button>
 				</div>
-				<div layout="row" flex layout-padding layout-margin layout-fill>
+				<!-- div layout="row" flex layout-padding layout-margin layout-fill>
 					<div class="hand" ng-cloak flex>
 								<div class="mini2 card consequence hand-{{$index}}" ng-class="{'selected': vm.selectedHand == $index}" ng-repeat="card in vm.hand()" ng-click="vm.handClick(card, $index)">
 										<p class="primary">{{card.primary}}</p>
 										<span class="type">{{card.type}} CARD</span>
 								</div>
 				  </div>
-				</div>
-			</div>
+				</div -->
 		</div>
 	</div>
+	<handsheet ng-if="$mdMedia('gt-xs')" class="hide show-gt-xs">
 </main>
