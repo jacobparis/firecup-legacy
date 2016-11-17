@@ -1,5 +1,7 @@
 .card-container {
+  padding: 1rem;
   &.large {
+    //DEFAULT STYLES
     .primary {
       padding: 1rem 0;
       font-size: 6vw;
@@ -7,20 +9,32 @@
     .secondary {
       padding: 1rem;
       font-size: 3vw;
-      &.verbose {
-        font-size: 2vw;
-      }
     }
     .type {
       padding: 1rem;
       font-size: 3vw;
     }
     @media (max-width: 599px) {
-      width: 100vw;
-      height: calc(7/5 *100vw);
+      //MOBILE FULLSCREEN STYLES
+      box-sizing: border-box;
+      width: 95vw;
+      height: calc(7/5 * 95vw);
       overflow: hidden;
+      .primary {
+        padding: 1rem 0;
+        font-size: 6vw;
+      }
+      .secondary {
+        padding: 1rem;
+        font-size: 3vw;
+      }
+      .type {
+        padding: 1rem;
+        font-size: 3vw;
+      }
     }
     @media (min-width: 600px) {
+      //DESKTOP STYLES
       width: 45vw;
       height: calc(7/5 * 45vw);
       overflow: hidden;
@@ -47,51 +61,6 @@
       }
     }
   }
-  &.mini {
-    .primary {
-      padding: 0.2rem;
-      font-size: 2vw;
-    }
-    .secondary {
-      padding: 0 0.5rem;
-      font-size: 1.5vw;
-    }
-    .type {
-      font-size: 1.5vw;
-      padding: 0.5rem;
-    }
-    @media (max-width: 599px) {
-      height: 15vh;
-      width: 5/7 * 15vh;
-      overflow: hidden;
-    }
-    @media (min-width: 600px) {
-      height: 15vh;
-      width: 5/7 * 15vh;
-      overflow: hidden;
-      .primary {
-        @media (min-width: 800px) {
-          font-size: 18px !important;
-        }
-      }
-      .secondary {
-        @media (min-width: 800px) {
-          font-size: 12px !important;
-        }
-      }
-      .type {
-        @media (min-width: 800px) {
-          font-size: 12px !important;
-        }
-      }
-      @media (min-aspect-ratio:5/7) {
-        height: 15vh;
-        width: calc(5/7 * 15vh);
-      }
-    }
-  }
-  padding: 1rem;
-
 }
 
 .card {
@@ -99,6 +68,7 @@
   height: 100%;
   position: relative;
   border-radius: 0.5rem;
+  overflow: hidden;
   .BoxShadowHelper(3);
   &.smite {
     background: #2f2f2f;

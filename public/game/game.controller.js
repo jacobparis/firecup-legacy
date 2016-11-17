@@ -33,7 +33,10 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, DeckSer
   vm.players = PlayerService.getPlayers();
   vm.dialOpen = false;
   vm.showGridBottomSheet = showHand;
+
   vm.newDeck = newDeck;
+  vm.switchDecks = switchDecks;
+  vm.deckChoice = 0;
 
   vm.drawEvent = drawEvent;
   vm.drawSmite = drawSmite;
@@ -143,7 +146,12 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, DeckSer
           });
       }
     });
+  }
 
+  function switchDecks(id) {
+    var deckId = id || (vm.deckChoice + 1) % 2;
+    console.log(deckId);
+    vm.deckChoice = deckId;
   }
 
   /* External functions **/

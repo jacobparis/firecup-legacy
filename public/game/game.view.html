@@ -14,8 +14,22 @@
 <main class="game">
 	<div layout="row" layout-xs="column" ng-if="vm.startEh">
 
-		<!-- EVENT DECK -->
-		<div class="large card-container">
+		<!-- HYBRID EVENT / SMITE DECK -->
+		<div class="large card-container" ng-if="$mdMedia('xs')">
+			<div ng-if="vm.deckChoice == 0" class="clickable event card" ng-class="{'facedown': vm.eventCard.facedown}" ng-click="vm.drawEvent($event)">
+				<p class="primary">{{vm.eventCard.primary}}</p>
+				<p class="secondary">{{vm.eventCard.secondary}}</p>
+				<span class="type">{{vm.eventCard.type}} CARD</span>
+			</div>
+			<div ng-if="vm.deckChoice == 1" class="clickable smite card" ng-class="{'facedown': vm.smiteCard.facedown}" ng-click="vm.drawSmite($event)">
+				<p class="primary">{{vm.smiteCard.primary}}</p>
+				<p class="secondary">{{vm.smiteCard.secondary}}</p>
+				<span class="type">{{vm.smiteCard.type}} CARD</span>
+			</div>
+		</div>
+
+		<!-- SOLO EVENT DECK -->
+		<div class="large card-container" ng-if="$mdMedia('gt-xs')">
 			<div class="clickable event card" ng-class="{'facedown': vm.eventCard.facedown}" ng-click="vm.drawEvent($event)">
 				<p class="primary">{{vm.eventCard.primary}}</p>
 				<p class="secondary">{{vm.eventCard.secondary}}</p>
@@ -23,8 +37,8 @@
 			</div>
 		</div>
 
-		<!-- SMITE DECK -->
-		<div class="large card-container flex-right">
+		<!-- SOLO SMITE DECK -->
+		<div class="large card-container flex-right" ng-if="$mdMedia('gt-xs')">
 			<div class="clickable smite card" ng-class="{'facedown': vm.smiteCard.facedown}" ng-click="vm.drawSmite($event)">
 				<p class="primary">{{vm.smiteCard.primary}}</p>
 				<p class="secondary">{{vm.smiteCard.secondary}}</p>
@@ -32,25 +46,26 @@
 			</div>
 		</div>
 
-		<!-- div class="options" ng-cloak flex>
-			<md-fab-speed-dial hide-gt-xs ng-click="logscope()" md-open="vm.dialOpen" class="md-fling md-fab-bottom-right" md-direction="left">
-				<md-fab-trigger>
-			    <md-button aria-label="menu" class="mainButton md-fab md-warn">
-			    </md-button>
-			  </md-fab-trigger>
+		<md-fab-speed-dial hide-gt-xs md-open="vm.dialOpen" class="md-fling md-fab-bottom-right" md-direction="left">
+			<md-fab-trigger>
+				<md-button aria-label="menu" class="mainButton md-fab md-warn"></md-button>
+			</md-fab-trigger>
 
-			  <md-fab-actions >
-					<md-button ng-click="vm.smite(vm.selectedPlayer)" class="md-fab md-raised md-mini">
-						Smite
-					</md-button>
-					<md-button ng-click="vm.showGridBottomSheet()" class="md-fab md-raised md-mini">
-						Hand
-					</md-button>
-					<md-button ng-click="vm.turnChange(vm.selectedPlayer)" ng-disabled="vm.turn == vm.selectedPlayer" class="md-fab md-raised md-mini">
-						Turn
-					</md-button>
-				</md-fab-actions>
-			</md-fab-speed-dial>
+			<md-fab-actions >
+				<md-button ng-click="vm.switchDecks()" class="md-fab md-raised md-mini">
+					Switch Decks
+				</md-button>
+				<md-button ng-click="vm.showGridBottomSheet()" class="md-fab md-raised md-mini">
+					Hand
+				</md-button>
+				<md-button ng-click="vm.turnChange(vm.selectedPlayer)" ng-disabled="vm.turn == vm.selectedPlayer" class="md-fab md-raised md-mini">
+					Turn
+				</md-button>
+			</md-fab-actions>
+		</md-fab-speed-dial>
+
+		<!-- div class="options" ng-cloak flex>
+
 
 			<div layout="column"  layout-fill hide show-gt-xs>
 				<div layout="row" layout-padding>
