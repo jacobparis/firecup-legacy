@@ -39,6 +39,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, DeckSer
   vm.click = {x: 0, y: 0};
   vm.newDeck = newDeck;
   vm.switchDecks = switchDecks;
+  vm.otherDeck = "SMITE";
   vm.deckChoice = 0;
 
   vm.drawEvent = drawEvent;
@@ -161,6 +162,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, DeckSer
     var deckId = id || (vm.deckChoice + 1) % 2;
     console.log(deckId);
     vm.deckChoice = deckId;
+    vm.otherDeck = deckId ? "EVENT" : "SMITE";
   }
 
   /* External functions **/

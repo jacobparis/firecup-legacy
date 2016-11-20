@@ -63,14 +63,14 @@
 		</div>
 		</md-menu>
 
-		<md-fab-speed-dial hide-gt-xs md-open="vm.dialOpen" class="md-scale md-fab-bottom-right" md-direction="left">
+		<md-fab-speed-dial hide-gt-xs md-open="vm.dialOpen" class="md-scale md-fab-bottom-right" md-direction="up">
 			<md-fab-trigger>
 				<md-button aria-label="menu" class="mainButton md-fab md-warn"></md-button>
 			</md-fab-trigger>
 
 			<md-fab-actions >
 				<md-button ng-click="vm.switchDecks()" class="md-raised">
-					SWITCH DECKS
+					{{vm.otherDeck}} DECK
 				</md-button>
 				<md-button ng-click="vm.showGridBottomSheet()" class="md-raised">
 					CHECK HAND

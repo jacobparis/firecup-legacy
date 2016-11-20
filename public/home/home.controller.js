@@ -6,6 +6,4 @@ angular
 
 function HomeController() {
   var vm = this;
-
-  vm.intro = "Welcome!";
 }
