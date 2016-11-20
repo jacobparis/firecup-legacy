@@ -25,6 +25,11 @@ function HandController($scope, $mdBottomSheet, DialogService, PlayerService) {
     table();
   });
 
+  $scope.$watch('$parent.vm.smiteCard.user', function (delta, prime) {
+    hand();
+    table();
+  });
+
   function hand() {
     //Should display all status and trap cards of current player
     var player = $scope.$parent.vm.selectedPlayer;
