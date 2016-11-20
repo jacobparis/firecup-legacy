@@ -52,25 +52,15 @@
 
 		<div flex>
 		<!-- SOLO SMITE DECK -->
-		<md-menu ng-if="$mdMedia('gt-xs')" md-position-mode="target-right target">
-			<div class="large card-container flex-right" >
-				<div class="clickable smite card"
-					ng-class="{'facedown': !vm.smiteCard.user.name}"
-					ng-click="vm.drawSmite($mdOpenMenu, $event)">
-					<p class="primary" md-menu-origin>{{vm.smiteCard.primary}}</p>
-					<p class="secondary">{{vm.smiteCard.secondary}}</p>
-					<span class="type">{{vm.smiteCard.type}} CARD</span>
-				</div>
+		<div ng-if="$mdMedia('gt-xs')"  class="large card-container flex-right" >
+			<div class="clickable smite card"
+				ng-class="{'facedown': !vm.smiteCard.user.name}"
+				ng-click="vm.drawSmite($mdOpenMenu, $event)">
+				<p class="primary" md-menu-origin>{{vm.smiteCard.primary}}</p>
+				<p class="secondary">{{vm.smiteCard.secondary}}</p>
+				<span class="type">{{vm.smiteCard.type}} CARD</span>
 			</div>
-			<md-menu-content>
-				<md-menu-item ng-repeat="name in ['jacob', 'kaila', 'fucking all the time']">
-					<md-button md-no-ink ng-click="">
-						<span md-menu-align-target>
-							{{name}}
-						</span>
-					</md-button>
-				</md-menu-item>
-			</md-menu-content>
+		</div>
 		</md-menu>
 
 		<md-fab-speed-dial hide-gt-xs md-open="vm.dialOpen" class="md-scale md-fab-bottom-right" md-direction="left">

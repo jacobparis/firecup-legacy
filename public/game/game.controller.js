@@ -57,7 +57,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, DeckSer
   activate();
 
   function activate() {
-    showAddPlayerPrompt(true) //true means 5 random players, no dialog
+    showAddPlayerPrompt() //true means 5 random players, no dialog
       .then(buildDecks)
       .then(firstDeal)
       .then(function() {
@@ -72,13 +72,17 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, DeckSer
       var prompt = {
           "text": "What is your first player's name?",
           "input": "Player Name",
-          "confirm": "Add Player"
+          "confirm": "Add First Player"
         };
 
       if(vm.playerNames.length > 0) {
         prompt.text = "What is the next player's name?";
         prompt.input = "Player " + (vm.playerNames.length + 1) + " Name";
-        prompt.cancel = "That's everyone";
+        prompt.confirm = "Add Player " + (vm.playerNames.length + 1);
+        prompt.cancel = "PLAY WITH " + (vm.playerNames.length) + " PLAYER";
+        if(vm.playerNames.length > 1) {
+          prompt.cancel = "PLAY WITH " + (vm.playerNames.length) + " PLAYERS";
+        }
       }
       return DialogService.showPrompt(prompt).then(addPlayer, registerPlayers);
     }
