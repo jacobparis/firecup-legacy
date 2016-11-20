@@ -15,13 +15,26 @@
 	<div layout="row" layout-xs="column" ng-if="vm.startEh">
 
 		<!-- HYBRID EVENT / SMITE DECK -->
-		<div class="large card-container" ng-if="$mdMedia('xs')">
-			<div ng-if="vm.deckChoice == 0" class="clickable event card" ng-class="{'facedown': vm.eventCard.facedown}" ng-click="vm.drawEvent($event)">
+		<div
+		class="large card-container"
+		ng-if="$mdMedia('xs')"
+		md-swipe-up="vm.showGridBottomSheet()"
+		md-swipe-left="vm.switchDecks()"
+		md-swipe-right="vm.switchDecks()">
+			<div
+			class="clickable event card"
+			ng-class="{'facedown': vm.eventCard.facedown}"
+			ng-click="vm.drawEvent($event)"
+			ng-if="vm.deckChoice == 0">
 				<p class="primary">{{vm.eventCard.primary}}</p>
 				<p class="secondary">{{vm.eventCard.secondary}}</p>
 				<span class="type">{{vm.eventCard.type}} CARD</span>
 			</div>
-			<div ng-if="vm.deckChoice == 1" class="clickable smite card" ng-class="{'facedown': vm.smiteCard.facedown}" ng-click="vm.drawSmite($event)">
+			<div
+			class="clickable smite card"
+			ng-class="{'facedown': !vm.smiteCard.user.name}"
+			ng-click="vm.drawSmite($mdOpenMenu, $event)"
+			ng-if="vm.deckChoice == 1">
 				<p class="primary">{{vm.smiteCard.primary}}</p>
 				<p class="secondary">{{vm.smiteCard.secondary}}</p>
 				<span class="type">{{vm.smiteCard.type}} CARD</span>
@@ -37,29 +50,43 @@
 			</div>
 		</div>
 
+		<div flex>
 		<!-- SOLO SMITE DECK -->
-		<div class="large card-container flex-right" ng-if="$mdMedia('gt-xs')">
-			<div class="clickable smite card" ng-class="{'facedown': vm.smiteCard.facedown}" ng-click="vm.drawSmite($event)">
-				<p class="primary">{{vm.smiteCard.primary}}</p>
-				<p class="secondary">{{vm.smiteCard.secondary}}</p>
-				<span class="type">{{vm.smiteCard.type}} CARD</span>
+		<md-menu ng-if="$mdMedia('gt-xs')" md-position-mode="target-right target">
+			<div class="large card-container flex-right" >
+				<div class="clickable smite card"
+					ng-class="{'facedown': !vm.smiteCard.user.name}"
+					ng-click="vm.drawSmite($mdOpenMenu, $event)">
+					<p class="primary" md-menu-origin>{{vm.smiteCard.primary}}</p>
+					<p class="secondary">{{vm.smiteCard.secondary}}</p>
+					<span class="type">{{vm.smiteCard.type}} CARD</span>
+				</div>
 			</div>
-		</div>
+			<md-menu-content>
+				<md-menu-item ng-repeat="name in ['jacob', 'kaila', 'fucking all the time']">
+					<md-button md-no-ink ng-click="">
+						<span md-menu-align-target>
+							{{name}}
+						</span>
+					</md-button>
+				</md-menu-item>
+			</md-menu-content>
+		</md-menu>
 
-		<md-fab-speed-dial hide-gt-xs md-open="vm.dialOpen" class="md-fling md-fab-bottom-right" md-direction="left">
+		<md-fab-speed-dial hide-gt-xs md-open="vm.dialOpen" class="md-scale md-fab-bottom-right" md-direction="left">
 			<md-fab-trigger>
 				<md-button aria-label="menu" class="mainButton md-fab md-warn"></md-button>
 			</md-fab-trigger>
 
 			<md-fab-actions >
-				<md-button ng-click="vm.switchDecks()" class="md-fab md-raised md-mini">
-					Switch Decks
+				<md-button ng-click="vm.switchDecks()" class="md-raised">
+					SWITCH DECKS
 				</md-button>
-				<md-button ng-click="vm.showGridBottomSheet()" class="md-fab md-raised md-mini">
-					Hand
+				<md-button ng-click="vm.showGridBottomSheet()" class="md-raised">
+					CHECK HAND
 				</md-button>
-				<md-button ng-click="vm.turnChange(vm.selectedPlayer)" ng-disabled="vm.turn == vm.selectedPlayer" class="md-fab md-raised md-mini">
-					Turn
+				<md-button ng-click="vm.turnChange(vm.selectedPlayer)" ng-disabled="vm.turn == vm.selectedPlayer" class="md-raised">
+					SET TURN
 				</md-button>
 			</md-fab-actions>
 		</md-fab-speed-dial>

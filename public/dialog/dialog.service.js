@@ -10,6 +10,7 @@ function DialogService($q, $mdDialog) {
   this.showAlert = showAlert;
   this.showPrompt = showPrompt;
   this.showHandInput = showHandInput;
+  this.showSmiteInput = showSmiteInput;
 
   function showAlert(context) {
     var alert = $mdDialog.alert()
@@ -55,6 +56,20 @@ function DialogService($q, $mdDialog) {
         card: card
 
       },
+      bindToController: true
+    };
+
+    return $mdDialog.show(alert);
+  }
+
+  function showSmiteInput(scope) {
+    var alert = {
+      controller: 'SmiteInputController',
+      controllerAs: 'sm',
+      scope: scope,
+      preserveScope: true,
+      templateUrl: 'game/smite/smite.input.template.html',
+      clickOutsideToClose: true,
       bindToController: true
     };
 

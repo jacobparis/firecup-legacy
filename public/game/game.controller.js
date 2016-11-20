@@ -25,7 +25,9 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, DeckSer
 
   vm.turn = 0;
   vm.eventDeck = [];
+  vm.eventCard = {};
   vm.smiteDeck = [];
+  vm.smiteCard = {};
   vm.selectedPlayer = vm.turn;
   vm.selectedPlayerName = playerName;
   vm.selectedHand = 4;
@@ -34,12 +36,15 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, DeckSer
   vm.dialOpen = false;
   vm.showGridBottomSheet = showHand;
 
+  vm.click = {x: 0, y: 0};
   vm.newDeck = newDeck;
   vm.switchDecks = switchDecks;
   vm.deckChoice = 0;
 
   vm.drawEvent = drawEvent;
   vm.drawSmite = drawSmite;
+  vm.setSmitePlayer = setSmitePlayer;
+  vm.autoSmite = false;
 
   vm.turnChange = turnChange;
   vm.getRandomEventCard = getRandomEventCard;
@@ -174,18 +179,29 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, DeckSer
     });
   }
 
-  function drawSmite(e) {
-    if (vm.smiteCard.facedown) {
-      vm.smiteCard.facedown = false;
-      return;
+  function setSmitePlayer(player) {
+    vm.smiteCard.user = player;
+  }
+
+  function drawSmite($mdOpenMenu, e) {
+    //If no user is set
+    if (!vm.smiteCard.user.name) {
+      if(vm.autoSmite) {
+        vm.smiteCard.user = PlayerService.getPlayer(vm.selectedPlayer);
+        return;
+      } else {
+        DialogService.showSmiteInput($scope);
+        return;
+      }
     }
 
     //Take status and trap cards
     if (vm.smiteCard.type == "status") {
-      PlayerService.giveCard(vm.selectedPlayer, vm.smiteCard);
+      PlayerService.giveCard(vm.smiteCard.user.index, vm.smiteCard);
       return;
     }
 
+    //Place a new card on the top of the deck
     getRandomSmiteCard().then(function (card) {
       vm.smiteCard = card;
     });
@@ -236,7 +252,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, DeckSer
   function getRandomSmiteCard() {
     return $q(function(resolve, reject) {
       var card = vm.smiteDeck.splice(randomIndex(vm.smiteDeck.length - 1), 1)[0];
-      card.facedown = true;
+      card.user = {};
 
       //Shuffle deck if low
       if (vm.smiteDeck.length < 3) {
