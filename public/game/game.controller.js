@@ -204,7 +204,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, DeckSer
     //Take status and trap cards
     if (vm.smiteCard.type == "status") {
       PlayerService.giveCard(vm.smiteCard.user.index, vm.smiteCard);
-      vm.selectedPlayer = vm.selectedPlayer + 0;
+      console.log($scope);
     }
 
     //Place a new card on the top of the deck
