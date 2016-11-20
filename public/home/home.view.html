@@ -12,8 +12,7 @@
 			the punishments got more and more frequent.</p>
 	</section>
 	<section class="home">
-		<div layout="row" layout-xs="column">
-			<div flex>
+		<div layout="column">
 			<h2>How to Start?</h2>
 			<p>Sit everyone in a circle and enter their names in clock-wise. When everyone
 				is in, click THAT'S EVERYONE and the game will begin with the draw of a card.</p>
@@ -26,33 +25,112 @@
 				a Category card, where the players take turns listing items that fit the
 				category. If a player takes too long, says something wrong, or something
 				that another player has mentioned already, they must draw a SMITE card.
+			</div>
+		</div>
+			<div layout="row" layout-xs="column">
+				<!-- SOLO EVENT DECK -->
+				<div class="unpad large card-container">
+					<div class="event card">
+						<p class="primary">Categories</p>
+						<p class="secondary">Name a movie based on a comic book</p>
+						<span class="type">EVENT CARD</span>
+					</div>
+				</div>
+
+				<div class="unpad large card-container">
+					<div class="event card">
+						<p class="primary">Coin Duel</p>
+						<p class="secondary">Pick another player. Take turns bouncing coins at each other's drinks. First to win SMITES the other.</p>
+						<span class="type">EVENT CARD</span>
+					</div>
+				</div>
+
+				<div class="unpad large card-container">
+					<div class="event card">
+						<p class="primary">Gecko Party</p>
+						<p class="secondary">SMITE the last person to touch three limbs to a vertical surface</p>
+						<span class="type">EVENT CARD</span>
+					</div>
+				</div>
+			</div>
+			<div layout="column">
 			<h2>Trap Cards</h2>
 			<p>You can play a TRAP card at any point in the game, as long as its
 			condition is met. Unless the card says otherwise, a TRAP card will only work
 			on 1 player. If a TRAP card says to SMITE a player when they stand up, and 2
-			players stand at the same time, you must choose which one to SMITE.</p>
+			players stand at the same time, you must choose which one to SMITE. Active
+			trap cards can be found in their respective players' hand <strong>only on
+			the player's turn.</strong> The hand can be accessed through the action button
+			in the bottom right or by swiping up.</p>
+		</div>
+		<div layout="row" layout-xs="column">
+			<!-- SOLO TRAP DECK -->
+			<div class="unpad large card-container">
+				<div class="event card">
+					<p class="primary">SMITE THEM</p>
+					<p class="secondary">Play this card when someone asks two questions in a row</p>
+					<span class="type">TRAP CARD</span>
+				</div>
+			</div>
+
+			<div class="unpad large card-container">
+				<div class="event card">
+					<p class="primary">SMITE BOTH</p>
+					<p class="secondary">Play this card when two players touch hands</p>
+					<span class="type">TRAP CARD</span>
+				</div>
+			</div>
+
+			<div class="unpad large card-container">
+				<div class="event card">
+					<p class="primary">SMITE THEM</p>
+					<p class="secondary">Play this card when a player receives a phone call</p>
+					<span class="type">TRAP CARD</span>
+				</div>
+			</div>
+		</div>
+		<div layout="column">
 			<h2>Smite Cards</h2>
-			<p>If a card tells you to smite a player, select their name from the top bar,
-				click the action button, and click SMITE. This will draw a SMITE card.
+			<p>If a card tells you to smite a player, switch to the SMITE deck by clicking
+				the action button in the bottom right, then click the deck. SMITING players
+				does not affect normal turn order and can be done at any time.
 				<br />
 			There are two types of SMITE cards: ACTION, and STATUS. ACTION cards are to
 			be performed immediately and discarded, while STATUS cards remain active until
-			another card says otherwise.</p>
+			another card says otherwise. Active STATUS cards can be found the respective
+			players' hand, which can be accessed from the action button or by swiping up</p>
+		</div>
+			<div layout="row" layout-xs="column">
+				<!-- SOLO SMITE DECK -->
+				<div class="unpad large card-container">
+					<div class="smite card">
+						<p class="primary">Irish Standoff</p>
+						<p class="secondary">Give a drink to another player. They may give a drink back to you. Repeat until one of you declines to give another drink.</p>
+						<span class="type">ACTION CARD</span>
+					</div>
+				</div>
+
+				<div class="unpad large card-container">
+					<div class="smite card">
+						<p class="primary">Trickle Down Drinkonomics</p>
+						<p class="secondary">You and every player shorter than you must take a drink</p>
+						<span class="type">ACTION CARD</span>
+					</div>
+				</div>
+
+				<div class="unpad large card-container">
+					<div class="smite card">
+						<p class="primary">SMITE THEM</p>
+						<p class="secondary">If you can answer a question with "Because I'm Batman.", SMITE the player who asked you.</p>
+						<span class="type">STATUS CARD</span>
+					</div>
+				</div>
+			</div>
 			<h2>Disclaimer</h2>
 		<p>All drinks referred to in the game are defined as large sips of homeopathic
 			snake oil diluted to roughly 5%. All shots are defined as tiny glasses diluted
 			to roughly 40%. Please drink responsibly.</p>
 			</div>
-			<div flex>
-				<div class="large card-container">
-					<div class="event card">
-						<p class="primary">Categories</p>
-						<p class="secondary">Name a movie that takes place in the past</p>
-						<span class="type">EVENT CARD</span>
-					</div>
-				</div>
-			</div>
-		</div>
 	</section>
 	<section class="home action">
 		<md-button ng-href="game" class="md-raised md-primary large">PLAY GAME</md-button>

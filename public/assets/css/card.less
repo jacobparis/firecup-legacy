@@ -1,11 +1,14 @@
 .card-container {
   padding: 1rem;
+  &.unpad {
+    margin-left: -1rem;
+  }
   &.large {
     margin: auto;
     //DEFAULT STYLES
     .primary {
       padding: 1rem 0;
-      font-size: 6vw;
+      font-size: 5vw;
     }
     .secondary {
       padding: 1rem;
@@ -42,7 +45,7 @@
       .primary {
         @media (min-width: 800px) {
           padding: 0.5rem 0;
-          font-size: 48px !important;
+          font-size: 40px !important;
         }
       }
       .secondary {
