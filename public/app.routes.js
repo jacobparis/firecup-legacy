@@ -3,10 +3,13 @@ angular
   .config([
     '$routeProvider',
     '$locationProvider',
+    'AnalyticsProvider',
     Routes
   ]);
 
-function Routes($routeProvider, $locationProvider) {
+function Routes($routeProvider, $locationProvider, AnalyticsProvider) {
+  AnalyticsProvider.trackUrlParams(true);
+  
   $routeProvider
     .when('/', {
       templateUrl: 'home/home.view.html',

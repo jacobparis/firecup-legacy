@@ -7,6 +7,7 @@ angular
   ]);
 
 function ListController(RuleService, DialogService) {
+  Analytics.trackPage('/list');
   var vm = this;
   vm.cardTypes = [
     'event',

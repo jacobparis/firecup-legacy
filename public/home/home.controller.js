@@ -9,4 +9,5 @@ angular
 function HomeController($scope, $mdMedia) {
   $scope.$mdMedia = $mdMedia;
   var vm = this;
+  Analytics.trackPage('/');
 }

@@ -14,6 +14,7 @@ angular
   ]);
 
 function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, DeckService, DialogService, PlayerService) {
+  Analytics.trackPage('/game');
   //Lock scrolling hack
 //  angular.element(document.body).addClass("noscroll");
   $scope.$mdMedia = $mdMedia;
