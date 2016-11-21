@@ -1,0 +1,64 @@
+<!-- HEADER -->
+<md-toolbar>
+	<md-tabs
+		md-selected="vm.card.type"
+		md-stretch-tabs
+		md-dynamic-height>
+		<md-tab
+			ng-repeat="type in vm.cardTypes"
+			md-on-select="vm.getRules()">
+			<md-tab-label>
+				{{type}}
+			</md-tab-label>
+		</md-tab>
+	</md-tabs>
+</md-toolbar>
+
+<md-card>
+
+	<md-toolbar class="md-table-toolbar md-default" ng-hide="vm.filter.show">
+		<div class="md-toolbar-tools">
+			<h2 class="md-title">{{vm.cardTypes[vm.card.type]}} Rules</h2>
+			<div flex></div>
+			<md-button class="md-icon-button" ng-click="vm.filter.show = true">
+				<md-icon class="material-icons">search</md-icon>
+			</md-button>
+			<md-button class="md-icon-button" ng-click="vm.create($event)">
+				<md-icon class="material-icons">add</md-icon>
+			</md-button>
+		</div>
+	</md-toolbar>
+
+	<md-toolbar class="md-menu-toolbar md-table-toolbar md-default" ng-hide="!vm.filter.show">
+			<div class="md-toolbar-tools">
+				<md-icon class="material-icons">search</md-icon>
+				<form flex name="vm.filter.form">
+					<input type="text" placeholder="Search" ng-model="vm.filter.query" ng-model-options="vm.filter.options">
+				</form>
+				<md-button class="md-icon-button" ng-click="vm.filter.show = false">
+					<md-icon class="material-icons">close</md-icon>
+				</md-button>
+			</div>
+	</md-toolbar>
+
+	<md-table-container>
+		<table md-table md-row-select ng-model="vm.selected">
+			<thead md-head md-order="vm.listOrder">
+				<tr md-row>
+					<th md-column>Type</th>
+					<th md-column md-order-by="theme">Theme</th>
+					<th md-column md-order-by="primary">Title</th>
+					<th md-column md-order-by="secondary">Body</th>
+				</tr>
+			</thead>
+			<tbody md-body>
+				<tr md-row md-auto-select md-select="rule" md-on-select="" md-select-id="_id" ng-repeat="rule in vm.cards | orderBy: vm.listOrder | filter: vm.filter.query">
+					<td md-cell>{{rule.type}}</td>
+					<td md-cell>{{rule.theme}}</td>
+					<td md-cell>{{rule.primary}}</td>
+					<td md-cell>{{rule.secondary}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</md-table-container>
+</md-card>

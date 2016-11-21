@@ -15,7 +15,7 @@ var getErrorMessage = function(err) {
 
 exports.create = function(req, res, next) {
   var card = new Card(req.body);
-
+  console.log(req.body);
   card.save(function(err) {
     if (err) {
       return next(err);
@@ -40,6 +40,21 @@ exports.list = function(req, res, next) {
   }
 };
 
+exports.getByType = function (req, res, next, type) {
+  Card.find({
+    type: type
+  })
+  .exec(function(err, deck) {
+    if (err)
+      return next(err);
+
+    if (!deck)
+      return next(new Error('Failed to load cards by type: ' + type));
+
+    req.deck = deck;
+    next();
+  });
+}
 exports.read = function(req, res) {
   res.json(req.card);
 };

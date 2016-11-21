@@ -6,7 +6,8 @@ module.exports = function(app) {
   // handle things like api calls
   // authentication routes
 
-  app.route('/api/cards')
+  app.route('/api/cards/:type')
+    .get(cards.list)
     .post(cards.create);
 
   app.route('/api/decks/:deckId')
@@ -15,6 +16,7 @@ module.exports = function(app) {
     .post(cards.create);
 
   app.param('deckId', cards.getDeck);
+  app.param('type', cards.getByType);
   // frontend routes =========================================================
   // route to handle all angular requests
   app.get('/', function(req, res) {
@@ -26,6 +28,10 @@ module.exports = function(app) {
   });
 
   app.get('/game', function(req, res) {
+    res.sendfile('./public/index.html');
+  });
+
+  app.get('/list', function(req, res) {
     res.sendfile('./public/index.html');
   });
 };

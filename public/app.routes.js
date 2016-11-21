@@ -22,6 +22,11 @@ function Routes($routeProvider, $locationProvider) {
       templateUrl: 'game/game.view.html',
       controller: 'GameController',
       controllerAs: 'vm'
+    })
+    .when('/list', {
+      templateUrl: 'list/list.view.html',
+      controller: 'ListController',
+      controllerAs: 'vm'
     });
 
   $locationProvider.html5Mode(true);

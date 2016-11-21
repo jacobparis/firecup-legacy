@@ -2,10 +2,12 @@ angular.module('app', [
   'ngRoute',
   'ngResource',
   'ngMaterial',
+  'md.data.table',
   'appRoutes',
   'Home',
   'Card',
   'Game',
+  'List',
   'DialogService',
   'HandCtrl'
 ])

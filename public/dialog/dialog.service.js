@@ -9,6 +9,7 @@ angular
 function DialogService($q, $mdDialog) {
   this.showAlert = showAlert;
   this.showPrompt = showPrompt;
+  this.showCustom = showCustom;
   this.showHandInput = showHandInput;
   this.showSmiteInput = showSmiteInput;
 
@@ -45,6 +46,10 @@ function DialogService($q, $mdDialog) {
     return $mdDialog.show(alert);
   }
 
+  function showCustom(alert) {
+    return $mdDialog.show(alert);
+  }
+  
   function showHandInput(player, card) {
     var alert = {
       controller: 'HandInputController',

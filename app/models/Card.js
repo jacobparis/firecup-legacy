@@ -20,6 +20,9 @@ mongoose.model('Card', {
   theme: {
     type: String
   },
+  public: {
+    type: Boolean
+  },
   reqs: {
     type: String
   },
