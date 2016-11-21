@@ -90,8 +90,8 @@ function PlayerService($q) {
   }
 
   function getHand(id) {
+    if(!players[id]) return false;
     var hand = [];
-    console.log(players[id].hand);
     for (var i = 0; i < players[id].hand.length; i++) {
       if (players[id].hand[i].type == "trap") {
         hand.push(players[id].hand[i]);
@@ -101,6 +101,7 @@ function PlayerService($q) {
   }
 
   function getTable(id) {
+    if(!players[id]) return false; 
     var table = [];
     for (var i = 0; i < players[id].hand.length; i++) {
       if (players[id].hand[i].type == "status") {
@@ -120,7 +121,7 @@ function PlayerService($q) {
   function giveCard(id, card) {
     return $q(function(resolve, reject) {
       if(!card) reject('No valid card.');
-      
+
       players[id].hand.push(card);
       resolve();
     });

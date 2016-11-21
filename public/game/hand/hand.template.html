@@ -13,8 +13,8 @@
           </md-grid-tile>
         </md-grid-list>
       </md-content>
-      <md-content ng-if="!hm.tableCards" class="md-padding">
-        {{$parent.vm.selectedPlayerName()}} has no cards on the table.
+      <md-content ng-cloak ng-if="!hm.tableCards" class="md-padding">
+        {{$parent.$parent.$parent.vm.selectedPlayerName()}} has no cards on the table.
       </md-content>
     </md-tab>
     <md-tab label="Hand ({{hm.handCards}})" ng-if="$parent.vm.selectedPlayer == $parent.vm.turn">

@@ -123,7 +123,11 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, DeckSer
   }
 
   function playerName() {
-    return PlayerService.getPlayer(vm.selectedPlayer).name;
+    var player = PlayerService.getPlayer(vm.selectedPlayer);
+
+    if(!player) return;
+
+    return player.name;
   }
 
   function showHand() {

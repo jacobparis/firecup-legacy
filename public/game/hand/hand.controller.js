@@ -33,7 +33,6 @@ function HandController($scope, $mdBottomSheet, DialogService, PlayerService) {
   function hand() {
     //Should display all status and trap cards of current player
     var player = $scope.$parent.vm.selectedPlayer;
-    console.log(player);
     var hand = PlayerService.getHand(player);
     hm.handCards = hand.length;
     return hand;
