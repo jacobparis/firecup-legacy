@@ -3,10 +3,11 @@ angular
   .controller('ListController', [
     'RuleService',
     'DialogService',
+    'Analytics',
     ListController
   ]);
 
-function ListController(RuleService, DialogService) {
+function ListController(RuleService, DialogService, Analytics) {
   Analytics.trackPage('/list');
   var vm = this;
   vm.cardTypes = [
