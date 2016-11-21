@@ -46,17 +46,17 @@
 			<thead md-head md-order="vm.listOrder">
 				<tr md-row>
 					<th md-column>Type</th>
-					<th md-column md-order-by="theme">Theme</th>
 					<th md-column md-order-by="primary">Title</th>
 					<th md-column md-order-by="secondary">Body</th>
+					<th md-column md-order-by="theme">Theme</th>
 				</tr>
 			</thead>
 			<tbody md-body>
 				<tr md-row md-auto-select md-select="rule" md-on-select="" md-select-id="_id" ng-repeat="rule in vm.cards | orderBy: vm.listOrder | filter: vm.filter.query">
 					<td md-cell>{{rule.type}}</td>
-					<td md-cell>{{rule.theme}}</td>
 					<td md-cell>{{rule.primary}}</td>
 					<td md-cell>{{rule.secondary}}</td>
+					<td md-cell>{{rule.theme}}</td>
 				</tr>
 			</tbody>
 		</table>
