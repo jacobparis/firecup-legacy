@@ -1,5 +1,11 @@
 <!-- HEADER -->
 <md-toolbar>
+	<div class="md-toolbar-tools">
+		<h2>
+	    <span>The Big List of Drinking Game Rules</span>
+	  </h2>
+	</div>
+
 	<md-tabs
 		md-selected="vm.card.type"
 		md-stretch-tabs
@@ -14,6 +20,45 @@
 	</md-tabs>
 </md-toolbar>
 
+<md-card>
+	<div class="md-toolbar-tools">
+		<h2 class="md-headline">Glossary</h2>
+	</div>
+	<md-card-content>
+		Many drinking games have mechanics where players can 'Make a Rule'. This is an ongoing collection of rules for drinking games such as Sins, King's Cup, Sociables, President, Jenga, and many more. You can search the table below directly and add your own rule ideas freely. In the future I will have a style guide to enforce a consistent writing style and set of terms.
+	</md-card-content>
+		<table md-table>
+			<thead md-head>
+				<tr md-row>
+					<th md-column>Term</th>
+					<th md-column>Definition</th>
+				</tr>
+			</thead>
+			<tbody md-body>
+				<tr md-row>
+					<td md-cell>Event</td>
+					<td md-cell>Minigames that are played until a loser is found.</td>
+				</tr>
+				<tr md-row>
+					<td md-cell>Trap</td>
+					<td md-cell>To be played at any time, provided the condition is met.</td>
+				</tr>
+				<tr md-row>
+					<td md-cell>Action</td>
+					<td md-cell>To be performed the moment the rule comes into play.</td>
+				</tr>
+				<tr md-row>
+					<td md-cell>Status</td>
+					<td md-cell>Actions that persist until the Status is removed.</td>
+				</tr>
+				<tr md-row>
+					<td md-cell>Smite</td>
+					<td md-cell>To punish another player by requiring them to drink, or to
+					draw an action or status card.</td>
+				</tr>
+			</tbody>
+		</table>
+</md-card>
 <md-card>
 
 	<md-toolbar class="md-table-toolbar md-default" ng-hide="vm.filter.show">
