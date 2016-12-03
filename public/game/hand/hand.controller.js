@@ -21,6 +21,7 @@ function HandController($scope, $mdBottomSheet, DialogService, GameManager) {
     return true;
   };
 
+  console.log($scope);
   $scope.game = GameManager;
 
   $scope.$watch('$parent.vm.selectedPlayer', function(delta, prime) {
@@ -41,15 +42,19 @@ function HandController($scope, $mdBottomSheet, DialogService, GameManager) {
     if(hand) {
       hm.handCards = hand.length;
     }
+    console.log(hand);
     return hand;
   }
 
   function table() {
     const player = $scope.$parent.vm.selectedPlayer;
-    if(GameManager.session.players[player]) {
-      const table = GameManager.session.players[player].hand;
+    const table = GameManager.getTableByPlayer(player);
+
+    if(table) {
+
       hm.tableCards = table.length;
     }
+
     return table;
   }
 

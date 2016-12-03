@@ -75,8 +75,11 @@
 				<md-button ng-click="vm.showGridBottomSheet()" class="md-raised">
 					CHECK HAND
 				</md-button>
-				<md-button ng-click="vm.turnChange(vm.selectedPlayer)" class="md-raised">
+				<md-button ng-if="game.session.turn != vm.selectedPlayer" ng-click="vm.turnChange(vm.selectedPlayer)" class="md-raised">
 					SET TURN
+				</md-button>
+				<md-button ng-if="game.session.turn == vm.selectedPlayer" ng-click="vm.turnChange(game.session.turn)" class="md-raised">
+					RESET TURN
 				</md-button>
 			</md-fab-actions>
 		</md-fab-speed-dial>

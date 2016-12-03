@@ -103,6 +103,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, GameMan
         vm.smiteCard.user = {
           name: ''
         };
+        vm.selectedPlayer = GameManager.session.turn;
       });
     }
 
@@ -116,6 +117,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, GameMan
         vm.smiteCard.user = {
           name: ''
         };
+        vm.selectedPlayer = GameManager.session.turn;
       });
     }
 
@@ -238,11 +240,10 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, GameMan
       console.log(data);
       vm.dialOpen = false;
       vm.selectedPlayer = Number(data.turn);
-      // TODO Somehow selectedPlayer gets reset immediately in the watcher loop
+       // TODO Somehow selectedPlayer gets reset immediately in the watcher loop
       DialogService.showAlert({
         'text': GameManager.session.players[Number(data.turn)].name + '\'s turn is starting'
       });
-
     });
   }
 }

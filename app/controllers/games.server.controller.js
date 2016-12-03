@@ -153,6 +153,7 @@ function getGame(req, res, next, title) {
     }
     else if(req.query) {
       game.eventDeck = undefined;
+      game.players = undefined;
       req.game = game;
       next();
     }
