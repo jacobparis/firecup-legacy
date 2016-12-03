@@ -1,4 +1,5 @@
-var cards = require('./controllers/cards.server.controller');
+const cards = require('./controllers/cards.server.controller');
+const games = require('./controllers/games.server.controller');
 
 module.exports = function(app) {
 
@@ -15,8 +16,18 @@ module.exports = function(app) {
     .get(cards.list)
     .post(cards.create);
 
+  app.route('/api/players/:title')
+    .post(games.addPlayer)
+    .post(games.list);
+
+  app.route('/api/games/:gameID?.:full?')
+    .get(games.list)
+    .post(games.create)
+    .put(games.update);
+
   app.param('deckId', cards.getDeck);
   app.param('type', cards.getByType);
+  app.param('gameID', games.getGame);
   // frontend routes =========================================================
   // route to handle all angular requests
   app.get('/', function(req, res) {

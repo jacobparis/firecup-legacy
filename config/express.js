@@ -1,11 +1,11 @@
-var config = require('./config'),
+let config = require('./config'),
   express = require('express'),
   bodyParser = require('body-parser');
 
-var methodOverride = require('method-override');
+const methodOverride = require('method-override');
 module.exports = function() {
-  var app = express();
-
+  const app = express();
+  app.set('x-powered-by', false);
   // get all data/stuff of the body (POST) parameters
   app.use(bodyParser.json()); // parse application/json
   app.use(bodyParser.json({

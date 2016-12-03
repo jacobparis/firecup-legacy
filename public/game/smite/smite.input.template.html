@@ -11,9 +11,9 @@
     <md-dialog-content>
       <md-list flex>
         <md-radio-group ng-model="sm.selectedPlayer">
-        <md-list-item ng-repeat="player in sm.players()" ng-click="sm.selectPlayer(player.index)">
+        <md-list-item ng-repeat="player in game.session.players" ng-click="sm.selectPlayer(player.index)">
           <span>{{player.name}}</span>
-            <md-radio-button class="md-secondary" ng-value="player.index"></md-radio-button>
+            <md-radio-button aria-label="{{player.name}}" class="md-secondary" ng-value="player.index"></md-radio-button>
         </md-list-item>
       </md-radio-group>
       </md-list>

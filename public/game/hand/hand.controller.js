@@ -4,44 +4,52 @@ angular
     '$scope',
     '$mdBottomSheet',
     'DialogService',
-    'PlayerService',
+    'GameManager',
     HandController
   ])
   .directive('handsheet', HandDirective);
 
-function HandController($scope, $mdBottomSheet, DialogService, PlayerService) {
-  var hm = this;
+function HandController($scope, $mdBottomSheet, DialogService, GameManager) {
+  const hm = this;
   hm.hand = hand;
   hm.handCards = 0;
   hm.table = table;
   hm.tableCards = 0;
   hm.handClick = handClick;
-  $scope.logscope = function () {
-    console.log("HAND: " + $scope);
+  $scope.logscope = function() {
+    console.log($scope);
+    return true;
   };
 
-  $scope.$watch('$parent.vm.selectedPlayer', function (delta, prime) {
+  $scope.game = GameManager;
+
+  $scope.$watch('$parent.vm.selectedPlayer', function(delta, prime) {
     hand();
     table();
   });
 
-  $scope.$watch('$parent.vm.smiteCard.user', function (delta, prime) {
+  $scope.$watch('$parent.vm.smiteCard.user', function(delta, prime) {
     hand();
     table();
   });
 
   function hand() {
-    //Should display all status and trap cards of current player
-    var player = $scope.$parent.vm.selectedPlayer;
-    var hand = PlayerService.getHand(player);
-    hm.handCards = hand.length;
+    // Should display all status and trap cards of current player
+    const player = $scope.$parent.vm.selectedPlayer;
+    const hand = GameManager.getHandByPlayer(player);
+
+    if(hand) {
+      hm.handCards = hand.length;
+    }
     return hand;
   }
 
   function table() {
-    var player = $scope.$parent.vm.selectedPlayer;
-    var table = PlayerService.getTable(player);
-    hm.tableCards = table.length;
+    const player = $scope.$parent.vm.selectedPlayer;
+    if(GameManager.session.players[player]) {
+      const table = GameManager.session.players[player].hand;
+      hm.tableCards = table.length;
+    }
     return table;
   }
 

@@ -1,0 +1,53 @@
+<md-dialog aria-label="Add Players">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Add Players</h2>
+        <span flex></span>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content class="md-padding">
+      <md-content layout-padding>
+        You can add other players that will play from this device. If players want
+        to join the game and play from their own devices, they may do so now.
+      </md-content>
+
+
+      <div layout="row">
+        <md-list flex>
+          <md-list-item ng-repeat="player in game.session.players">
+            <md-icon>person</md-icon>
+            <div class="md-list-item-text" layout="column">
+              <span class="md-body-2">{{player.name}}</span>
+              <span class="md-caption">On this device</span>
+            </div>
+          </md-list-item>
+          <md-list-item>
+            <form>
+
+              <md-icon>person</md-icon>
+              <md-input-container class="md-block">
+                <label>Add a player</label>
+                <input ng-model="dm.newPlayerName">
+              </md-input-container>
+              <md-button type="submit" class="md-secondary md-fab md-mini" ng-click="dm.addPlayer()">
+                <md-icon>person_add</md-icon>
+              </md-button>
+            </form>
+          </md-list-item>
+        </md-list>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button ng-click="dm.cancel()">
+        Back
+      </md-button>
+      <span flex></span>
+      <md-button ng-click="dm.confirmPlayers()" md-autofocus>
+        Start Game
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

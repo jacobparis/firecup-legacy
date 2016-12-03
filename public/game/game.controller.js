@@ -7,6 +7,7 @@ angular
     '$mdDialog',
     '$mdBottomSheet',
     '$mdMedia',
+    'GameManager',
     'DeckService',
     'DialogService',
     'PlayerService',
@@ -14,34 +15,28 @@ angular
     GameController
   ]);
 
-function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, DeckService, DialogService, PlayerService, Analytics) {
+function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, GameManager, DeckService, DialogService, PlayerService, Analytics) {
   Analytics.trackPage('/game');
-  //Lock scrolling hack
+  // Lock scrolling hack
 //  angular.element(document.body).addClass("noscroll");
   $scope.$mdMedia = $mdMedia;
-  $scope.logscope = function () {
+  $scope.game = GameManager;
+  $scope.logscope = function() {
     console.log($scope);
+    return true;
   };
-  var vm = this;
-  /* Properties **/
 
-  vm.turn = 0;
-  vm.eventDeck = [];
-  vm.eventCard = {};
-  vm.smiteDeck = [];
+  const vm = this;
+  /* Properties **/
+  vm.selectedPlayer = 0;
   vm.smiteCard = {};
-  vm.selectedPlayer = vm.turn;
-  vm.selectedPlayerName = playerName;
-  vm.selectedHand = 4;
-  vm.playerNames = [];
-  vm.players = PlayerService.getPlayers();
+  vm.players = GameManager.getPlayers();
   vm.dialOpen = false;
   vm.showGridBottomSheet = showHand;
 
   vm.click = {x: 0, y: 0};
-  vm.newDeck = newDeck;
   vm.switchDecks = switchDecks;
-  vm.otherDeck = "SMITE";
+  vm.otherDeck = 'SMITE';
   vm.deckChoice = 0;
 
   vm.drawEvent = drawEvent;
@@ -50,8 +45,6 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, DeckSer
   vm.autoSmite = false;
 
   vm.turnChange = turnChange;
-  vm.getRandomEventCard = getRandomEventCard;
-  vm.getRandomSmiteCard = getRandomSmiteCard;
 
   vm.smite = smite;
   vm.startGame = activate;
@@ -60,76 +53,111 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, DeckSer
   activate();
 
   function activate() {
-    showAddPlayerPrompt() //true means 5 random players, no dialog
-      .then(buildDecks)
+    createOrJoin()
+      .then(
+        // On Create
+        () => showCreateDialog()
+          .then(registerNewGame)
+        , // On Join
+        () => showJoinPrompt()
+          .then(registerJoinGame)
+      )
+      .then(showAddPlayers) // true means 5 random players, no dialog
       .then(firstDeal)
       .then(function() {
         vm.startEh = true;
         console.log('Game Start!');
       });
 
-    function showAddPlayerPrompt(debug) {
-      if(debug) {
-        return PlayerService.demoPlayers();
-      }
-      var prompt = {
-          "text": "What is your first player's name?",
-          "input": "Player Name",
-          "confirm": "Add First Player"
+    function createOrJoin() {
+      const prompt = {
+        'text': 'Join an existing game or create a new one?',
+        'cancel': 'Join',
+        'confirm': 'Create'
+      };
+
+      return DialogService.showConfirm(prompt);
+    }
+    function showCreateDialog(e) {
+      // Decide to join a game or create a new one
+      const dialog = {
+        controller: 'GameSetupController',
+        controllerAs: 'dm',
+        templateUrl: 'game/game.setup.html',
+        targetEvent: e,
+        clickOutsideToClose: true,
+      };
+
+      return DialogService.showCustom(dialog);
+      // If joining, connect and sync then startEh
+      // If creating, begin setup
+    }
+
+    // TODO combine these functions
+    function registerNewGame(settings) {
+      return GameManager.newGame(settings)
+      .then(function(result) {
+        console.log(result);
+        vm.smiteDeck = result.smiteDeck;
+        vm.smiteCard = vm.smiteDeck.splice(randomIndex(vm.smiteDeck), 1)[0];
+        vm.smiteCard.user = {
+          name: ''
         };
-
-      if(vm.playerNames.length > 0) {
-        prompt.text = "What is the next player's name?";
-        prompt.input = "Player " + (vm.playerNames.length + 1) + " Name";
-        prompt.confirm = "Add Player " + (vm.playerNames.length + 1);
-        prompt.cancel = "PLAY WITH " + (vm.playerNames.length) + " PLAYER";
-        if(vm.playerNames.length > 1) {
-          prompt.cancel = "PLAY WITH " + (vm.playerNames.length) + " PLAYERS";
-        }
-      }
-      return DialogService.showPrompt(prompt).then(addPlayer, registerPlayers);
+      });
     }
 
-    function addPlayer(name) {
-      vm.playerNames.push(name);
-      return showAddPlayerPrompt();
+    function registerJoinGame(title) {
+      GameManager.session.title = title;
+      return GameManager.getGame(1)
+      .then(function(result) {
+        console.log(result);
+        vm.smiteDeck = result.smiteDeck;
+        vm.smiteCard = vm.smiteDeck.splice(randomIndex(vm.smiteDeck), 1)[0];
+        vm.smiteCard.user = {
+          name: ''
+        };
+      });
     }
 
-    function registerPlayers() {
-      return PlayerService.addPlayers(vm.playerNames);
+    function showJoinPrompt() {
+      // Decide to join a game or create a new one
+      const prompt = {
+        'text': 'What room would you like to join?',
+        'input': 'Room Name',
+        'confirm': 'Join Room'
+      };
+
+      return DialogService.showPrompt(prompt);
     }
 
-    function buildDecks() {
-      console.log(vm.playerNames);
-      return $q.all([
-        vm.newDeck('event'),
-        vm.newDeck('smite')
-      ]);
+    function showAddPlayers(e) {
+      // Decide to join a game or create a new one
+      const dialog = {
+        controller: 'GameSetupController',
+        controllerAs: 'dm',
+        templateUrl: 'game/game.setup.players.html',
+        scope: $scope.$new(),
+        targetEvent: e,
+        clickOutsideToClose: true,
+      };
+
+      return DialogService.showCustom(dialog)
+        .then(function(doc) {
+          console.log(doc);
+        });
+      // If joining, connect and sync then startEh
+      // If creating, begin setup
     }
 
     function firstDeal() {
-      getRandomEventCard().then(function (card) {
-        vm.eventCard = card;
-      });
-
-      getRandomSmiteCard().then(function (card) {
-        vm.smiteCard = card;
-      });
+      console.log(GameManager);
+      console.log($scope);
 
       return DialogService.showAlert({
-        "title": "Choose your actions carefully.",
-        "text": PlayerService.getPlayer(vm.turn)
-          .name + "'s turn is starting"
+        'title': 'Choose your actions carefully.',
+        'text': GameManager.session.players[GameManager.session.turn].name + '\'s turn is starting'
       });
     }
-  }
-
-  function playerName() {
-    var player = PlayerService.getPlayer(vm.selectedPlayer);
-
-    if(!player) return;
-
-    return player.name;
   }
 
   function showHand() {
@@ -143,52 +171,28 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, DeckSer
     });
   }
 
-  function newDeck(deck) {
-    return $q(function(resolve, reject) {
-      if (deck == "event") {
-        DeckService.getDeck('event')
-          .then(function(eventDeck) {
-            //Returns a shuffled list of all the event cards
-            resolve(vm.eventDeck = eventDeck);
-          });
-      }
-
-      if (deck == "smite") {
-        DeckService.getDeck('smite')
-          .then(function(smiteDeck) {
-            //Returns a shuffled list of all the event cards
-
-            resolve(vm.smiteDeck = smiteDeck);
-          });
-      }
-    });
-  }
-
   function switchDecks(id) {
-    var deckId = id || (vm.deckChoice + 1) % 2;
+    const deckId = id || (vm.deckChoice + 1) % 2;
     console.log(deckId);
     vm.deckChoice = deckId;
-    vm.otherDeck = deckId ? "EVENT" : "SMITE";
+    vm.otherDeck = deckId ? 'EVENT' : 'SMITE';
   }
 
   /* External functions **/
 
-
   function drawEvent(e) {
-    if (vm.eventCard.facedown) {
-      vm.eventCard.facedown = false;
+    if (GameManager.session.eventCard.facedown) {
+      GameManager.session.eventCard.facedown = false;
       return;
     }
-    //Take status and trap cards
-    if (vm.eventCard.type == "trap") {
-      PlayerService.giveCard(vm.selectedPlayer, vm.eventCard);
+    // Take status and trap cards
+    if (GameManager.session.eventCard.type === 'trap') {
+      GameManager.giveCardToPlayer(GameManager.session.eventCard, GameManager.session.turn);
       return turnChange();
     }
 
-    getRandomEventCard().then(function (card) {
-      vm.eventCard = card;
-      return turnChange();
-    });
+    // Is regular card, flipped up. Continue to next player
+    return turnChange();
   }
 
   function setSmitePlayer(player) {
@@ -196,87 +200,52 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, DeckSer
   }
 
   function drawSmite($mdOpenMenu, e) {
-    //If no user is set
+    // If no user is set
     if (!vm.smiteCard.user.name) {
       if(vm.autoSmite) {
-        vm.smiteCard.user = PlayerService.getPlayer(vm.selectedPlayer);
-        return;
-      } else {
-        DialogService.showSmiteInput($scope);
+        GameManager.giveCardToPlayer(vm.smiteCard, vm.selectedIndex);
         return;
       }
+
+      // Just pass the selected player index to smite input
+      DialogService.showSmiteInput($scope);
+      return;
+
     }
 
-    //Take status and trap cards
-    if (vm.smiteCard.type == "status") {
-      PlayerService.giveCard(vm.smiteCard.user.index, vm.smiteCard);
-      console.log($scope);
+    // Take status and trap cards
+    if (vm.smiteCard.type === 'status') {
+      GameManager.giveCardToPlayer(vm.smiteCard, vm.smiteCard.user.index);
     }
 
-    //Place a new card on the top of the deck
-    getRandomSmiteCard().then(function (card) {
-      vm.smiteCard = card;
-    });
+    // Deliver card to recipient
+    // Grab new card from deck
+    vm.smiteCard = vm.smiteDeck.splice(randomIndex(vm.smiteDeck), 1)[0];
+    vm.smiteCard.user = {
+      name: ''
+    };
   }
-
-
 
   function smite(player) {
     vm.dialOpen = false;
-
-    getRandomSmiteCard().then(function (card) {
-      vm.smiteCard = card;
-    });
   }
 
   /* Internal functions **/
 
   function turnChange(player) {
-      player = player || (vm.turn + 1) % PlayerService.getNumberOfPlayers();
-      vm.turn = player;
+    GameManager.turnChange(player)
+    .then(function(data) {
+      console.log(data);
       vm.dialOpen = false;
-      vm.selectedPlayer = vm.turn;
+      vm.selectedPlayer = Number(data.turn);
+      // TODO Somehow selectedPlayer gets reset immediately in the watcher loop
       DialogService.showAlert({
-        "text": PlayerService.getPlayer(vm.turn)
-        .name + "'s turn is starting"
+        'text': GameManager.session.players[Number(data.turn)].name + '\'s turn is starting'
       });
 
-      getRandomEventCard()
-      .then(function (card) {
-        vm.eventCard = card;
-      });
-  }
-
-  function getRandomEventCard() {
-    return $q(function(resolve, reject) {
-      var card = vm.eventDeck.splice(randomIndex(vm.eventDeck.length - 1), 1)[0];
-      card.facedown = true;
-
-      //Shuffle deck if low
-      if (vm.eventDeck.length < 3) {
-        vm.newDeck(deck);
-      }
-
-      resolve(card);
-    });
-  }
-
-  function getRandomSmiteCard() {
-    return $q(function(resolve, reject) {
-      var card = vm.smiteDeck.splice(randomIndex(vm.smiteDeck.length - 1), 1)[0];
-      card.user = {};
-
-      //Shuffle deck if low
-      if (vm.smiteDeck.length < 3) {
-        vm.newDeck(deck);
-      }
-
-      resolve(card);
     });
   }
 }
-
-
 
 function randomIndex(array) {
   return Math.floor(Math.random() * (array.length));

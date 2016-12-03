@@ -1,0 +1,38 @@
+<md-dialog aria-label="Create a new game">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Create a new game</h2>
+        <span flex></span>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content class="md-padding">
+      <form name="dm.settings">
+      <div layout="row">
+        <md-input-container flex>
+          <label>Mode</label>
+          <md-select ng-model="dm.settings.mode">
+            <md-option ng-repeat="mode in dm.modes" value="{{$index}}">
+              {{mode.name}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+      <div layout="row">
+        {{dm.modes[dm.settings.mode].desc}}
+      </div>
+    </form>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button ng-click="dm.cancel()">
+        Back
+      </md-button>
+      <span flex></span>
+      <md-button ng-click="dm.createGame()" md-autofocus>
+        START GAME
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

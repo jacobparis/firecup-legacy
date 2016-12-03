@@ -1,25 +1,27 @@
 require('../models/Card');
 
-var Card = require('mongoose')
+const Card = require('mongoose')
   .model('Card');
 
-var getErrorMessage = function(err) {
+const getErrorMessage = function(err) {
   if (err.errors) {
-    for (var errName in err.errors) {
-      if (err.errors[errName].message) return err.errors[errName].message;
+    for (const errName in err.errors) {
+      if (err.errors[errName].message) {return err.errors[errName].message;}
     }
-  } else {
+  }
+  else {
     return 'Unknown server error';
   }
 };
 
 exports.create = function(req, res, next) {
-  var card = new Card(req.body);
+  const card = new Card(req.body);
   console.log(req.body);
   card.save(function(err) {
     if (err) {
       return next(err);
-    } else {
+    }
+    else {
       res.json(card);
     }
   });
@@ -27,48 +29,54 @@ exports.create = function(req, res, next) {
 
 exports.list = function(req, res, next) {
   if (req.deck) {
-    //If retrieving one deck
+    // If retrieving one deck
     res.json(req.deck);
-  } else {
+  }
+  else {
     Card.find({}, function(err, cards) {
       if (err) {
         return next(err);
-      } else {
+      }
+      else {
         res.json(cards);
       }
     });
   }
 };
 
-exports.getByType = function (req, res, next, type) {
+exports.getByType = function(req, res, next, type) {
   Card.find({
     type: type
   })
   .exec(function(err, deck) {
-    if (err)
+    if (err) {
       return next(err);
+    }
 
-    if (!deck)
+    if (!deck) {
       return next(new Error('Failed to load cards by type: ' + type));
+    }
 
     req.deck = deck;
     next();
   });
-}
+};
 exports.read = function(req, res) {
   res.json(req.card);
 };
 
 exports.getDeck = function(req, res, next, id) {
   Card.find({
-      deck: id
-    })
+    deck: id
+  })
     .exec(function(err, deck) {
-      if (err)
+      if (err) {
         return next(err);
+      }
 
-      if (!deck)
+      if (!deck) {
         return next(new Error('Failed to load deck ' + id));
+      }
 
       req.deck = deck;
       next();
@@ -76,7 +84,7 @@ exports.getDeck = function(req, res, next, id) {
 };
 
 exports.shuffle = function(req, res, next) {
-  var m = req.deck.length,
+  let m = req.deck.length,
     t, i;
 
   // While there remain elements to shuffle…
@@ -96,11 +104,13 @@ exports.shuffle = function(req, res, next) {
 exports.cardByID = function(req, res, next, id) {
   Card.findById(id)
     .exec(function(err, card) {
-      if (err)
+      if (err) {
         return next(err);
+      }
 
-      if (!card)
+      if (!card) {
         return next(new Error('Failed to load card ' + id));
+      }
 
       req.card = card;
       next();

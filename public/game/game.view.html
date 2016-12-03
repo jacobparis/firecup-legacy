@@ -1,7 +1,7 @@
 <header class="game" ng-cloak>
 	<md-toolbar>
 		<md-tabs md-selected="vm.selectedPlayer" md-stretch-tabs md-dynamic-height>
-			<md-tab id="tab_{{player.name}}" ng-repeat="player in vm.players" md-on-select="vm.checkHand()">
+			<md-tab id="tab_{{player.name}}" ng-repeat="player in game.session.players" >
 				<md-tab-label>
 					{{(vm.turn == $index) ? player.name + "'S TURN" : player.name}}
 				</md-tab-label>
@@ -23,12 +23,12 @@
 		md-swipe-right="vm.switchDecks()">
 			<div
 			class="clickable event card"
-			ng-class="{'facedown': vm.eventCard.facedown}"
+			ng-class="{'facedown': game.session.eventCard.facedown}"
 			ng-click="vm.drawEvent($event)"
 			ng-if="vm.deckChoice == 0">
-				<p class="primary">{{vm.eventCard.primary}}</p>
-				<p class="secondary">{{vm.eventCard.secondary}}</p>
-				<span class="type">{{vm.eventCard.type}} CARD</span>
+				<p class="primary">{{game.session.eventCard.primary}}</p>
+				<p class="secondary">{{game.session.eventCard.secondary}}</p>
+				<span class="type">{{game.session.eventCard.type}} CARD</span>
 			</div>
 			<div
 			class="clickable smite card"
@@ -43,10 +43,10 @@
 
 		<!-- SOLO EVENT DECK -->
 		<div class="large card-container" ng-if="$mdMedia('gt-xs')">
-			<div class="clickable event card" ng-class="{'facedown': vm.eventCard.facedown}" ng-click="vm.drawEvent($event)">
-				<p class="primary">{{vm.eventCard.primary}}</p>
-				<p class="secondary">{{vm.eventCard.secondary}}</p>
-				<span class="type">{{vm.eventCard.type}} CARD</span>
+			<div class="clickable event card" ng-class="{'facedown': game.session.eventCard.facedown}" ng-click="vm.drawEvent($event)">
+				<p class="primary">{{game.session.eventCard.primary}}</p>
+				<p class="secondary">{{game.session.eventCard.secondary}}</p>
+				<span class="type">{{game.session.eventCard.type}} CARD</span>
 			</div>
 		</div>
 
@@ -75,28 +75,11 @@
 				<md-button ng-click="vm.showGridBottomSheet()" class="md-raised">
 					CHECK HAND
 				</md-button>
-				<md-button ng-click="vm.turnChange(vm.selectedPlayer)" ng-disabled="vm.turn == vm.selectedPlayer" class="md-raised">
+				<md-button ng-click="vm.turnChange(vm.selectedPlayer)" class="md-raised">
 					SET TURN
 				</md-button>
 			</md-fab-actions>
 		</md-fab-speed-dial>
-
-		<!-- div class="options" ng-cloak flex>
-
-
-			<div layout="column"  layout-fill hide show-gt-xs>
-				<div layout="row" layout-padding>
-					<md-button flex ng-click="vm.turnChange(vm.selectedPlayer)" ng-disabled="vm.turn == vm.selectedPlayer" class="md-raised md-primary">
-						Skip to {{vm.selectedPlayerName()}}'s turn
-					</md-button>
-				</div>
-				<div layout="row"  layout-padding>
-					<md-button flex ng-click="vm.smite(vm.selectedPlayer)" class="md-raised md-primary">
-						Smite {{vm.selectedPlayerName()}}
-					</md-button>
-				</div>
-
-		</div -->
 	</div>
 	<handsheet ng-if="$mdMedia('gt-xs')" class="hide show-gt-xs">
 </main>

@@ -4,14 +4,13 @@ angular
     '$scope',
     '$mdDialog',
     'DialogService',
-    'PlayerService',
+    'GameManager',
     SmiteInputController
   ]);
 
-function SmiteInputController($scope, $mdDialog, DialogService, PlayerService) {
-  var sm = this;
-
-  sm.players = function () { return PlayerService.getPlayers(); };
+function SmiteInputController($scope, $mdDialog, DialogService, GameManager) {
+  const sm = this;
+  $scope.game = GameManager;
   sm.selectPlayer = selectPlayer;
   sm.selectedPlayer = $scope.vm.selectedPlayer; // $scope.pvm.selectedPlayer;
   sm.autoselect = autoselect;
@@ -21,11 +20,10 @@ function SmiteInputController($scope, $mdDialog, DialogService, PlayerService) {
   function selectPlayer(player) {
     $scope.vm.autoSmite = false;
     sm.selectedPlayer = player;
-    console.log($scope.vm.autoSmite);
   }
 
   function autoselect() {
-    //sm.auto updates after this function
+    // sm.auto updates after this function
     sm.selectedPlayer = $scope.vm.selectedPlayer;
   }
 
@@ -35,8 +33,8 @@ function SmiteInputController($scope, $mdDialog, DialogService, PlayerService) {
   }
 
   function smitePlayer() {
-    $scope.vm.smiteCard.user = sm.players()[sm.selectedPlayer];
-    console.log($scope.vm.smiteCard.user);
+    $scope.vm.smiteCard.user = GameManager.session.players[sm.selectedPlayer];
+    console.log($scope.vm.smiteCard);
     $mdDialog.cancel();
   }
 }
