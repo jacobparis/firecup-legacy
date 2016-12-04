@@ -40,12 +40,10 @@ function GameManager($resource, $q, GameResource, DeckService) {
     return GameResource.save(settings)
     .$promise
     .then(function(result) {
-      gm.session = {
-        title: result.title,
-        mode: result.mode,
-        turn: 0,
-        players: result.players
-      };
+      gm.session.title = result.title,
+      gm.session.mode = result.mode,
+      gm.session.turn = 0,
+      gm.session.players = result.players;
 
       return $q.resolve(result);
     });
