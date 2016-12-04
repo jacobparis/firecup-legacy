@@ -12,7 +12,13 @@ function GameManager($resource, $q, GameResource, DeckService) {
   const gm = this;
   gm.session = {
     players: [],
-    turn: 0
+    turn: 0,
+    title: '',
+    Title: function() {
+      return gm.session.title.replace(/(-|^)([^-]?)/g, function(_, prep, letter) {
+        return (prep && ' ') + letter.toUpperCase();
+      });
+    }
   };
   gm.clientStatus = 0;
   gm.newGame = newGame;

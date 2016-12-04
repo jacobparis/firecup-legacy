@@ -1,36 +1,41 @@
 angular
-  .module('appRoutes', [])
+  .module('app')
   .config([
-    '$routeProvider',
+    '$stateProvider',
+    '$urlRouterProvider',
     '$locationProvider',
     'AnalyticsProvider',
     Routes
   ]);
 
-function Routes($routeProvider, $locationProvider, AnalyticsProvider) {
+function Routes($stateProvider, $urlRouterProvider, $locationProvider, AnalyticsProvider) {
   AnalyticsProvider.trackUrlParams(true);
-  
-  $routeProvider
-    .when('/', {
+
+  $locationProvider.html5Mode(true);
+  $stateProvider
+    .state('home', {
+      url: '/',
       templateUrl: 'home/home.view.html',
       controller: 'HomeController',
       controllerAs: 'vm'
     })
-    .when('/cards', {
+    .state('cards', {
+      url: '/cards/',
       templateUrl: 'card/card.view.html',
       controller: 'CardController',
       controllerAs: 'vm'
     })
-    .when('/game', {
+    .state('game', {
+      url: '/game/:title?',
       templateUrl: 'game/game.view.html',
       controller: 'GameController',
-      controllerAs: 'vm'
+      controllerAs: 'vm',
     })
-    .when('/list', {
+    .state('list', {
+      url: '/list/',
       templateUrl: 'list/list.view.html',
       controller: 'ListController',
       controllerAs: 'vm'
     });
 
-  $locationProvider.html5Mode(true);
 }

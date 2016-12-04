@@ -7,6 +7,8 @@ angular
     '$mdDialog',
     '$mdBottomSheet',
     '$mdMedia',
+    '$state',
+    '$timeout',
     'GameManager',
     'DeckService',
     'DialogService',
@@ -15,7 +17,7 @@ angular
     GameController
   ]);
 
-function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, GameManager, DeckService, DialogService, PlayerService, Analytics) {
+function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state, $timeout, GameManager, DeckService, DialogService, PlayerService, Analytics) {
   Analytics.trackPage('/game');
   // Lock scrolling hack
 //  angular.element(document.body).addClass("noscroll");
@@ -30,7 +32,6 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, GameMan
   /* Properties **/
   vm.selectedPlayer = 0;
   vm.smiteCard = {};
-  vm.players = GameManager.getPlayers();
   vm.dialOpen = false;
   vm.showGridBottomSheet = showHand;
 
@@ -53,21 +54,19 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, GameMan
   activate();
 
   function activate() {
-    createOrJoin()
-      .then(
-        // On Create
-        () => showCreateDialog()
-          .then(registerNewGame)
-        , // On Join
-        () => showJoinPrompt()
-          .then(registerJoinGame)
-      )
-      .then(showAddPlayers) // true means 5 random players, no dialog
+    if($state.params.title.length == 0) {
+      createOrJoin()
+      .then(showCreateDialog, showJoinPrompt);
+    }
+    else {
+      joinGame()
+      .then(showAddPlayers)
       .then(firstDeal)
       .then(function() {
         vm.startEh = true;
         console.log('Game Start!');
       });
+    }
 
     function createOrJoin() {
       const prompt = {
@@ -84,31 +83,25 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, GameMan
         controller: 'GameSetupController',
         controllerAs: 'dm',
         templateUrl: 'game/game.setup.html',
-        targetEvent: e,
         clickOutsideToClose: true,
       };
 
-      return DialogService.showCustom(dialog);
+      return DialogService.showCustom(dialog)
+        .then(registerNewGame);
       // If joining, connect and sync then startEh
       // If creating, begin setup
     }
 
-    // TODO combine these functions
     function registerNewGame(settings) {
+      console.log(settings);
       return GameManager.newGame(settings)
       .then(function(result) {
-        console.log(result);
-        vm.smiteDeck = result.smiteDeck;
-        vm.smiteCard = vm.smiteDeck.splice(randomIndex(vm.smiteDeck), 1)[0];
-        vm.smiteCard.user = {
-          name: ''
-        };
-        vm.selectedPlayer = GameManager.session.turn;
+        $state.go('game', {title: result.title});
       });
     }
 
-    function registerJoinGame(title) {
-      GameManager.session.title = title;
+    function joinGame() {
+      GameManager.session.title = GameManager.session.title || $state.params.title;
       return GameManager.getGame(1)
       .then(function(result) {
         console.log(result);
@@ -126,10 +119,16 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, GameMan
       const prompt = {
         'text': 'What room would you like to join?',
         'input': 'Room Name',
-        'confirm': 'Join Room'
+        'confirm': 'Join Room',
+        'cancel': 'Back'
       };
 
-      return DialogService.showPrompt(prompt);
+      return DialogService.showPrompt(prompt)
+        .catch(() => $q.resolve())
+        .then(function(result) {
+          const title = (result || '').replace(/[\s+-]/g, '-').replace(/[^\w-]/g, '').toLowerCase();
+          $state.go('game', {title: title}, {reload: true});
+        });
     }
 
     function showAddPlayers(e) {
@@ -139,8 +138,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, GameMan
         controllerAs: 'dm',
         templateUrl: 'game/game.setup.players.html',
         scope: $scope.$new(),
-        targetEvent: e,
-        clickOutsideToClose: true,
+        targetEvent: e
       };
 
       return DialogService.showCustom(dialog)

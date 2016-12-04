@@ -21,11 +21,13 @@
 		<!-- JS -->
 		<script src="libs/angular/angular.js"></script>
 		<script src="libs/angular-route/angular-route.js"></script>
+		<script src="libs/angular-ui-router/release/angular-ui-router.js"></script>
 		<script src="libs/angular-resource/angular-resource.js"></script>
 		<script src="libs/angular-aria/angular-aria.js"></script>
 		<script src="libs/angular-messages/angular-messages.js"></script>
 		<script src="libs/angular-animate/angular-animate.js"></script>
 		<script src="libs/angular-material/angular-material.js"></script>
+
 		<script src="libs/angular-material-data-table/dist/md-data-table.min.js"></script>
 		<script src="libs/angular-google-analytics/dist/angular-google-analytics.min.js"></script>
 
@@ -52,8 +54,8 @@
 		<script src="list/list.dialog.controller.js"></script>
 		<script src="list/list.service.js"></script>
 
-		<script src="app.routes.js"></script>
 		<script src="app.js"></script>
+		<script src="app.routes.js"></script>
 
 		<meta name="google-site-verification" content="kaEQR5JqusUWcrJRNCUHE8o0N9jIPrWrpcBdynPRDQs" />
 	</head>
@@ -64,7 +66,7 @@
 
 
 			<!-- ANGULAR DYNAMIC CONTENT -->
-			<div ng-view></div>
+			<ui-view></ui-view>
 
 		</div>
 	</body>

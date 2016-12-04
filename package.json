@@ -2,6 +2,7 @@
   "name": "sins",
   "main": "server.js",
   "dependencies": {
+    "angular-ui-router": "^0.3.2",
     "body-parser": "~1.4.2",
     "express": "~4.5.1",
     "less": "^2.7.1",

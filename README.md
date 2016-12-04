@@ -17,6 +17,11 @@ people can have adjective, noun based cards while others may want sports trivia.
 Non drinkers should be able to opt out of drinking cards.
 * Learn TDD and refactor app to be test driven
 
+Code assumes angular-ui-router is in the /libs/ folder with the rest of the browser
+dependencies, but must be installed from npm instead. Install into node_modules
+and then move to /libs/
+
+
 #snippets
 
 //Regex replace anonymous function with named function

@@ -5,6 +5,7 @@ let config = require('./config'),
 const methodOverride = require('method-override');
 module.exports = function() {
   const app = express();
+  app.use(express.static('./public'));
   app.set('x-powered-by', false);
   // get all data/stuff of the body (POST) parameters
   app.use(bodyParser.json()); // parse application/json
@@ -19,8 +20,6 @@ module.exports = function() {
 
   // routes ==================================================
   require('../app/routes')(app); // pass our application into our routes
-
-  app.use(express.static('./public'));
 
   return app;
 };

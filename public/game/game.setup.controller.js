@@ -4,11 +4,12 @@ angular
     '$scope',
     '$q',
     '$mdDialog',
+    '$state',
     'GameManager',
     GameSetupController
   ]);
 
-function GameSetupController($scope, $q, $mdDialog, GameManager) {
+function GameSetupController($scope, $q, $mdDialog, $state, GameManager) {
   const dm = this;
   $scope.game = GameManager;
   dm.createGame = createGame;
@@ -17,7 +18,7 @@ function GameSetupController($scope, $q, $mdDialog, GameManager) {
   dm.confirmPlayers = confirmPlayers;
   dm.newPlayerName;
 
-  dm.cancel = $mdDialog.cancel;
+  dm.cancel = cancel;
   dm.settings = {
     'mode': 0
   };
@@ -35,17 +36,10 @@ function GameSetupController($scope, $q, $mdDialog, GameManager) {
   activate();
 
   function activate() {
-    GameManager.getGame()
-      .then(function(result) {
-        if(!result) {return;}
-
-        dm.players = result.players;
-      },
-      function() {
-        dm.players = [];
-      });
+    dm.players = GameManager.session.players;
   }
   function createGame() {
+    console.log('Create');
     $mdDialog.hide(dm.settings);
   }
 
@@ -58,8 +52,15 @@ function GameSetupController($scope, $q, $mdDialog, GameManager) {
   }
 
   function confirmPlayers() {
+    console.log('Confirm');
     const session = dm.settings;
     session.players = dm.players;
     $mdDialog.hide(session);
+  }
+
+  function cancel() {
+    console.log('Cancel');
+    $mdDialog.cancel(true);
+    $state.go('game', {title: ''}, {reload: true});
   }
 }

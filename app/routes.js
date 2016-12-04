@@ -30,19 +30,7 @@ module.exports = function(app) {
   app.param('gameID', games.getGame);
   // frontend routes =========================================================
   // route to handle all angular requests
-  app.get('/', function(req, res) {
-    res.sendfile('./public/index.html');
-  });
-
-  app.get('/cards', function(req, res) {
-    res.sendfile('./public/index.html');
-  });
-
-  app.get('/game', function(req, res) {
-    res.sendfile('./public/index.html');
-  });
-
-  app.get('/list', function(req, res) {
+  app.get('*', function(req, res) {
     res.sendfile('./public/index.html');
   });
 };

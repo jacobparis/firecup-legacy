@@ -2,9 +2,9 @@ angular.module('app', [
   'ngRoute',
   'ngResource',
   'ngMaterial',
+  'ui.router',
   'md.data.table',
   'angular-google-analytics',
-  'appRoutes',
   'Home',
   'Card',
   'Game',
@@ -18,14 +18,14 @@ angular.module('app', [
     Config
   ]);
 
-  function Config($mdThemingProvider, AnalyticsProvider) {
-    $mdThemingProvider.theme('default')
+function Config($mdThemingProvider, AnalyticsProvider) {
+  $mdThemingProvider.theme('default')
     .primaryPalette('red')
     .accentPalette('orange');
 
-    AnalyticsProvider.setAccount({
-      "tracker": 'UA-74937612-2',
-      "name": 'tracker1',
-      "trackEvent": true
-    });
-  }
+  AnalyticsProvider.setAccount({
+    'tracker': 'UA-74937612-2',
+    'name': 'tracker1',
+    'trackEvent': true
+  });
+}
