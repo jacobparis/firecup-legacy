@@ -31,7 +31,9 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
   const vm = this;
   /* Properties **/
   vm.selectedPlayer = 0;
-  vm.smiteCard = {};
+  vm.smiteCard = {
+    facedown: true
+  };
   vm.dialOpen = false;
   vm.showGridBottomSheet = showHand;
 
@@ -54,7 +56,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
   activate();
 
   function activate() {
-    if($state.params.title.length == 0) {
+    if($state.params.title.length === 0) {
       createOrJoin()
       .then(showCreateDialog, showJoinPrompt);
     }
@@ -77,7 +79,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
 
       return DialogService.showConfirm(prompt);
     }
-    function showCreateDialog(e) {
+    function showCreateDialog() {
       // Decide to join a game or create a new one
       const dialog = {
         controller: 'GameSetupController',
@@ -166,8 +168,6 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
       controller: 'HandController',
       controllerAs: 'hm',
       scope: $scope.$new()
-    })
-    .then(function(clickedItem) {
     });
   }
 
@@ -180,26 +180,25 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
 
   /* External functions **/
 
-  function drawEvent(e) {
-    if (GameManager.session.eventCard.facedown) {
-      GameManager.session.eventCard.facedown = false;
+  function drawEvent() {
+    if (GameManager.session.facedown) {
+      GameManager.session.facedown = false;
       return;
     }
     // Take status and trap cards
-    if (GameManager.session.eventCard.type === 'trap') {
-      GameManager.giveCardToPlayer(GameManager.session.eventCard, GameManager.session.turn);
-      return turnChange();
+    if (GameManager.session.eventDeck[GameManager.session.totalTurns].type === 'trap') {
+      GameManager.giveCardToPlayer(GameManager.session.eventDeck[GameManager.session.totalTurns], GameManager.session.turn);
     }
 
     // Is regular card, flipped up. Continue to next player
-    return turnChange();
+    turnChange();
   }
 
   function setSmitePlayer(player) {
     vm.smiteCard.user = player;
   }
 
-  function drawSmite($mdOpenMenu, e) {
+  function drawSmite() {
     // If no user is set
     if (!vm.smiteCard.user.name) {
       if(vm.autoSmite) {
@@ -226,7 +225,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
     };
   }
 
-  function smite(player) {
+  function smite() {
     vm.dialOpen = false;
   }
 

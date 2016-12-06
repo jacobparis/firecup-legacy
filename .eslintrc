@@ -125,9 +125,9 @@
     "no-delete-var": 1,
     "no-label-var": 1,
     "no-shadow-restricted-names": 1,
-    "no-shadow": 1,
+    "no-shadow": 0,
     "no-undef-init": 1,
-    "no-unused-vars": [1, { "vars": "local", "args": "after-used" }],
+    "no-unused-vars": [1, { "vars": "local", "args": "after-used", "argsIgnorePattern": "\b[A-Z].*?\b" }],
 
     /* Node.js */
     "handle-callback-err": 1,
@@ -200,6 +200,6 @@
     "max-params": 0,
     "max-statements": 0,
     "no-bitwise": 1,
-    "no-plusplus": 1,
+    "no-plusplus": ["error", {"allowForLoopAfterthoughts": true}],
   }
 }

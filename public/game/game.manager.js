@@ -14,7 +14,7 @@ function GameManager($resource, $q, GameResource, DeckService) {
     players: [],
     turn: 0,
     title: '',
-    Title: function() {
+    Title: () => {
       return gm.session.title.replace(/(-|^)([^-]?)/g, function(_, prep, letter) {
         return (prep && ' ') + letter.toUpperCase();
       });
@@ -24,7 +24,7 @@ function GameManager($resource, $q, GameResource, DeckService) {
   gm.newGame = newGame;
   gm.getGame = getGame;
   gm.getPlayers = getPlayers;
-  gm.getNumberOfPlayers = () => gm.session.players.length;
+  gm.getNumberOfPlayers = gm.session.players.length;
   gm.addPlayer = addPlayer;
   gm.getTurn = getTurn;
   gm.turnChange = turnChange;
@@ -40,10 +40,12 @@ function GameManager($resource, $q, GameResource, DeckService) {
     return GameResource.save(settings)
     .$promise
     .then(function(result) {
-      gm.session.title = result.title,
-      gm.session.mode = result.mode,
-      gm.session.turn = 0,
+      gm.session.title = result.title;
+      gm.session.mode = result.mode;
+      gm.session.turn = 0;
       gm.session.players = result.players;
+      gm.session.totalTurns = 0;
+      gm.session.facedown = true;
 
       return $q.resolve(result);
     });
@@ -51,10 +53,7 @@ function GameManager($resource, $q, GameResource, DeckService) {
 
   function getGame(full) {
     full = full || 1;
-    /*
 
-    */
-    // console.log(gm.session.title);
     if(!gm.session.title) {
       return $q.reject('No title found');
     }
@@ -73,7 +72,13 @@ function GameManager($resource, $q, GameResource, DeckService) {
       }
       gm.session.eventCard = result.eventCard;
       gm.session.mode = result.mode;
+
       gm.session.turn = result.turn;
+
+      if(result.totalTurns !== gm.session.totalTurns) {
+        gm.session.facedown = true;
+        gm.session.totalTurns = result.totalTurns;
+      }
 
       return $q.resolve(result);
     });
@@ -93,7 +98,7 @@ function GameManager($resource, $q, GameResource, DeckService) {
     });
 
     return Players.save({name: name}).$promise
-    .then(function(result) {
+    .then(function() {
       return getPlayers();
     });
   }
@@ -166,8 +171,7 @@ function GameManager($resource, $q, GameResource, DeckService) {
 
   function getHandByPlayer(id) {
     const player = gm.session.players[id];
-    if(player && player.hand) {}
-    else {return;}
+    if(!player || !player.hand) { return []; }
 
     const hand = [];
     for (let i = 0; i < player.hand.length; i++) {
@@ -180,8 +184,7 @@ function GameManager($resource, $q, GameResource, DeckService) {
 
   function getTableByPlayer(id) {
     const player = gm.session.players[id];
-    if(player && player.hand) {}
-    else {return;}
+    if(!player || !player.hand) { return []; }
 
     const table = [];
     for (let i = 0; i < player.hand.length; i++) {
@@ -190,9 +193,5 @@ function GameManager($resource, $q, GameResource, DeckService) {
       }
     }
     return table;
-  }
-
-  function getEventDeck() {
-
   }
 }

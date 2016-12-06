@@ -43,8 +43,8 @@ function newGame(req, res, next) {
   const settings = {
     mode: req.body.mode,
     turn: req.body.turn,
+    totalTurns: 0,
     title: randomItem(adjectives) + '-' + randomItem(animals) + '-' + randomItem(places),
-    eventCard: {},
     eventDeck: []
   };
 
@@ -53,9 +53,7 @@ function newGame(req, res, next) {
     Card.find({deck: 'smite'}).lean().exec()
   ])
   .then(function(results) {
-    settings.eventCard = results[0][0];
-    settings.eventCard.facedown = true;
-    settings.eventDeck = shuffle(results[0].slice(1));
+    settings.eventDeck = shuffle(results[0].slice(1), true);
     const game = new Game(settings);
 
     game.save(function(err) {
@@ -72,7 +70,7 @@ function newGame(req, res, next) {
 
 }
 
-function shuffle(deck) {
+function shuffle(deck, index = false) {
   let m = deck.length,
     t, i;
 
@@ -86,6 +84,8 @@ function shuffle(deck) {
     t = deck[m];
     deck[m] = deck[i];
     deck[i] = t;
+
+    if(index) {deck[m].index = m;}
   }
   return deck;
 }
@@ -142,8 +142,8 @@ function getGame(req, res, next, title) {
         req.game = {
           'mode': game.mode,
           'turn': game.turn,
+          'totalTurns': game.totalTurns,
           'title': game.title,
-          'eventCard': game.eventCard,
           'eventDeck': game.eventDeck,
           'players': game.players,
           'smiteDeck': shuffle(deck)
@@ -171,17 +171,17 @@ function update(req, res, next) {
 
   if(req.query.turn) {
     // Change turn
-    Promise.all([
-      Game.update({
-        title: req.params.gameID
-      }, {
-        $set: {
-          turn: req.query.turn
-        }
-      })
-      .exec(),
-      loadNewEventCard(req.params.gameID)
-    ])
+    Game.update({
+      title: req.params.gameID
+    }, {
+      $set: {
+        turn: req.query.turn
+      },
+      $inc: {
+        totalTurns: 1
+      }
+    })
+      .exec()
     .then(function(game) {
 
       return res.json(req.query);
@@ -207,55 +207,6 @@ function update(req, res, next) {
     });
   }
 
-  function loadNewEventCard(title) {
-    Game.findOne({
-      title: title
-    })
-    .exec()
-    .then(function(game) {
-      const card = game.eventDeck.splice(randomIndex(game.eventDeck), 1)[0];
-      console.log(card);
-      card.facedown = true;
-      return Game.update({
-        title: title
-      }, {
-        $pull: {
-          eventDeck: {
-            _id: card._id
-          }
-        },
-        $set: {
-          eventCard: card
-        }
-      })
-      .exec();
-    });
-  }
-
-  function loadNewSmiteCard(title) {
-    Game.findOne({
-      title: title
-    })
-    .exec()
-    .then(function(game) {
-      const card = game.smiteDeck.splice(randomIndex(game.smiteDeck), 1)[0];
-      console.log(card);
-      card.user = {};
-      return Game.update({
-        title: title
-      }, {
-        $pull: {
-          smiteDeck: {
-            _id: card._id
-          }
-        },
-        $set: {
-          smiteCard: card
-        }
-      })
-      .exec();
-    });
-  }
 }
 
 function list(req, res, next) {

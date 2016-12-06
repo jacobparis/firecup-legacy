@@ -23,12 +23,12 @@
 		md-swipe-right="vm.switchDecks()">
 			<div
 			class="clickable event card"
-			ng-class="{'facedown': game.session.eventCard.facedown}"
+			ng-class="{'facedown': game.session.facedown}"
 			ng-click="vm.drawEvent($event)"
 			ng-if="vm.deckChoice == 0">
-				<p class="primary">{{game.session.eventCard.primary}}</p>
-				<p class="secondary">{{game.session.eventCard.secondary}}</p>
-				<span class="type">{{game.session.eventCard.type}} CARD</span>
+				<p class="primary">{{game.session.eventDeck[game.session.totalTurns].primary}}</p>
+				<p class="secondary">{{game.session.eventDeck[game.session.totalTurns].secondary}}</p>
+				<span class="type">{{game.session.eventDeck[game.session.totalTurns].type}} CARD</span>
 			</div>
 			<div
 			class="clickable smite card"
@@ -43,10 +43,10 @@
 
 		<!-- SOLO EVENT DECK -->
 		<div class="large card-container" ng-if="$mdMedia('gt-xs')">
-			<div class="clickable event card" ng-class="{'facedown': game.session.eventCard.facedown}" ng-click="vm.drawEvent($event)">
-				<p class="primary">{{game.session.eventCard.primary}}</p>
-				<p class="secondary">{{game.session.eventCard.secondary}}</p>
-				<span class="type">{{game.session.eventCard.type}} CARD</span>
+			<div class="clickable event card" ng-class="{'facedown': game.session.facedown}" ng-click="vm.drawEvent($event)">
+				<p class="primary">{{game.session.eventDeck[game.session.totalTurns].primary}}</p>
+				<p class="secondary">{{game.session.eventDeck[game.session.totalTurns].secondary}}</p>
+				<span class="type">{{game.session.eventDeck[game.session.totalTurns].type}} CARD</span>
 			</div>
 		</div>
 

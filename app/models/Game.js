@@ -20,11 +20,11 @@ mongoose.model('Game', {
   'turn': {
     type: Number
   },
+  'totalTurns': {
+    type: Number
+  },
   'eventDeck': {
     type: Array
-  },
-  'eventCard': {
-    type: mongoose.Schema.Types.Mixed
   },
   'createdAt': {
     type: Date,
