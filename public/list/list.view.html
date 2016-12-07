@@ -20,6 +20,12 @@
 	</md-tabs>
 </md-toolbar>
 
+<md-card ng-if="$mdMedia('gt-xs')">
+	<submitdialog></submitdialog>
+	<md-card-actions layout="row" layout-align="end center">
+    <md-button ng-click="vm.createRule()">CREATE RULE</md-button>
+  </md-card-actions>
+</md-card>
 <md-card>
 	<div class="md-toolbar-tools">
 		<h2 class="md-headline">Glossary</h2>

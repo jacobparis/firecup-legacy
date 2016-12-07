@@ -86,7 +86,7 @@
 
 
 <div layout="row">
-	<md-grid-list md-cols-xs="3" md-cols="4" md-row-height="1:1" md-row-height-xs="2:3">
+	<md-grid-list md-cols-xs="3" md-cols="5" md-row-height="5:7">
 		<md-grid-tile ng-repeat="card in vm.cards | filter : {theme: vm.card.theme, type: vm.card.type}">
 			<div class="mini card {{card.deck}}">
 					<p class="primary">{{card.primary}}</p>

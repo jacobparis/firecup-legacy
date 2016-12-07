@@ -1,0 +1,48 @@
+<div>
+
+  <md-dialog-content layout class="md-padding">
+      <div ng-if="$mdMedia('gt-xs')" flex layout="column">
+        <div class="large card-container">
+          <div class="clickable {{dm.deck()}} card">
+            <p class="primary">{{dm.rule.primary}}</p>
+            <p class="secondary">{{dm.rule.secondary}}</p>
+            <span class="type">{{vm.cardTypes[vm.card.type]}} CARD</span>
+          </div>
+        </div>
+      </div>
+      <div flex layout="column">
+        <form name="dm.rule" ng-submit="dm.addRule()">
+          <div layout="row">
+            <md-input-container flex>
+              <label>Title</label>
+              <input ng-model="dm.rule.primary">
+            </md-input-container>
+          </div>
+          <div layout="row">
+            <md-input-container flex>
+              <label>Body</label>
+              <input ng-model="dm.rule.secondary">
+            </md-input-container>
+          </div>
+          <div layout="row">
+            <md-autocomplete
+              md-search-text="dm.themeQuery"
+              md-selected-item="dm.rule.theme"
+              md-items="theme in dm.listThemes(dm.themeQuery)"
+              md-min-length="0"
+              placeholder="Theme"
+              flex>
+              <md-item-template>
+                <span md-highlight-text="dm.themeQuery">{{theme}}</span>
+              </md-item-template>
+              <md-not-found>
+                No themes matching your query were found
+                <a ng-click="dm.newTheme(dm.themeQuery)">Create a new one!</a>
+              </md-not-found>
+            </md-autocomplete>
+          </div>
+        </form>
+      </div>
+  </md-dialog-content>
+
+</div>

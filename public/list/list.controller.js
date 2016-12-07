@@ -1,20 +1,25 @@
 angular
   .module('List', [])
   .controller('ListController', [
+    '$scope',
+    '$q',
+    '$mdMedia',
     'RuleService',
     'DialogService',
     'Analytics',
     ListController
-  ]);
+  ])
+  .directive('submitdialog', SubmitDialog);
 
-function ListController(RuleService, DialogService, Analytics) {
+function ListController($scope, $q, $mdMedia, RuleService, DialogService, Analytics) {
   Analytics.trackPage('/list');
-  var vm = this;
+  $scope.$mdMedia = $mdMedia;
+  const vm = this;
   vm.cardTypes = [
-    'event',
-    'trap',
     'action',
-    'status'
+    'status',
+    'event',
+    'trap'
   ];
 
   vm.listOrder;
@@ -23,12 +28,12 @@ function ListController(RuleService, DialogService, Analytics) {
     show: false,
     query: '',
     options: {}
-  }
+  };
 
   vm.create = create;
   vm.card = {};
   vm.card.type = 0;
-
+  vm.createRule = createRule;
   vm.getRules = getRules;
 
   function create(e) {
@@ -37,17 +42,19 @@ function ListController(RuleService, DialogService, Analytics) {
       controllerAs: 'dm',
       templateUrl: 'list/list.dialog.html',
       targetEvent: e,
+      scope: $scope.$new(),
+      preserveScope: true,
       clickOutsideToClose: true,
-    }).then(saveRule, function () {
+    }).then(saveRule, function() {
       console.log('CANCEL');
     });
 
-    function saveRule(rule) {
-      if(!rule) return;
-      rule.type = vm.cardTypes[vm.card.type];
-      rule.public = true;
-      RuleService.postRule(rule);
-    }
+  }
+  function saveRule(rule) {
+    if(!rule) {return $q.reject();}
+    rule.type = vm.cardTypes[vm.card.type];
+    rule.public = true;
+    return RuleService.postRule(rule);
   }
 
   function getRules() {
@@ -56,4 +63,18 @@ function ListController(RuleService, DialogService, Analytics) {
         vm.cards = deck;
       });
   }
+
+  function createRule() {
+    saveRule($scope.dm.rule);
+    getRules();
+  }
+}
+
+function SubmitDialog() {
+  return {
+    controller: 'ListDialogController',
+    controllerAs: 'dm',
+    templateUrl: 'list/list.directive.html',
+    replace: true
+  };
 }

@@ -1,45 +1,12 @@
-<md-dialog aria-label="Create new rule" class="list">
-  <form ng-cloak>
-    <md-toolbar>
-      <div class="md-toolbar-tools">
-        <h2>Create a new rule</h2>
-        <span flex></span>
-      </div>
-    </md-toolbar>
+<md-dialog ng-class="{'fullscreen-dialog': !$mdMedia('gt-sm')}" flex="80" aria-label="Create new rule" class="list">
 
-    <md-dialog-content class="md-padding">
-      <form name="dm.rule" ng-submit="dm.addRule()">
-      <div layout="row">
-        <md-input-container flex>
-          <label>Title</label>
-          <input ng-model="dm.rule.primary">
-        </md-input-container>
-      </div>
-      <div layout="row">
-        <md-input-container flex>
-          <label>Body</label>
-          <input ng-model="dm.rule.secondary">
-        </md-input-container>
-      </div>
-      <div layout="row">
-        <md-autocomplete
-          md-search-text="dm.themeQuery"
-          md-selected-item="dm.rule.theme"
-          md-items="theme in dm.listThemes(dm.themeQuery)"
-          md-min-length="0"
-          placeholder="Theme"
-          flex>
-          <md-item-template>
-            <span md-highlight-text="dm.themeQuery">{{theme}}</span>
-          </md-item-template>
-          <md-not-found>
-            No themes matching your query were found
-            <a ng-click="dm.newTheme(dm.themeQuery)">Create a new one!</a>
-          </md-not-found>
-        </md-autocomplete>
-      </div>
-    </form>
-    </md-dialog-content>
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Create a new {{vm.cardTypes[vm.card.type]}} rule</h2>
+      <span flex></span>
+    </div>
+  </md-toolbar>
+  <submitdialog></submitdialog>
 
     <md-dialog-actions layout="row">
       <md-button ng-click="dm.cancel()">
@@ -50,5 +17,4 @@
         Create rule
       </md-button>
     </md-dialog-actions>
-  </form>
 </md-dialog>
