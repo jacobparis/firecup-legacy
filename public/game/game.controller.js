@@ -312,10 +312,8 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
   function turnChange(player) {
     GameManager.turnChange(player)
     .then(function(data) {
-      console.log(data);
       vm.dialOpen = false;
       vm.selectedPlayer = Number(data.turn);
-       // TODO Somehow selectedPlayer gets reset immediately in the watcher loop
       DialogService.showAlert({
         'text': GameManager.session.players[Number(data.turn)].name + '\'s turn is starting'
       });

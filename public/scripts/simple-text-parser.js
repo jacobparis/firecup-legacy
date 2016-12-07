@@ -9,14 +9,12 @@ class Parser {
     if (!isreplace(replace)) {throw new TypeError('Expecting string or function for replace.');}
     if(_.isArray(match)) {
       _.each(match, (rule) => {
-        console.log(rule);
         this.rules.push({match: rule, replace});
       });
     }
     else {
       this.rules.push({ match, replace });
     }
-    console.log(this.rules);
     return this;
   }
 
