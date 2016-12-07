@@ -31,6 +31,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
   const vm = this;
   /* Properties **/
   vm.selectedPlayer = 0;
+  vm.eventCard = {};
   vm.smiteCard = {
     facedown: true
   };
@@ -63,6 +64,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
     else {
       joinGame()
       .then(showAddPlayers)
+      .then(setupParser)
       .then(firstDeal)
       .then(function() {
         vm.startEh = true;
@@ -151,6 +153,71 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
       // If creating, begin setup
     }
 
+    function setupParser() {
+      vm.parser = new Parser();
+      vm.parser.addRule('PLAYER1', function(tag, history) {
+        // Return PLAYERA if already used
+        const existing = _.find(history, function(record) {
+          return record.match === 'PLAYER1';
+        });
+
+        if (existing && existing.text) {
+          return existing.text;
+        }
+
+        const myName = GameManager.session.players[GameManager.session.turn].name;
+        let playerName = myName;
+
+        while(playerName === myName) {
+          playerName = GameManager.session.players[randomIndex(GameManager.session.players)].name;
+        }
+        return playerName;
+      });
+
+      vm.parser.addRule('PLAYER2', function(tag, history) {
+        // Return tag if already used
+        const existing = _.find(history, function(record) {
+          return record.match === 'PLAYER2';
+        });
+
+        if(existing && existing.text) {
+          return existing.text;
+        }
+
+        // Return random that is not used
+        let blacklist = _.filter(history, function(record) {
+          return record.match === 'PLAYER1';
+        });
+
+        if(blacklist.length === 0) {
+          blacklist = [{text: ''}];
+        }
+
+        const myName = GameManager.session.players[GameManager.session.turn].name;
+        let name = blacklist[0].text;
+        while(name === blacklist[0].text || name === myName) {
+          name = GameManager.session.players[randomIndex(GameManager.session.players)].name;
+        }
+        return name;
+      });
+
+      vm.parser.addRule('ME', function(tag) {
+        // Return player at random
+        return GameManager.session.players[GameManager.session.turn].name;
+      });
+
+      vm.parser.addRule('NEXTPLAYER', function(tag) {
+        // Return player at random
+        const len = GameManager.session.players.length;
+        return GameManager.session.players[(GameManager.session.turn + 1) % len].name;
+      });
+
+      vm.parser.addRule('PREVPLAYER', function(tag) {
+        // Return player at random
+        const len = GameManager.session.players.length;
+        return GameManager.session.players[(GameManager.session.turn + len - 1) % len].name;
+      });
+    }
     function firstDeal() {
       console.log(GameManager);
       console.log($scope);
@@ -181,19 +248,30 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
   /* External functions **/
 
   function drawEvent() {
+    const card = GameManager.session.eventDeck[GameManager.session.totalTurns];
     if (GameManager.session.facedown) {
+      // Parse card contents
+      vm.eventCard.primary = vm.parser.render(card.primary);
+      vm.eventCard.secondary = vm.parser.render(card.secondary);
+      vm.eventCard.type = vm.parser.render(card.type);
+
+        // Flip card up
       GameManager.session.facedown = false;
       return;
+
     }
     // Take status and trap cards
-    if (GameManager.session.eventDeck[GameManager.session.totalTurns].type === 'trap') {
-      GameManager.giveCardToPlayer(GameManager.session.eventDeck[GameManager.session.totalTurns], GameManager.session.turn);
+    if (card.type === 'trap') {
+      GameManager.giveCardToPlayer(card, GameManager.session.turn);
     }
 
     // Is regular card, flipped up. Continue to next player
     turnChange();
   }
 
+  function parseEvent(turn) {
+    game.session.eventDeck[game.session.totalTurns];
+  }
   function setSmitePlayer(player) {
     vm.smiteCard.user = player;
   }

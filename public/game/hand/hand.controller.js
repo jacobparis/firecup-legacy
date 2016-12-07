@@ -42,7 +42,7 @@ function HandController($scope, $mdBottomSheet, DialogService, GameManager) {
     if(hand) {
       hm.handCards = hand.length;
     }
-    console.log(hand);
+    // console.log(hand);
     return hand;
   }
 

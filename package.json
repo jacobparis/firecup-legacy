@@ -8,7 +8,8 @@
     "less": "^2.7.1",
     "method-override": "~2.0.2",
     "mongoose": "~4.4.0",
-    "ng-fx": "^2.0.4"
+    "ng-fx": "^2.0.4",
+    "simple-text-parser": "^1.0.0"
   },
   "scripts": {
     "db": "start git-bash -c mongod --quiet",
