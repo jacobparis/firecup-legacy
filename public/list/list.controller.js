@@ -53,6 +53,11 @@ function ListController($scope, $q, $mdMedia, RuleService, DialogService, Analyt
   function saveRule(rule) {
     if(!rule) {return $q.reject();}
     rule.type = vm.cardTypes[vm.card.type];
+    if(rule.type === 'action') {rule.deck = 'smite';}
+    if(rule.type === 'status') {rule.deck = 'smite';}
+    if(rule.type === 'event') {rule.deck = 'event';}
+    if(rule.type === 'trap') {rule.deck = 'event';}
+
     rule.public = true;
     return RuleService.postRule(rule);
   }
@@ -65,6 +70,7 @@ function ListController($scope, $q, $mdMedia, RuleService, DialogService, Analyt
   }
 
   function createRule() {
+    console.log($scope);
     saveRule($scope.dm.rule);
     getRules();
   }

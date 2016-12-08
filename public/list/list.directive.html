@@ -15,13 +15,13 @@
           <div layout="row">
             <md-input-container flex>
               <label>Title</label>
-              <input ng-model="dm.rule.primary">
+              <input ng-model="dm.rule.primary" ng-keyup="$event.keyCode == 13 && vm.createRule()">
             </md-input-container>
           </div>
           <div layout="row">
             <md-input-container flex>
               <label>Body</label>
-              <input ng-model="dm.rule.secondary">
+              <input ng-model="dm.rule.secondary" ng-keyup="$event.keyCode == 13 && vm.createRule()">
             </md-input-container>
           </div>
           <div layout="row">

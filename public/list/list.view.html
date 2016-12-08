@@ -20,12 +20,7 @@
 	</md-tabs>
 </md-toolbar>
 
-<md-card ng-if="$mdMedia('gt-xs')">
-	<submitdialog></submitdialog>
-	<md-card-actions layout="row" layout-align="end center">
-    <md-button ng-click="vm.createRule()">CREATE RULE</md-button>
-  </md-card-actions>
-</md-card>
+
 <md-card>
 	<div class="md-toolbar-tools">
 		<h2 class="md-headline">Glossary</h2>
@@ -112,4 +107,13 @@
 			</tbody>
 		</table>
 	</md-table-container>
+</md-card>
+<md-card ng-show="$mdMedia('gt-xs')">
+	<div class="md-toolbar-tools">
+		<h2 class="md-headline">Add your own rules!</h2>
+	</div>
+	<submitdialog></submitdialog>
+	<md-card-actions layout="row" layout-align="end center">
+    <md-button ng-click="vm.createRule()">CREATE RULE</md-button>
+  </md-card-actions>
 </md-card>

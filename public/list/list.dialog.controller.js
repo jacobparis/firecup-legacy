@@ -24,24 +24,26 @@ function ListDialogController($scope, $q, $mdDialog, $mdMedia) {
   dm.create = create;
 
   dm.rule = {};
-  if(vm.selected.length > 0) {
-    dm.rule = {
-      primary: vm.selected[0].primary,
-      secondary: vm.selected[0].secondary,
-      theme: vm.selected[0].theme
-    };
-  }
   dm.listThemes = listThemes;
 
   dm.deck = getDeck;
 
+  $scope.$watch('vm.selected[0]', function(newVal, oldVal) {
+    console.log(newVal);
+    if(!newVal) {return;}
+    dm.rule = {
+      primary: newVal.primary,
+      secondary: newVal.secondary,
+      theme: newVal.theme
+    };
+  });
   function getDeck() {
     const type = vm.cardTypes[vm.card.type];
 
-    if(type == 'action') {return 'smite';}
-    if(type == 'status') {return 'smite';}
-    if(type == 'event') {return 'event';}
-    if(type == 'trap') {return 'event';}
+    if(type === 'action') {return 'smite';}
+    if(type === 'status') {return 'smite';}
+    if(type === 'event') {return 'event';}
+    if(type === 'trap') {return 'event';}
 
   }
   function listThemes(query) {
