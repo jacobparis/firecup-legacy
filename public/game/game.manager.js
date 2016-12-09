@@ -170,6 +170,8 @@ function GameManager($resource, $q, GameResource, DeckService) {
   }
 
   function getHandByPlayer(id) {
+    if(!gm.session.players) {return;}
+
     const player = gm.session.players[id];
     if(!player || !player.hand) { return []; }
 
@@ -183,6 +185,8 @@ function GameManager($resource, $q, GameResource, DeckService) {
   }
 
   function getTableByPlayer(id) {
+    if(!gm.session.players) {return;}
+
     const player = gm.session.players[id];
     if(!player || !player.hand) { return []; }
 

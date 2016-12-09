@@ -28,7 +28,7 @@
 			ng-if="vm.deckChoice == 0">
 				<p class="primary">{{vm.eventCard.primary}}</p>
 				<p class="secondary">{{vm.eventCard.secondary}}</p>
-				<span class="type">{{vm.eventCard.type}} CARD</span>
+				<span class="type">{{vm.eventCard.type}} TYPE</span>
 			</div>
 			<div
 			class="clickable smite card"
@@ -37,7 +37,7 @@
 			ng-if="vm.deckChoice == 1">
 				<p class="primary">{{vm.smiteCard.primary}}</p>
 				<p class="secondary">{{vm.smiteCard.secondary}}</p>
-				<span class="type">{{vm.smiteCard.type}} CARD</span>
+				<span class="type">{{vm.smiteCard.type}} TYPE</span>
 			</div>
 		</div>
 
@@ -46,7 +46,7 @@
 			<div class="clickable event card" ng-class="{'facedown': game.session.facedown}" ng-click="vm.drawEvent($event)">
 				<p class="primary">{{vm.eventCard.primary}}</p>
 				<p class="secondary">{{vm.eventCard.secondary}}</p>
-				<span class="type">{{vm.eventCard.type}} CARD</span>
+				<span class="type">{{vm.eventCard.type}} TYPE</span>
 			</div>
 		</div>
 
@@ -58,7 +58,7 @@
 				ng-click="vm.drawSmite($mdOpenMenu, $event)">
 				<p class="primary" md-menu-origin>{{vm.smiteCard.primary}}</p>
 				<p class="secondary">{{vm.smiteCard.secondary}}</p>
-				<span class="type">{{vm.smiteCard.type}} CARD</span>
+				<span class="type">{{vm.smiteCard.type}} TYPE</span>
 			</div>
 		</div>
 		</md-menu>
