@@ -280,7 +280,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
     // If no user is set
     if (!vm.smiteCard.user.name) {
       if(vm.autoSmite) {
-        GameManager.giveCardToPlayer(vm.smiteCard, vm.selectedIndex);
+        vm.smiteCard.user = GameManager.session.players[vm.selectedPlayer];
         return;
       }
 

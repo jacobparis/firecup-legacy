@@ -1,9 +1,9 @@
-#The Game of Sins
+#Firecup
 
-Sins is a party card game similar to King's Cup (Ring of Fire, Sociables), and
+Firecup is a party card game similar to King's Cup (Ring of Fire, Sociables), and
 this is its online version. A physical card version is on the roadmap.
 
-Landing page is here at http://sins.jacobpariseau.com/
+Landing page is here at http://firecup.ca/
 
 #TODO
 
