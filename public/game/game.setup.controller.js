@@ -4,14 +4,16 @@ angular
     '$scope',
     '$q',
     '$mdDialog',
+    '$mdMedia',
     '$state',
     'GameManager',
     GameSetupController
   ]);
 
-function GameSetupController($scope, $q, $mdDialog, $state, GameManager) {
+function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, GameManager) {
   const dm = this;
   $scope.game = GameManager;
+  $scope.$mdMedia = $mdMedia;
   dm.createGame = createGame;
   dm.players = [];
   dm.addPlayer = addPlayer;

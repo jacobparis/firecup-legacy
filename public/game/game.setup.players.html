@@ -1,4 +1,4 @@
-<md-dialog aria-label="Add Players">
+<md-dialog ng-class="{'fullscreen-dialog': $mdMedia('xs')}" aria-label="Add Players">
   <form ng-cloak>
     <md-toolbar>
       <div class="md-toolbar-tools">
@@ -16,7 +16,7 @@
 
       <div layout="row">
         <md-list flex>
-          <md-list-item ng-repeat="player in game.session.players">
+          <md-list-item ng-click="null" ng-repeat="player in game.session.players">
             <md-icon>person</md-icon>
             <div class="md-list-item-text" layout="column">
               <span class="md-body-2">{{player.name}}</span>
@@ -25,13 +25,12 @@
           </md-list-item>
           <md-list-item>
             <form>
-
               <md-icon>person</md-icon>
               <md-input-container class="md-block">
                 <label>Add a player</label>
                 <input ng-model="dm.newPlayerName">
               </md-input-container>
-              <md-button type="submit" class="md-secondary md-fab md-mini" ng-click="dm.addPlayer()">
+              <md-button type="submit" ng-disabled="!dm.newPlayerName.length" class="md-secondary md-fab md-mini" ng-click="dm.addPlayer()">
                 <md-icon>person_add</md-icon>
               </md-button>
             </form>
