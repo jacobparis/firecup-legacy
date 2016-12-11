@@ -37,6 +37,7 @@ function ListDialogController($scope, $q, $mdDialog, $mdMedia) {
       theme: newVal.theme
     };
   });
+
   function getDeck() {
     const type = vm.cardTypes[vm.card.type];
 
@@ -46,6 +47,7 @@ function ListDialogController($scope, $q, $mdDialog, $mdMedia) {
     if(type === 'trap') {return 'event';}
 
   }
+
   function listThemes(query) {
     const themes = [
       'animals',
