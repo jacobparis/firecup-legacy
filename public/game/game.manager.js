@@ -26,6 +26,7 @@ function GameManager($resource, $q, GameResource, DeckService) {
   gm.getPlayers = getPlayers;
   gm.getNumberOfPlayers = gm.session.players.length;
   gm.addPlayer = addPlayer;
+  gm.updatePlayer = updatePlayer;
   gm.getTurn = getTurn;
   gm.turnChange = turnChange;
   gm.getCurrentPlayer = getCurrentPlayer;
@@ -100,6 +101,26 @@ function GameManager($resource, $q, GameResource, DeckService) {
     return Players.save({name: name}).$promise
     .then(function() {
       return getPlayers();
+    });
+  }
+
+  function updatePlayer(player) {
+    const Players = $resource('api/games/:title', {
+      'title': gm.session.title
+    }, {
+      'update': {
+        'method': 'PUT',
+        'params': {
+          'player': player.index,
+          'setName': true,
+          'title': gm.session.title
+        }
+      }
+    });
+
+    return Players.update({name: player.name}).$promise
+    .then(function() {
+      console.log('Success');
     });
   }
 

@@ -16,7 +16,10 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, GameManage
   $scope.$mdMedia = $mdMedia;
   dm.createGame = createGame;
   dm.players = [];
+  dm.loadPlayers = loadPlayers;
   dm.addPlayer = addPlayer;
+  dm.savePlayer = savePlayer;
+
   dm.confirmPlayers = confirmPlayers;
   dm.newPlayerName;
 
@@ -38,7 +41,7 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, GameManage
   activate();
 
   function activate() {
-    dm.players = GameManager.session.players;
+    dm.players = JSON.parse(JSON.stringify(GameManager.session.players));
   }
   function createGame() {
     console.log('Create');
@@ -51,6 +54,19 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, GameManage
       dm.newPlayerName = '';
       dm.players = GameManager.getPlayers();
     });
+  }
+
+  function loadPlayers() {
+    dm.players = JSON.parse(JSON.stringify(GameManager.session.players));
+
+  }
+  function savePlayer(player) {
+    GameManager.updatePlayer(player)
+    .then(GameManager.getGame)
+    .then(function(result) {
+      console.log(result);
+    });
+
   }
 
   function confirmPlayers() {

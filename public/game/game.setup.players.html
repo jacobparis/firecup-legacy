@@ -14,28 +14,64 @@
       </md-content>
 
 
-      <div layout="row">
-        <md-list flex>
-          <md-list-item ng-click="null" ng-repeat="player in game.session.players">
+      <div layout="column">
+        <md-expansion-panel-group>
+
+        <md-expansion-panel ng-repeat="player in dm.players">
+
+          <md-expansion-panel-collapsed>
             <md-icon>person</md-icon>
-            <div class="md-list-item-text" layout="column">
+            <div layout="column" flex>
               <span class="md-body-2">{{player.name}}</span>
               <span class="md-caption">On this device</span>
             </div>
-          </md-list-item>
-          <md-list-item>
-            <form>
+            <md-expansion-panel-icon></md-expansion-panel-icon>
+          </md-expansion-panel-collapsed>
+
+          <md-expansion-panel-expanded>
+
+            <md-expansion-panel-header>
               <md-icon>person</md-icon>
-              <md-input-container class="md-block">
-                <label>Add a player</label>
-                <input ng-model="dm.newPlayerName">
-              </md-input-container>
-              <md-button type="submit" ng-disabled="!dm.newPlayerName.length" class="md-secondary md-fab md-mini" ng-click="dm.addPlayer()">
-                <md-icon>person_add</md-icon>
-              </md-button>
-            </form>
-          </md-list-item>
-        </md-list>
+              <div layout="column" flex>
+                <span class="md-body-2">{{player.name}}</span>
+              </div>
+              <md-expansion-panel-icon></md-expansion-panel-icon>
+            </md-expansion-panel-header>
+
+            <md-expansion-panel-content>
+                <md-input-container>
+                  <label>Name</label>
+                  <input ng-model="player.name"></input>
+                </md-input-container>
+
+            </md-expansion-panel-content>
+
+            <md-expansion-panel-footer>
+              <md-button class="md-warn" ng-click="$panel.collapse() && dm.loadPlayers()">Reset</md-button>
+              <div flex></div>
+
+              <md-button ng-hide="$mdMedia('xs')">Link to this device</md-button>
+              <md-button ng-hide="$mdMedia('gt-xs')">Link</md-button>
+
+              <md-button ng-click="$panel.collapse() && dm.savePlayer(player)" ng-hide="$mdMedia('xs')">Save Changes</md-button>
+              <md-button ng-click="$panel.collapse() && dm.savePlayer(player)" ng-hide="$mdMedia('gt-xs')">Save</md-button>
+            </md-expansion-panel-footer>
+
+          </md-expansion-panel-expanded>
+        </md-expansion-panel>
+        <md-list-item>
+          <form>
+            <md-icon>person</md-icon>
+            <md-input-container class="md-block">
+              <label>Add a player</label>
+              <input ng-model="dm.newPlayerName">
+            </md-input-container>
+            <md-button type="submit" ng-disabled="!dm.newPlayerName.length" class="md-secondary md-fab md-mini" ng-click="dm.addPlayer()">
+              <md-icon>person_add</md-icon>
+            </md-button>
+          </form>
+        </md-list-item>
+      </md-expansion-panel-group>
       </div>
     </md-dialog-content>
 

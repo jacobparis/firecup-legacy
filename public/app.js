@@ -5,6 +5,7 @@ angular.module('app', [
   'ui.router',
   'md.data.table',
   'angular-google-analytics',
+  'material.components.expansionPanels',
   'Home',
   'Card',
   'Game',

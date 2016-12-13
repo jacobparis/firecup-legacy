@@ -165,6 +165,41 @@ function getGame(req, res, next, title) {
   });
 }
 
+function updatePlayer(req, res, next) {
+  if(!req.params) {next();}
+  if(!req.query) {next();}
+
+  Game.findOne({
+    title: req.params.title
+  })
+  .exec()
+  .then(function(game) {
+    player.index = game.players.length;
+    console.log(player);
+    console.log(game);
+    if(req.query.name) {
+
+    }
+    return Game.update({
+      title: req.params.title
+    }, {
+      $push: {
+        players: player
+      }
+    }).exec(function(err, game) {
+      if (err) {
+        return next(err);
+      }
+
+      if (!game) {
+        return next(new Error('Failed to save player to ' + title));
+      }
+      req.game = game;
+      next();
+    });
+  });
+
+}
 function update(req, res, next) {
   if(!req.params) {next();}
   if(!req.query) {next();}
@@ -199,6 +234,25 @@ function update(req, res, next) {
     }, {
       $push: {
         'players.$.hand': req.body
+      }
+    })
+    .exec()
+    .then(function() {
+      return res.json(req.query);
+    });
+  }
+
+  if(req.query.setName) {
+    console.log('ENTER');
+    console.log(req.params);
+    console.log(req.query);
+    console.log(req.body);
+    Game.update({
+      'title': req.params.gameID,
+      'players.index': Number(req.query.player)
+    }, {
+      $set: {
+        'players.$.name': req.body.name
       }
     })
     .exec()

@@ -28,9 +28,11 @@ module.exports = function(app) {
   app.param('deckId', cards.getDeck);
   app.param('type', cards.getByType);
   app.param('gameID', games.getGame);
+
   // frontend routes =========================================================
   // route to handle all angular requests
   app.get('*', function(req, res) {
     res.sendfile('./public/index.html');
   });
+
 };
