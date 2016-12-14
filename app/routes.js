@@ -7,30 +7,38 @@ module.exports = function(app) {
   // handle things like api calls
   // authentication routes
 
-  app.route('/api/cards/:type')
-    .get(cards.list)
-    .post(cards.create);
+  app.get('/api/cards/:type', cards.list);
+  app.post('/api/cards/:type', cards.create);
 
-  app.route('/api/decks/:deckId')
-    .get(cards.shuffle)
-    .get(cards.list)
-    .post(cards.create);
+  app.get('/api/decks/:deckId', cards.shuffle);
+  app.get('/api/decks/:deckId', cards.list);
+  app.post('/api/decks/:deckId', cards.create);
 
-  app.route('/api/players/:title')
-    .post(games.addPlayer)
-    .post(games.list);
+  app.post('/api/players/:title', games.addPlayer);
+  app.post('/api/players/:title', games.list);
 
-  app.route('/api/games/:gameID?.:full?')
-    .get(games.list)
-    .post(games.create)
-    .put(games.update);
+  app.get('/api/games/:gameID?.:full?', games.list);
+  app.post('/api/games/:gameID?.:full?', games.create);
+  app.put('/api/games/:gameID?.:full?', games.update);
 
   app.param('deckId', cards.getDeck);
   app.param('type', cards.getByType);
   app.param('gameID', games.getGame);
 
+  app.use(errorHandler);
+
+  function errorHandler(err, req, res, next) {
+    console.error(err.stack);
+    if (res.headersSent) {
+      console.log('headers sent');
+      return next(err);
+    }
+    console.log('headers not sent');
+    next();
+  }
   // frontend routes =========================================================
   // route to handle all angular requests
+
   app.get('*', function(req, res) {
     res.sendfile('./public/index.html');
   });

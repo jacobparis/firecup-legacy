@@ -1,10 +1,12 @@
 let config = require('./config'),
-  express = require('express'),
+  express = require('express.io'),
   bodyParser = require('body-parser');
 
 const methodOverride = require('method-override');
 module.exports = function() {
   const app = express();
+  app.http().io();
+
   app.use(express.static('./public'));
   app.set('x-powered-by', false);
   // get all data/stuff of the body (POST) parameters

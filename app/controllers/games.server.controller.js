@@ -261,6 +261,25 @@ function update(req, res, next) {
     });
   }
 
+  if(req.query.link) {
+    console.log('ENTER');
+    console.log(req.params);
+    console.log(req.query);
+    console.log(req.body);
+    Game.update({
+      'title': req.params.gameID,
+      'players.index': Number(req.query.player)
+    }, {
+      $set: {
+        'players.$.deviceToken': req.body.deviceToken
+      }
+    })
+    .exec()
+    .then(function() {
+      return res.json(req.query);
+    });
+  }
+
 }
 
 function list(req, res, next) {

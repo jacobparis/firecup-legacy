@@ -4,7 +4,9 @@
   "dependencies": {
     "angular-ui-router": "^0.3.2",
     "body-parser": "~1.4.2",
+    "connect": "^3.5.0",
     "express": "~4.5.1",
+    "express.io": "^1.1.13",
     "less": "^2.7.1",
     "method-override": "~2.0.2",
     "mongoose": "~4.4.0",

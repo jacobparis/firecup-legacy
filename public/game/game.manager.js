@@ -11,6 +11,7 @@ function GameResource($resource) {
 function GameManager($resource, $q, GameResource, DeckService) {
   const gm = this;
   gm.session = {
+    deviceToken: Math.random().toString(36).substr(2),
     players: [],
     turn: 0,
     title: '',
@@ -112,16 +113,17 @@ function GameManager($resource, $q, GameResource, DeckService) {
         'method': 'PUT',
         'params': {
           'player': player.index,
-          'setName': true,
+          'setName': !!player.name,
+          'link': !!player.link,
           'title': gm.session.title
         }
       }
     });
 
-    return Players.update({name: player.name}).$promise
-    .then(function() {
-      console.log('Success');
-    });
+    return Players.update({name: player.name, deviceToken: player.deviceToken}).$promise
+      .then(function() {
+        console.log('Success');
+      });
   }
 
   function getCurrentPlayer() {

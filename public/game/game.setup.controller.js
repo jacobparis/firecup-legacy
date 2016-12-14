@@ -19,6 +19,7 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, GameManage
   dm.loadPlayers = loadPlayers;
   dm.addPlayer = addPlayer;
   dm.savePlayer = savePlayer;
+  dm.linkPlayer = linkPlayer;
 
   dm.confirmPlayers = confirmPlayers;
   dm.newPlayerName;
@@ -66,7 +67,12 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, GameManage
     .then(function(result) {
       console.log(result);
     });
+  }
 
+  function linkPlayer(player) {
+    player.deviceToken = GameManager.session.deviceToken;
+    player.link = true;
+    savePlayer(player);
   }
 
   function confirmPlayers() {

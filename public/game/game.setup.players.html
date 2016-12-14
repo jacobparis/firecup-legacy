@@ -23,7 +23,7 @@
             <md-icon>person</md-icon>
             <div layout="column" flex>
               <span class="md-body-2">{{player.name}}</span>
-              <span class="md-caption">On this device</span>
+              <span ng-if="game.session.deviceToken === player.deviceToken" class="md-caption">On this device</span>
             </div>
             <md-expansion-panel-icon></md-expansion-panel-icon>
           </md-expansion-panel-collapsed>
@@ -50,8 +50,8 @@
               <md-button class="md-warn" ng-click="$panel.collapse() && dm.loadPlayers()">Reset</md-button>
               <div flex></div>
 
-              <md-button ng-hide="$mdMedia('xs')">Link to this device</md-button>
-              <md-button ng-hide="$mdMedia('gt-xs')">Link</md-button>
+              <md-button ng-click="$panel.collapse() && dm.linkPlayer(player)"ng-hide="$mdMedia('xs')">Link to this device</md-button>
+              <md-button ng-click="$panel.collapse() && dm.linkPlayer(player)"ng-hide="$mdMedia('gt-xs')">Link</md-button>
 
               <md-button ng-click="$panel.collapse() && dm.savePlayer(player)" ng-hide="$mdMedia('xs')">Save Changes</md-button>
               <md-button ng-click="$panel.collapse() && dm.savePlayer(player)" ng-hide="$mdMedia('gt-xs')">Save</md-button>

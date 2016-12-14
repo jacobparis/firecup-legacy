@@ -1,15 +1,13 @@
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
-var config = require('./config/config'),
+let config = require('./config/config'),
   mongoose = require('./config/mongoose'),
   express = require('./config/express');
 
-var db = mongoose(),
+let db = mongoose(),
   app = express();
-
-
-
-app.listen(config.port);
+app.set('port', process.env.PORT || 80);
+app.listen(app.get('port'));
 
 module.exports = app;
 console.log(process.env.NODE_ENV + ' server running at http://localhost:' + config.port);
