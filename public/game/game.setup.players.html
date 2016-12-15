@@ -24,6 +24,7 @@
             <div layout="column" flex>
               <span class="md-body-2">{{player.name}}</span>
               <span ng-if="game.session.deviceToken === player.deviceToken" class="md-caption">On this device</span>
+              <span ng-if="game.session.deviceToken !== player.deviceToken" class="md-caption">On another device</span>
             </div>
             <md-expansion-panel-icon></md-expansion-panel-icon>
           </md-expansion-panel-collapsed>
@@ -34,6 +35,8 @@
               <md-icon>person</md-icon>
               <div layout="column" flex>
                 <span class="md-body-2">{{player.name}}</span>
+                <span ng-if="game.session.deviceToken === player.deviceToken" class="md-caption">On this device</span>
+                <span ng-if="game.session.deviceToken !== player.deviceToken" class="md-caption">On another device</span>
               </div>
               <md-expansion-panel-icon></md-expansion-panel-icon>
             </md-expansion-panel-header>

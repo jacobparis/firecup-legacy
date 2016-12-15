@@ -6,11 +6,12 @@ angular
     '$mdDialog',
     '$mdMedia',
     '$state',
+    'Socket',
     'GameManager',
     GameSetupController
   ]);
 
-function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, GameManager) {
+function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, Socket, GameManager) {
   const dm = this;
   $scope.game = GameManager;
   $scope.$mdMedia = $mdMedia;
@@ -50,29 +51,45 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, GameManage
   }
 
   function addPlayer() {
-    GameManager.addPlayer(dm.newPlayerName)
-    .then(function() {
-      dm.newPlayerName = '';
-      dm.players = GameManager.getPlayers();
+    console.log(GameManager.session.deviceToken);
+    Socket.emit('player:add', {
+      room: GameManager.session.title,
+      name: dm.newPlayerName,
+      deviceToken: GameManager.session.deviceToken
     });
+
+    dm.newPlayerName = '';
   }
 
+  Socket.on('player:added', function(data) {
+    console.log(data);
+    dm.players.push({
+      index: dm.players.length,
+      name: data.name,
+      deviceToken: data.deviceToken
+    });
+  });
   function loadPlayers() {
     dm.players = JSON.parse(JSON.stringify(GameManager.session.players));
 
   }
   function savePlayer(player) {
-    GameManager.updatePlayer(player)
-    .then(GameManager.getGame)
-    .then(function(result) {
-      console.log(result);
+    console.log(player);
+    Socket.emit('player:update', {
+      room: GameManager.session.title,
+      player: player
     });
   }
 
+  Socket.on('player:updated', function(data) {
+    console.log(data);
+    dm.players[data.index] = data;
+  });
+
   function linkPlayer(player) {
     player.deviceToken = GameManager.session.deviceToken;
-    player.link = true;
     savePlayer(player);
+
   }
 
   function confirmPlayers() {

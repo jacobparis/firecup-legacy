@@ -15,7 +15,8 @@ mongoose.model('Game', {
     index: Number,
     hand: [{
       type: mongoose.Schema.Types.Mixed
-    }]
+    }],
+    deviceToken: String,
   }],
   'turn': {
     type: Number

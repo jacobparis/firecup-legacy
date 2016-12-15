@@ -101,7 +101,6 @@ function addPlayer(req, res, next) {
   .then(function(game) {
     player.index = game.players.length;
     console.log(player);
-    console.log(game);
     return Game.update({
       title: req.params.title
     }, {

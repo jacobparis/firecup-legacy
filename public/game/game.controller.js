@@ -9,6 +9,7 @@ angular
     '$mdMedia',
     '$state',
     '$timeout',
+    'Socket',
     'GameManager',
     'DeckService',
     'DialogService',
@@ -17,7 +18,7 @@ angular
     GameController
   ]);
 
-function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state, $timeout, GameManager, DeckService, DialogService, PlayerService, Analytics) {
+function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state, $timeout, Socket, GameManager, DeckService, DialogService, PlayerService, Analytics) {
   Analytics.trackPage('/game');
   // Lock scrolling hack
 //  angular.element(document.body).addClass("noscroll");
@@ -53,6 +54,10 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
   vm.smite = smite;
   vm.startGame = activate;
   vm.startEh = false;
+
+  Socket.on('client:joined', function(data) {
+    console.log('User joined');
+  });
 
   activate();
 
@@ -106,6 +111,13 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
 
     function joinGame() {
       GameManager.session.title = GameManager.session.title || $state.params.title;
+      Socket.emit('client:join', {
+        'room': GameManager.session.title,
+        'token': GameManager.session.deviceToken
+      }, function(callback) {
+        console.log(callback);
+      });
+
       return GameManager.getGame(1)
       .then(function(result) {
         console.log(result);
