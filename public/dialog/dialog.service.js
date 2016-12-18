@@ -12,7 +12,7 @@ function DialogService($q, $mdDialog) {
   this.showConfirm = showConfirm;
   this.showCustom = showCustom;
   this.showHandInput = showHandInput;
-  this.showSmiteInput = showSmiteInput;
+  this.showBurnInput = showBurnInput;
 
   function showAlert(context) {
     const alert = $mdDialog.alert()
@@ -83,13 +83,13 @@ function DialogService($q, $mdDialog) {
     return $mdDialog.show(alert);
   }
 
-  function showSmiteInput(scope) {
+  function showBurnInput(scope) {
     const alert = {
-      controller: 'SmiteInputController',
+      controller: 'BurnInputController',
       controllerAs: 'sm',
       scope: scope,
       preserveScope: true,
-      templateUrl: 'game/smite/smite.input.template.html',
+      templateUrl: 'game/burn/burn.input.template.html',
       clickOutsideToClose: true,
       bindToController: true
     };

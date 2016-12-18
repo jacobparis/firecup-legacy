@@ -4,14 +4,15 @@ angular
     '$scope',
     '$mdDialog',
     'DialogService',
-    'PlayerService',
+    'GameManager',
+    'Socket',
     'player',
     'card',
     HandInputController
   ]);
 
-function HandInputController($scope, $mdDialog, DialogService, PlayerService, player, card) {
-  var vm = this;
+function HandInputController($scope, $mdDialog, DialogService, GameManager, Socket, player, card) {
+  const vm = this;
   vm.otherPlayers = OtherPlayers;
   vm.openPlayerMenu = openPlayerMenu;
   vm.cancel = cancel;
@@ -19,8 +20,8 @@ function HandInputController($scope, $mdDialog, DialogService, PlayerService, pl
   vm.giveCard = giveCard;
 
   function OtherPlayers() {
-    var players = PlayerService.getPlayers();
-    var otherPlayers = players.slice(0);
+    const players = GameManager.session.players;
+    const otherPlayers = players.slice(0);
     otherPlayers.splice(player, 1);
     return otherPlayers;
   }
@@ -37,16 +38,26 @@ function HandInputController($scope, $mdDialog, DialogService, PlayerService, pl
   }
 
   function discard() {
-    PlayerService.discard(player, card);
-
+    Socket.emit('player:update', {
+      room: GameManager.session.title,
+      player: {
+        index: player,
+        pullCard: card._id
+      }
+    });
     $mdDialog.cancel();
   }
 
   function giveCard(id) {
-    PlayerService.giveCard(id, card);
-    PlayerService.discard(player, card);
-    $mdDialog.cancel();
+    console.log(id);
+    Socket.emit('player:update', {
+      room: GameManager.session.title,
+      player: {
+        index: id,
+        pushCard: angular.toJson(card)
+      }
+    });
+    discard();
   }
-
 
 }

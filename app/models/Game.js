@@ -27,6 +27,9 @@ mongoose.model('Game', {
   'eventDeck': {
     type: Array
   },
+  'burnDeck': {
+    type: Array
+  },
   'createdAt': {
     type: Date,
     default: Date.now

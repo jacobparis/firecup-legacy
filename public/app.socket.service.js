@@ -6,7 +6,7 @@ function SocketFactory($rootScope) {
   const socket = window.io.connect();
   return {
     on: function(eventName, callback) {
-      console.log('on');
+      console.log('on: ' + eventName);
       socket.on(eventName, function() {
         const args = arguments;
         $rootScope.$apply(function() {
@@ -15,7 +15,7 @@ function SocketFactory($rootScope) {
       });
     },
     emit: function(eventName, data, callback) {
-      console.log('emit');
+      console.log('emit: ' + eventName);
       socket.emit(eventName, data, function() {
         const args = arguments;
         $rootScope.$apply(function() {

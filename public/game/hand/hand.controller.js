@@ -3,13 +3,14 @@ angular
   .controller('HandController', [
     '$scope',
     '$mdBottomSheet',
+    'Socket',
     'DialogService',
     'GameManager',
     HandController
   ])
   .directive('handsheet', HandDirective);
 
-function HandController($scope, $mdBottomSheet, DialogService, GameManager) {
+function HandController($scope, $mdBottomSheet, Socket, DialogService, GameManager) {
   const hm = this;
   hm.hand = hand;
   hm.handCards = 0;
@@ -29,7 +30,8 @@ function HandController($scope, $mdBottomSheet, DialogService, GameManager) {
     table();
   });
 
-  $scope.$watch('$parent.vm.smiteCard.user', function(delta, prime) {
+  Socket.on('player:updated', function() {
+    console.log('Hand Controller Player Updated');
     hand();
     table();
   });

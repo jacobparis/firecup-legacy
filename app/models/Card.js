@@ -1,5 +1,5 @@
 // grab the mongoose module
-let mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 // define our card model
 // module.exports allows us to pass this to other files when it is called
@@ -28,6 +28,6 @@ mongoose.model('Card', {
   },
   deck: {
     type: String,
-    enum: ['event', 'smite']
+    enum: ['event', 'burn']
   }
 });

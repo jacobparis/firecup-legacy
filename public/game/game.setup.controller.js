@@ -82,7 +82,7 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, Socket, Ga
   }
 
   Socket.on('player:updated', function(data) {
-    console.log(data);
+    console.log('Update Player Setup');
     dm.players[data.index] = data;
   });
 

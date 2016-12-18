@@ -2,7 +2,7 @@
   <form ng-cloak>
     <md-toolbar>
       <div class="md-toolbar-tools">
-        <h2>Who would you like to smite?</h2>
+        <h2>Who would you like to burn?</h2>
         <span flex></span>
       </div>
     </md-toolbar>
@@ -10,19 +10,15 @@
 
     <md-dialog-content>
       <md-list flex>
-        <md-radio-group ng-model="sm.selectedPlayer">
         <md-list-item ng-repeat="player in game.session.players" ng-click="sm.selectPlayer(player.index)">
+          <md-checkbox
+          aria-label="{{player.name}}"
+          ng-value="player.index"
+          ng-checked="sm.selection.indexOf(player.index) > -1">
+          </md-checkbox>
           <span>{{player.name}}</span>
-            <md-radio-button aria-label="{{player.name}}" class="md-secondary" ng-value="player.index"></md-radio-button>
         </md-list-item>
-      </md-radio-group>
       </md-list>
-      <md-content class="md-padding">
-        <md-checkbox class="md-padding" ng-click="sm.autoselect()" ng-model="vm.autoSmite">
-          Always smite the tabbed player
-        </md-checkbox>
-
-      </md-content>
     </md-dialog-content>
 
 
@@ -31,8 +27,8 @@
       Cancel
       </md-button>
       <span flex></span>
-      <md-button class="md-raised md-primary" ng-click="sm.smitePlayer()">
-        SMITE {{sm.players()[sm.selectedPlayer].name}}
+      <md-button class="md-raised md-primary" ng-click="sm.burnPlayer()">
+        BURN {{sm.players()[sm.selectedPlayer].name}}
       </md-button>
     </md-dialog-actions>
   </form>

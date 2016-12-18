@@ -33,25 +33,20 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
   /* Properties **/
   vm.selectedPlayer = 0;
   vm.eventCard = {};
-  vm.smiteCard = {
-    facedown: true
-  };
+  vm.burnCard = [];
   vm.dialOpen = false;
-  vm.showGridBottomSheet = showHand;
+  vm.showHand = showHand;
 
   vm.click = {x: 0, y: 0};
   vm.switchDecks = switchDecks;
-  vm.otherDeck = 'SMITE';
+  vm.otherDeck = 'BURN';
   vm.deckChoice = 0;
 
   vm.drawEvent = drawEvent;
-  vm.drawSmite = drawSmite;
-  vm.setSmitePlayer = setSmitePlayer;
-  vm.autoSmite = false;
+  vm.drawBurn = drawBurn;
 
   vm.turnChange = turnChange;
 
-  vm.smite = smite;
   vm.startGame = activate;
   vm.startEh = false;
 
@@ -111,22 +106,19 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
 
     function joinGame() {
       GameManager.session.title = GameManager.session.title || $state.params.title;
+
       Socket.emit('client:join', {
-        'room': GameManager.session.title,
-        'token': GameManager.session.deviceToken
-      }, function(callback) {
-        console.log(callback);
+        room: GameManager.session.title
       });
 
-      return GameManager.getGame(1)
-      .then(function(result) {
-        console.log(result);
-        vm.smiteDeck = result.smiteDeck;
-        vm.smiteCard = vm.smiteDeck.splice(randomIndex(vm.smiteDeck), 1)[0];
-        vm.smiteCard.user = {
-          name: ''
-        };
-        vm.selectedPlayer = GameManager.session.turn;
+      return GameManager.getRoom()
+      .then(function(room) {
+        console.log(room);
+        GameManager.session.mode = room.mode;
+        GameManager.session.players = room.players;
+        GameManager.session.eventDeck = room.eventDeck;
+        GameManager.session.totalTurns = room.totalTurns;
+        GameManager.session.turn = vm.selectedPlayer = room.turn;
       });
     }
 
@@ -234,14 +226,34 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
       console.log(GameManager);
       console.log($scope);
 
-      return DialogService.showAlert({
-        'title': 'Choose your actions carefully.',
-        'text': GameManager.session.players[GameManager.session.turn].name + '\'s turn is starting'
+      Socket.emit('player:ready', {
+        'room': GameManager.session.title
+      }, function(room) {
+        console.log(room);
+        // Bind data to local client
+        GameManager.session.players = room.players;
+        GameManager.session.eventDeck = room.eventDeck;
+        GameManager.session.mode = room.mode;
+        GameManager.session.turn = room.turn;
+        GameManager.session.facedown = true;
+        return DialogService.showAlert({
+          'title': 'Choose your actions carefully.',
+          'text': GameManager.session.players[GameManager.session.turn].name + '\'s turn is starting'
+        })
+        .then(function() {
+          vm.selectedPlayer = room.turn;
+
+        });
       });
+
     }
   }
 
   function showHand() {
+    if($mdMedia('gt-xs') || GameManager.session.deviceToken !== GameManager.session.players[GameManager.session.turn].deviceToken) {
+      // Should already have hand visible
+      return;
+    }
     $mdBottomSheet.show({
       templateUrl: 'game/hand/hand.template.html',
       controller: 'HandController',
@@ -254,7 +266,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
     const deckId = id || (vm.deckChoice + 1) % 2;
     console.log(deckId);
     vm.deckChoice = deckId;
-    vm.otherDeck = deckId ? 'EVENT' : 'SMITE';
+    vm.otherDeck = deckId ? 'EVENT' : 'BURN';
   }
 
   /* External functions **/
@@ -274,63 +286,131 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
     }
     // Take status and trap cards
     if (card.type === 'trap') {
-      GameManager.giveCardToPlayer(card, GameManager.session.turn);
+      Socket.emit('player:update', {
+        room: GameManager.session.title,
+        player: {
+          index: GameManager.session.turn,
+          pushCard: angular.toJson(card)
+        }
+      });
     }
 
     // Is regular card, flipped up. Continue to next player
     turnChange();
   }
 
-  function parseEvent(turn) {
-    game.session.eventDeck[game.session.totalTurns];
-  }
-  function setSmitePlayer(player) {
-    vm.smiteCard.user = player;
-  }
-
-  function drawSmite() {
-    // If no user is set
-    if (!vm.smiteCard.user.name) {
-      if(vm.autoSmite) {
-        vm.smiteCard.user = GameManager.session.players[vm.selectedPlayer];
-        return;
-      }
-
-      // Just pass the selected player index to smite input
-      DialogService.showSmiteInput($scope);
+  function drawBurn() {
+    // Burning someone else
+    if(!vm.burnCard.length) {
+      // We can burn multiples now, so reset to the event deck automagically
+      DialogService.showBurnInput($scope)
+      .then(function() {
+        vm.deckChoice = 0;
+      });
       return;
+    }
 
+    // Handling own burn card
+
+    // Flip face up
+    if (vm.burnCard[0].facedown) {
+      vm.burnCard[0].facedown = false;
+      return;
     }
 
     // Take status and trap cards
-    if (vm.smiteCard.type === 'status') {
-      GameManager.giveCardToPlayer(vm.smiteCard, vm.smiteCard.user.index);
+    if (vm.burnCard[0].type === 'status') {
+      GameManager.giveCardToPlayer(vm.burnCard[0], vm.burnCard[0].player);
     }
 
-    // Deliver card to recipient
-    // Grab new card from deck
-    vm.smiteCard = vm.smiteDeck.splice(randomIndex(vm.smiteDeck), 1)[0];
-    vm.smiteCard.user = {
-      name: ''
-    };
-  }
+    // Remove first card
+    vm.burnCard.splice(0, 1);
 
-  function smite() {
-    vm.dialOpen = false;
+    // Bring up dialog if there's another card waiting
+    if(vm.burnCard.length) {
+      DialogService.showAlert({
+        'text': GameManager.session.players[vm.burnCard[0].player].name + ' has been burned!'
+      });
+    }
   }
 
   /* Internal functions **/
 
-  function turnChange(player) {
-    GameManager.turnChange(player)
-    .then(function(data) {
-      vm.dialOpen = false;
-      vm.selectedPlayer = Number(data.turn);
-      DialogService.showAlert({
-        'text': GameManager.session.players[Number(data.turn)].name + '\'s turn is starting'
-      });
+  function turnChange(index) {
+    // If index is not set, select next player automagically
+    index = index || (GameManager.session.turn + 1) % GameManager.session.players.length;
+    Socket.emit('turn:set', {
+      room: GameManager.session.title,
+      index: index
     });
   }
+
+  Socket.on('turn:changed', function(data) {
+    console.log('on turn changed');
+    vm.dialOpen = false;
+    vm.selectedPlayer = data.turn;
+    GameManager.session.turn = data.turn;
+    GameManager.session.totalTurns = data.totalTurns;
+    GameManager.session.facedown = true;
+    // Is this account on my device?
+    if(GameManager.session.deviceToken === GameManager.session.players[data.turn].deviceToken) {
+      DialogService.showAlert({
+        'text': 'Your turn is starting, ' + GameManager.session.players[data.turn].name
+      });
+    }
+  });
+
+  Socket.on('player:burned', function(cards) {
+    console.log('On Player Burned');
+    console.log(cards);
+    vm.burnCard = [];
+    _.each(cards, function(card) {
+      if(GameManager.session.deviceToken === GameManager.session.players[card.player].deviceToken) {
+        // Target Player is on this device
+
+        vm.burnCard.push(card);
+        _.last(vm.burnCard).facedown = true;
+      }
+    });
+
+    if(vm.burnCard.length) {
+      DialogService.showAlert({
+        'text': GameManager.session.players[vm.burnCard[0].player].name + ' has been burned!'
+      });
+    }
+  });
+
+  Socket.on('player:updated', function(data) {
+    console.log('Update Player');
+    console.log(data);
+    GameManager.session.players[data.index] = Object.assign(GameManager.session.players[data.index], data);
+
+    // If YOUR TURN and YOU HAVE STARTED THE GAME
+    if(GameManager.session.players[data.index].deviceToken === GameManager.session.deviceToken && vm.startEh) {
+      // Check hand and table lengths
+    // The hand (trap cards) should be no more than 6
+      const hand = GameManager.getHandByPlayer(data.index);
+      if(hand.length > 6) {
+        DialogService.showAlert({
+          'text': GameManager.session.players[data.index].name + ' has more than 6 trap cards! Please discard one.'
+        }).then(function() {
+          vm.selectedPlayer = data.index;
+          showHand();
+        });
+      }
+
+    // The table (status cards) should be no more than 3
+      const table = GameManager.getTableByPlayer(data.index);
+      if(table.length > 3) {
+        DialogService.showAlert({
+          'text': GameManager.session.players[data.index].name + ' has more than 3 status cards! Please discard one.'
+        }).then(function() {
+          vm.selectedPlayer = data.index;
+          showHand();
+        });
+      }
+    }
+  });
 }
 
 function randomIndex(array) {

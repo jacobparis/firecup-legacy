@@ -20,6 +20,8 @@ const getErrorMessage = function(err) {
 exports.create = newGame;
 exports.update = update;
 exports.getGame = getGame;
+exports.getRoom = getRoom;
+exports.buildBurnDeck = buildBurnDeck;
 exports.addPlayer = addPlayer;
 exports.list = list;
 
@@ -50,17 +52,17 @@ function newGame(req, res, next) {
 
   Promise.all([
     Card.find({deck: 'event'}).lean().exec(),
-    Card.find({deck: 'smite'}).lean().exec()
+    Card.find({deck: 'burn'}).lean().exec()
   ])
   .then(function(results) {
     settings.eventDeck = shuffle(results[0].slice(1), true);
+    settings.burnDeck = shuffle(results[1].slice(1));
     const game = new Game(settings);
 
     game.save(function(err) {
       if (err) {
         return next(err);
       }
-      settings.smiteDeck = shuffle(results[1].slice(1));
       return res.json(settings);
     });
   })
@@ -69,7 +71,6 @@ function newGame(req, res, next) {
   });
 
 }
-
 function shuffle(deck, index = false) {
   let m = deck.length,
     t, i;
@@ -115,9 +116,32 @@ function addPlayer(req, res, next) {
       if (!game) {
         return next(new Error('Failed to save player to ' + title));
       }
-      req.game = game;
+      req.data = game;
       next();
     });
+  });
+}
+
+function getRoom(req, res, next, room) {
+  console.log('GET Room: ' + room);
+  if(!room) {return Promise.reject();}
+
+  Game
+  .where('title').equals(room)
+  .findOne()
+  .then(function(game) {
+    req.data = game;
+    next();
+  });
+}
+
+function buildBurnDeck(req, res, next) {
+  Card
+  .where('deck').equals('burn')
+  .findOne()
+  .then(function(deck) {
+    req.data = deck;
+    next();
   });
 }
 
@@ -133,8 +157,8 @@ function getGame(req, res, next, title) {
     }
     console.log(req.params);
     if(Number(req.params.full)) {
-      // Grab smite deck and package
-      Card.find({deck: 'smite'})
+      // Grab Burn deck and package
+      Card.find({deck: 'Burn'})
       .lean()
       .exec()
       .then(function(deck) {
@@ -145,7 +169,7 @@ function getGame(req, res, next, title) {
           'title': game.title,
           'eventDeck': game.eventDeck,
           'players': game.players,
-          'smiteDeck': shuffle(deck)
+          'burnDeck': shuffle(deck)
         };
         next();
       });
@@ -282,7 +306,7 @@ function update(req, res, next) {
 }
 
 function list(req, res, next) {
-  res.json(req.game);
+  res.json(req.data);
 }
 
 function randomIndex(array) {

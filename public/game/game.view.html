@@ -14,35 +14,48 @@
 <main class="game">
 	<div layout="row" layout-xs="column" ng-if="vm.startEh">
 
-		<!-- HYBRID EVENT / SMITE DECK -->
+		<!-- HYBRID EVENT / BURN DECK -->
 		<div
 		class="large card-container"
 		ng-if="$mdMedia('xs')"
 		md-swipe-up="vm.showGridBottomSheet()"
 		md-swipe-left="vm.switchDecks()"
 		md-swipe-right="vm.switchDecks()">
+			<!-- EVENT CARD when SELECTED and YOUR TURN and YOU HAVE NOT BEEN BURNED -->
 			<div
 			class="clickable event card"
 			ng-class="{'facedown': game.session.facedown}"
 			ng-click="vm.drawEvent($event)"
-			ng-if="vm.deckChoice == 0">
+			ng-if="vm.deckChoice == 0 && game.session.players[game.session.turn].deviceToken == game.session.deviceToken && !vm.burnCard.length">
 				<p class="primary">{{vm.eventCard.primary}}</p>
 				<p class="secondary">{{vm.eventCard.secondary}}</p>
 				<span class="type">{{vm.eventCard.type}} TYPE</span>
 			</div>
+			<!-- BURN CARD when SELECTED and YOUR TURN and YOU HAVE NOT BEEN BURNED just acts as button -->
 			<div
-			class="clickable smite card"
-			ng-class="{'facedown': !vm.smiteCard.user.name}"
-			ng-click="vm.drawSmite($mdOpenMenu, $event)"
-			ng-if="vm.deckChoice == 1">
-				<p class="primary">{{vm.smiteCard.primary}}</p>
-				<p class="secondary">{{vm.smiteCard.secondary}}</p>
-				<span class="type">{{vm.smiteCard.type}} TYPE</span>
+			class="clickable facedown burn card"
+			ng-click="vm.drawBurn($mdOpenMenu, $event)"
+			ng-if="vm.deckChoice == 1 && game.session.players[game.session.turn].deviceToken == game.session.deviceToken && !vm.burnCard.length">
+			</div>
+			<!-- BURN CARD when YOU HAVE BEEN BURNED -->
+			<div
+			class="clickable burn card"
+			ng-class="{'facedown': vm.burnCard[0].facedown}"
+			ng-click="vm.drawBurn($mdOpenMenu, $event)"
+			ng-if="vm.burnCard.length">
+				<p class="primary">{{vm.burnCard[0].primary}}</p>
+				<p class="secondary">{{vm.burnCard[0].secondary}}</p>
+				<span class="type">{{vm.burnCard[0].type}} TYPE</span>
+			</div>
+			<!-- PLACEHOLDER when NOT YOUR TURN and YOU HAVE NOT BEEN BURNED-->
+			<div
+			class="placeholder card"
+			ng-if="game.session.players[game.session.turn].deviceToken !== game.session.deviceToken && !vm.burnCard.length">
 			</div>
 		</div>
 
-		<!-- SOLO EVENT DECK -->
-		<div class="large card-container" ng-if="$mdMedia('gt-xs')">
+		<!-- EVENT CARD when LARGE SCREEN and YOUR TURN and YOU HAVE NOT BEEN BURNED-->
+		<div class="large card-container" ng-if="$mdMedia('gt-xs') && game.session.players[game.session.turn].deviceToken == game.session.deviceToken && !vm.burnCard.length">
 			<div class="clickable event card" ng-class="{'facedown': game.session.facedown}" ng-click="vm.drawEvent($event)">
 				<p class="primary">{{vm.eventCard.primary}}</p>
 				<p class="secondary">{{vm.eventCard.secondary}}</p>
@@ -51,16 +64,33 @@
 		</div>
 
 		<div flex></div>
-		<!-- SOLO SMITE DECK -->
-		<div ng-if="$mdMedia('gt-xs')"  class="large card-container flex-right" >
-			<div class="clickable smite card"
-				ng-class="{'facedown': !vm.smiteCard.user.name}"
-				ng-click="vm.drawSmite($mdOpenMenu, $event)">
-				<p class="primary" md-menu-origin>{{vm.smiteCard.primary}}</p>
-				<p class="secondary">{{vm.smiteCard.secondary}}</p>
-				<span class="type">{{vm.smiteCard.type}} TYPE</span>
+		<!-- BURN CARD when LARGE SCREEN and YOUR TURN and YOU HAVE NOT BEEN BURNED -->
+		<div ng-if="$mdMedia('gt-xs') && game.session.players[game.session.turn].deviceToken == game.session.deviceToken && !vm.burnCard.length"  class="large card-container flex-right" >
+			<div class="clickable facedown burn card"
+				ng-click="vm.drawBurn($mdOpenMenu, $event)"
+				md-menu-origin>
 			</div>
 		</div>
+
+		<!-- PLACEHOLDER CARD when LARGE SCREEN and NOT YOUR TURN and YOU HAVE NOT BEEN BURNED -->
+		<div class="large card-container" ng-if="$mdMedia('gt-xs') && game.session.players[game.session.turn].deviceToken !== game.session.deviceToken && !vm.burnCard.length">
+			<div class="placeholder card"></div>
+		</div>
+
+
+		<!-- BURN CARD when LARGE SCREEN and YOU HAVE BEEN BURNED -->
+		<div ng-if="$mdMedia('gt-xs') && vm.burnCard.length"  class="large card-container flex-right" >
+			<div class="clickable burn card"
+				ng-class="{'facedown': vm.burnCard[0].facedown}"
+				ng-click="vm.drawBurn($mdOpenMenu, $event)">
+				<p class="primary">{{vm.burnCard[0].primary}}</p>
+				<p class="secondary">{{vm.burnCard[0].secondary}}</p>
+				<span class="type">{{vm.burnCard[0].type}} TYPE</span>
+			</div>
+		</div>
+		<!-- CENTER SINGLE DECK when LARGE SCREEN and (YOU HAVE BEEN BURNED)
+		OR (NOT YOUR TURN) -->
+		<div ng-if="$mdMedia('gt-xs') && ((game.session.players[game.session.turn].deviceToken !== game.session.deviceToken) || vm.burnCard.length)" flex></div>
 		</md-menu>
 
 		<md-fab-speed-dial hide-gt-xs md-open="vm.dialOpen" class="md-scale md-fab-bottom-right" md-direction="up">
@@ -69,10 +99,10 @@
 			</md-fab-trigger>
 
 			<md-fab-actions >
-				<md-button ng-click="vm.switchDecks()" class="md-raised">
+				<md-button ng-click="vm.switchDecks()" class="md-raised" ng-disabled="game.session.players[game.session.turn].deviceToken !== game.session.deviceToken">
 					{{vm.otherDeck}} DECK
 				</md-button>
-				<md-button ng-click="vm.showGridBottomSheet()" class="md-raised">
+				<md-button ng-click="vm.showHand()" class="md-raised" ng-disabled="game.session.players[game.session.turn].deviceToken !== game.session.deviceToken">
 					CHECK HAND
 				</md-button>
 				<md-button ng-if="game.session.turn != vm.selectedPlayer" ng-click="vm.turnChange(vm.selectedPlayer)" class="md-raised">
@@ -84,5 +114,5 @@
 			</md-fab-actions>
 		</md-fab-speed-dial>
 	</div>
-	<handsheet ng-if="$mdMedia('gt-xs')" class="hide show-gt-xs">
+	<handsheet ng-if="$mdMedia('gt-xs') || (game.session.players[game.session.turn].deviceToken !== game.session.deviceToken && !vm.burnCard.length)">
 </main>

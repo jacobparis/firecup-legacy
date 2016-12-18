@@ -1,14 +1,14 @@
 angular
   .module('Game')
   .service('GameResource', ['$resource', GameResource])
-  .service('GameManager', ['$resource', '$q', 'GameResource', 'DeckService', GameManager]);
+  .service('GameManager', ['$resource', '$q', 'Socket', 'GameResource', 'DeckService', GameManager]);
 
 function GameResource($resource) {
   return $resource('api/games/:gameID.:full', {
     'gameID': '@gameID',
   });
 }
-function GameManager($resource, $q, GameResource, DeckService) {
+function GameManager($resource, $q, Socket, GameResource, DeckService) {
   const gm = this;
   gm.session = {
     deviceToken: Math.random().toString(36).substr(2),
@@ -24,6 +24,8 @@ function GameManager($resource, $q, GameResource, DeckService) {
   gm.clientStatus = 0;
   gm.newGame = newGame;
   gm.getGame = getGame;
+  gm.getRoom = getRoom;
+  gm.getBurnDeck = getBurnDeck;
   gm.getPlayers = getPlayers;
   gm.getNumberOfPlayers = gm.session.players.length;
   gm.addPlayer = addPlayer;
@@ -53,6 +55,27 @@ function GameManager($resource, $q, GameResource, DeckService) {
     });
   }
 
+  function getRoom() {
+    if(!gm.session.title) {
+      return $q.reject('No title found');
+    }
+
+    return $resource('/api/games/:gameID', {
+      'gameID': gm.session.title
+    })
+    .get()
+    .$promise;
+  }
+
+  function getBurnDeck() {
+    const Cards = $resource('/api/cards/deck/:deck', {
+      deck: 'burn'
+    });
+
+    return Cards
+    .query()
+    .$promise;
+  }
   function getGame(full) {
     full = full || 1;
 
@@ -72,7 +95,6 @@ function GameManager($resource, $q, GameResource, DeckService) {
       if(result.eventDeck) {
         gm.session.eventDeck = result.eventDeck;
       }
-      gm.session.eventCard = result.eventCard;
       gm.session.mode = result.mode;
 
       gm.session.turn = result.turn;

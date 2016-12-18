@@ -74,7 +74,7 @@
   border-radius: 0.5rem;
   overflow: hidden;
   .BoxShadowHelper(3);
-  &.smite {
+  &.burn {
     background: #2f2f2f;
     color: #f5f5f5;
   }
@@ -145,11 +145,25 @@
       background-image: url(/assets/img/gamecard.png);
     }
   }
-  &.smite {
+  &.burn {
     background: #b71c1c;
     color: #ffffff;
     &::after {
       background-image: url(/assets/img/burncard.png);
+    }
+  }
+  &.placeholder {
+    background: white;
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      background-size: 100% 100%;
+      border-radius: 0.5rem;
+      background-image: url(/assets/img/notyourturn.png);
     }
   }
 }
