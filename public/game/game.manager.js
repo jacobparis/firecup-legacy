@@ -10,17 +10,8 @@ function GameResource($resource) {
 }
 function GameManager($resource, $q, Socket, GameResource, DeckService) {
   const gm = this;
-  gm.session = {
-    deviceToken: Math.random().toString(36).substr(2),
-    players: [],
-    turn: 0,
-    title: '',
-    Title: () => {
-      return gm.session.title.replace(/(-|^)([^-]?)/g, function(_, prep, letter) {
-        return (prep && ' ') + letter.toUpperCase();
-      });
-    }
-  };
+  gm.session = gm.session || cleanSession();
+  gm.cleanSession = cleanSession;
   gm.clientStatus = 0;
   gm.newGame = newGame;
   gm.getGame = getGame;
@@ -37,6 +28,19 @@ function GameManager($resource, $q, Socket, GameResource, DeckService) {
   gm.getTableByPlayer = getTableByPlayer;
   gm.giveCardToPlayer = giveCardToPlayer;
 
+  function cleanSession() {
+    return {
+      deviceToken: Math.random().toString(36).substr(2),
+      players: [],
+      turn: 0,
+      title: '',
+      Title: () => {
+        return gm.session.title.replace(/(-|^)([^-]?)/g, function(_, prep, letter) {
+          return (prep && ' ') + letter.toUpperCase();
+        });
+      }
+    };
+  }
   function newGame(settings) {
     settings.turn = 0;
     gm.clientStatus = 1; // Set to Host

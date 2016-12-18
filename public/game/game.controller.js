@@ -46,7 +46,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
   vm.drawBurn = drawBurn;
 
   vm.turnChange = turnChange;
-
+  vm.alertTurn = alertTurn;
   vm.startGame = activate;
   vm.startEh = false;
 
@@ -57,6 +57,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
   activate();
 
   function activate() {
+    vm.startEh = false;
     if($state.params.title.length === 0) {
       createOrJoin()
       .then(showCreateDialog, showJoinPrompt);
@@ -73,6 +74,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
     }
 
     function createOrJoin() {
+      GameManager.session = GameManager.cleanSession();
       const prompt = {
         'text': 'Join an existing game or create a new one?',
         'cancel': 'Join',
@@ -225,11 +227,9 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
     function firstDeal() {
       console.log(GameManager);
       console.log($scope);
-
       Socket.emit('player:ready', {
         'room': GameManager.session.title
       }, function(room) {
-        console.log(room);
         // Bind data to local client
         GameManager.session.players = room.players;
         GameManager.session.eventDeck = room.eventDeck;
@@ -336,6 +336,11 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
 
   /* Internal functions **/
 
+  function alertTurn() {
+    return DialogService.showAlert({
+      'text': 'It is ' + GameManager.session.players[GameManager.session.turn].name + '\'s turn.'
+    });
+  }
   function turnChange(index) {
     // If index is not set, select next player automagically
     index = index || (GameManager.session.turn + 1) % GameManager.session.players.length;
@@ -354,15 +359,12 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
     GameManager.session.facedown = true;
     // Is this account on my device?
     if(GameManager.session.deviceToken === GameManager.session.players[data.turn].deviceToken) {
-      DialogService.showAlert({
-        'text': 'Your turn is starting, ' + GameManager.session.players[data.turn].name
-      });
+      alertTurn();
     }
   });
 
   Socket.on('player:burned', function(cards) {
     console.log('On Player Burned');
-    console.log(cards);
     vm.burnCard = [];
     _.each(cards, function(card) {
       if(GameManager.session.deviceToken === GameManager.session.players[card.player].deviceToken) {

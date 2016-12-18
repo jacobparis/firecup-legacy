@@ -1,5 +1,5 @@
 <header class="game" ng-cloak>
-	<md-toolbar>
+	<md-toolbar ng-show="vm.startEh">
 		<md-tabs md-selected="vm.selectedPlayer" md-stretch-tabs md-dynamic-height>
 			<md-tab id="tab_{{player.name}}" ng-repeat="player in game.session.players" >
 				<md-tab-label>
@@ -74,7 +74,7 @@
 
 		<!-- PLACEHOLDER CARD when LARGE SCREEN and NOT YOUR TURN and YOU HAVE NOT BEEN BURNED -->
 		<div class="large card-container" ng-if="$mdMedia('gt-xs') && game.session.players[game.session.turn].deviceToken !== game.session.deviceToken && !vm.burnCard.length">
-			<div class="placeholder card"></div>
+			<div class="placeholder card" ng-click="vm.alertTurn()"></div>
 		</div>
 
 
@@ -114,5 +114,5 @@
 			</md-fab-actions>
 		</md-fab-speed-dial>
 	</div>
-	<handsheet ng-if="$mdMedia('gt-xs') || (game.session.players[game.session.turn].deviceToken !== game.session.deviceToken && !vm.burnCard.length)">
+	<handsheet ng-if="vm.startEh && ($mdMedia('gt-xs') || (game.session.players[game.session.turn].deviceToken !== game.session.deviceToken && !vm.burnCard.length))">
 </main>

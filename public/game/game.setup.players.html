@@ -2,7 +2,7 @@
   <form ng-cloak>
     <md-toolbar>
       <div class="md-toolbar-tools">
-        <h2>{{game.session.Title()}}</h2>
+        <h2>Firecup: {{game.session.Title()}}</h2>
         <span flex></span>
       </div>
     </md-toolbar>
@@ -19,7 +19,7 @@
         <md-expansion-panel ng-repeat="player in dm.players">
 
           <md-expansion-panel-collapsed>
-            <md-icon>person</md-icon>
+            <md-icon ng-class="{'md-accent': game.session.deviceToken === player.deviceToken}">person</md-icon>
             <div layout="column" flex>
               <span class="md-body-2">{{player.name}}</span>
               <span ng-if="game.session.deviceToken === player.deviceToken" class="md-caption">On this device</span>
@@ -31,7 +31,7 @@
           <md-expansion-panel-expanded>
 
             <md-expansion-panel-header>
-              <md-icon>person</md-icon>
+              <md-icon ng-class="{'md-accent': game.session.deviceToken === player.deviceToken}">person</md-icon>
               <div layout="column" flex>
                 <span class="md-body-2">{{player.name}}</span>
                 <span ng-if="game.session.deviceToken === player.deviceToken" class="md-caption">On this device</span>
@@ -63,9 +63,9 @@
         </md-expansion-panel>
         <md-list-item>
           <form>
-            <md-icon>person</md-icon>
+            <md-icon class="md-accent">person</md-icon>
             <md-input-container class="md-block">
-              <label>Add a player</label>
+              <label>What is your name?</label>
               <input ng-model="dm.newPlayerName">
             </md-input-container>
             <md-button type="submit" ng-disabled="!dm.newPlayerName.length" class="md-secondary md-fab md-mini" ng-click="dm.addPlayer()">
@@ -82,8 +82,11 @@
         Back
       </md-button>
       <span flex></span>
-      <md-button ng-click="dm.confirmPlayers()" md-autofocus>
+      <md-button ng-click="dm.confirmPlayers()" ng-if="dm.players.length > 1" md-autofocus>
         Start Game
+      </md-button>
+      <md-button ng-if="dm.players.length < 2" ng-disabled="true" md-autofocus>
+        Add {{(dm.players.length) ? '1 Player' : '2 Players'}} to Start
       </md-button>
     </md-dialog-actions>
   </form>
