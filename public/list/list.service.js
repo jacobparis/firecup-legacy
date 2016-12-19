@@ -3,9 +3,8 @@ angular
   .service('RuleResource', ['$resource', RuleResource])
   .service('RuleService', RuleService);
 
-
 function RuleResource($resource) {
-  return $resource('/api/cards/:type', {
+  return $resource('/api/cards/type/:type', {
     type: '@type'
   });
 }
@@ -16,11 +15,10 @@ function RuleService(RuleResource) {
 
   function getRulesByType(type) {
     return RuleResource.query({
-        "type": type
-      })
+      'type': type
+    })
       .$promise;
   }
-
 
   function postRule(rule) {
     console.log(rule);
