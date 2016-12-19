@@ -4,12 +4,25 @@
       <div class="md-toolbar-tools">
         <h2>Firecup: {{game.session.Title()}}</h2>
         <span flex></span>
+        <!--md-menu>
+        <md-button ng-click="$mdOpenMenu($event)" class="md-icon-button">
+  				<md-icon class="material-icons">share</md-icon>
+  			</md-button>
+          <md-menu-content width="1">
+            <md-menu-item ng-repeat="item in dm.socials">
+              <div class="fb-share-button" data-href="http://www.firecup.ca/" data-layout="button" data-size="large" data-mobile-iframe="false"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.firecup.ca%2F&amp;src=sdkpreparse">Share</a></div>
+            </md-menu-item>
+          </md-menu-content>
+        </md-menu -->
       </div>
     </md-toolbar>
 
     <md-dialog-content class="md-padding">
       <md-content layout-padding>
         Add other players to this device. Other players can now connect to this game from their own devices and play their turns there.
+        <div flex>
+          <div class="fb-send" data-href="{{url()}}"></div>
+        </div>
       </md-content>
 
 
@@ -45,7 +58,6 @@
                   <label>Name</label>
                   <input ng-model="player.name"></input>
                 </md-input-container>
-
             </md-expansion-panel-content>
 
             <md-expansion-panel-footer>

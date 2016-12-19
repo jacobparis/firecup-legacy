@@ -5,6 +5,7 @@ angular.module('app', [
   'ui.router',
   'md.data.table',
   'angular-google-analytics',
+  'facebook',
   'material.components.expansionPanels',
   'Home',
   'Card',
@@ -16,10 +17,11 @@ angular.module('app', [
   .config([
     '$mdThemingProvider',
     'AnalyticsProvider',
+    'FacebookProvider',
     Config
   ]);
 
-function Config($mdThemingProvider, AnalyticsProvider) {
+function Config($mdThemingProvider, AnalyticsProvider, FacebookProvider) {
   $mdThemingProvider.theme('default')
     .primaryPalette('red')
     .accentPalette('orange');
@@ -29,4 +31,6 @@ function Config($mdThemingProvider, AnalyticsProvider) {
     'name': 'tracker1',
     'trackEvent': true
   });
+
+  FacebookProvider.init('1891222457802172');
 }

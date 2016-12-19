@@ -6,15 +6,18 @@ angular
     '$mdDialog',
     '$mdMedia',
     '$state',
+    '$location',
     'Socket',
+    'Facebook',
     'GameManager',
     GameSetupController
   ]);
 
-function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, Socket, GameManager) {
+function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location, Socket, Facebook, GameManager) {
   const dm = this;
   $scope.game = GameManager;
   $scope.$mdMedia = $mdMedia;
+  $scope.url = $location.absUrl;
   dm.createGame = createGame;
   dm.players = [];
   dm.loadPlayers = loadPlayers;
@@ -40,10 +43,43 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, Socket, Ga
     }
   ];
 
+  dm.socials = [
+    {
+      'name': 'Facebook',
+      'image': 'FB-f-Logo__blue_50.png'
+    }
+  ];
+  $scope.login = function() {
+      // From now on you can use the Facebook service just as Facebook api says
+    Facebook.login(function(response) {
+        // Do something with response.
+    });
+  };
+
+  $scope.getLoginStatus = function() {
+    Facebook.getLoginStatus(function(response) {
+      if(response.status === 'connected') {
+        $scope.loggedIn = true;
+      }
+      else {
+        $scope.loggedIn = false;
+      }
+    });
+  };
+
+  $scope.me = function() {
+    Facebook.api('/me', function(response) {
+      $scope.user = response;
+    });
+  };
+
   activate();
 
   function activate() {
     dm.players = JSON.parse(JSON.stringify(GameManager.session.players));
+    Facebook.getLoginStatus(function(response) {
+      console.log(response);
+    });
   }
   function createGame() {
     console.log('Create');
