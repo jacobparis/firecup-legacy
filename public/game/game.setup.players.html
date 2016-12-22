@@ -19,7 +19,8 @@
 
     <md-dialog-content class="md-padding">
       <md-content layout-padding>
-        Add other players to this device. Other players can now connect to this game from their own devices and play their turns there.
+        <span ng-if="game.modes[game.session.mode].settings.shareDevice">Add other players to this device. Other players can now connect to this game from their own devices and play their turns there.</span>
+        <span ng-if="!game.modes[game.session.mode].settings.shareDevice">In this game mode, each player must connect from their own device.</span>
         <div flex>
           <div class="fb-send" data-href="{{url()}}"></div>
         </div>
@@ -30,7 +31,6 @@
         <md-expansion-panel-group>
 
         <md-expansion-panel ng-repeat="player in dm.players">
-
           <md-expansion-panel-collapsed>
             <md-icon ng-class="{'md-accent': game.session.deviceToken === player.deviceToken}">person</md-icon>
             <div layout="column" flex>
@@ -94,8 +94,11 @@
         Back
       </md-button>
       <span flex></span>
-      <md-button ng-click="dm.confirmPlayers()" ng-if="dm.players.length > 1" md-autofocus>
+      <md-button ng-click="dm.confirmPlayers()" ng-if="dm.players.length > 1 && game.session.settings.shareDevice || !(game.session.settings.shareDevice || dm.multiplePlayers)" md-autofocus>
         Start Game
+      </md-button>
+      <md-button ng-if="dm.players.length > 1 && !game.session.settings.shareDevice && dm.multiplePlayers" ng-disabled="true" md-autofocus>
+         One Player Per Device
       </md-button>
       <md-button ng-if="dm.players.length < 2" ng-disabled="true" md-autofocus>
         Add {{(dm.players.length) ? '1 Player' : '2 Players'}} to Start

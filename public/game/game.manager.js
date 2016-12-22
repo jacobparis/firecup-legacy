@@ -38,6 +38,9 @@ function GameManager($resource, $q, Socket, GameResource, DeckService) {
         return gm.session.title.replace(/(-|^)([^-]?)/g, function(_, prep, letter) {
           return (prep && ' ') + letter.toUpperCase();
         });
+      },
+      settings: {
+
       }
     };
   }
@@ -49,7 +52,7 @@ function GameManager($resource, $q, Socket, GameResource, DeckService) {
     .$promise
     .then(function(result) {
       gm.session.title = result.title;
-      gm.session.mode = result.mode;
+      gm.session.settings = result.settings;
       gm.session.turn = 0;
       gm.session.players = result.players;
       gm.session.totalTurns = 0;
@@ -99,7 +102,7 @@ function GameManager($resource, $q, Socket, GameResource, DeckService) {
       if(result.eventDeck) {
         gm.session.eventDeck = result.eventDeck;
       }
-      gm.session.mode = result.mode;
+      gm.session.settings = result.settings;
 
       gm.session.turn = result.turn;
 

@@ -4,8 +4,8 @@ const mongoose = require('mongoose');
 // define our card model
 // module.exports allows us to pass this to other files when it is called
 mongoose.model('Game', {
-  'mode': {
-    type: Number
+  'settings': {
+    type: mongoose.Schema.Types.Mixed
   },
   'title': {
     type: String
@@ -13,6 +13,7 @@ mongoose.model('Game', {
   'players': [{
     name: String,
     index: Number,
+    source: mongoose.Schema.Types.ObjectId,
     hand: [{
       type: mongoose.Schema.Types.Mixed
     }],
@@ -27,9 +28,9 @@ mongoose.model('Game', {
   'eventDeck': {
     type: Array
   },
-  'burnDeck': {
-    type: Array
-  },
+  'burnDeck': [{
+    type: mongoose.Schema.Types.Mixed
+  }],
   'createdAt': {
     type: Date,
     default: Date.now

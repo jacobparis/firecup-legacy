@@ -1,6 +1,7 @@
 require('../models/Game');
 require('../models/Card');
-
+require('../../node_modules/lodash/lodash');
+const _ = require('lodash');
 const Game = require('mongoose')
 .model('Game');
 const Card = require('mongoose')
@@ -42,21 +43,35 @@ function newGame(req, res, next) {
   const randomItem = function(array) {
     return array[Math.floor(Math.random() * array.length)];
   };
+
+  console.log(req.body.settings);
   const settings = {
-    mode: req.body.mode,
-    turn: req.body.turn,
+    settings: req.body.settings,
+    turn: -1,
     totalTurns: 0,
     title: randomItem(adjectives) + '-' + randomItem(animals) + '-' + randomItem(places),
-    eventDeck: []
   };
 
-  Promise.all([
-    Card.find({deck: 'event'}).lean().exec(),
-    Card.find({deck: 'burn'}).lean().exec()
-  ])
+  settings.turn = req.body.settings.takeTurns ? 0 : -1;
+  const decks = [];
+  _.each(req.body.settings.decks, function(deck) {
+    decks.push(Card.find({
+      'deck': deck.type,
+      'type': {
+        $in: deck.contents
+      }
+    })
+    .lean()
+    .exec());
+  });
+
+  Promise.all(decks)
   .then(function(results) {
+    // TODO Dynamify results array to be based on settings
     settings.eventDeck = shuffle(results[0].slice(1), true);
-    settings.burnDeck = shuffle(results[1].slice(1));
+    if(results.length > 1) {
+      settings.burnDeck = shuffle(results[1].slice(1));
+    }
     const game = new Game(settings);
 
     game.save(function(err) {

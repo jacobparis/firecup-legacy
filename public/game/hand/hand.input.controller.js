@@ -18,6 +18,7 @@ function HandInputController($scope, $mdDialog, DialogService, GameManager, Sock
   vm.cancel = cancel;
   vm.discard = discard;
   vm.giveCard = giveCard;
+  vm.burnPlayer = burnPlayer;
 
   function OtherPlayers() {
     const players = GameManager.session.players;
@@ -42,10 +43,17 @@ function HandInputController($scope, $mdDialog, DialogService, GameManager, Sock
       room: GameManager.session.title,
       player: {
         index: player,
-        pullCard: card._id
+        pullCard: card.index
       }
     });
     $mdDialog.cancel();
+  }
+
+  function burnPlayer(id) {
+    Socket.emit('player:burn', {
+      'room': GameManager.session.title,
+      'players': [id]
+    });
   }
 
   function giveCard(id) {

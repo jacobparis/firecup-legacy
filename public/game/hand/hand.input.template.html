@@ -21,11 +21,11 @@
       <span flex></span>
       <md-menu>
         <md-button ng-click="vm.openPlayerMenu($mdOpenMenu, $event)">
-          Give Away
+          Burn Player
         </md-button>
         <md-menu-content width="4">
           <md-menu-item ng-repeat="player in vm.otherPlayers()">
-            <md-button md-no-ink ng-click="vm.giveCard(player.index)">
+            <md-button md-no-ink ng-click="vm.burnPlayer(player.index)">
               <span md-menu-align-target>
                 {{player.name}}
               </span>

@@ -17,6 +17,7 @@ function HandController($scope, $mdBottomSheet, Socket, DialogService, GameManag
   hm.table = table;
   hm.tableCards = 0;
   hm.handClick = handClick;
+  $scope._ = _;
   $scope.logscope = function() {
     console.log($scope);
     return true;

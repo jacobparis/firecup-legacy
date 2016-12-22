@@ -20,6 +20,7 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location,
   $scope.url = $location.absUrl;
   dm.createGame = createGame;
   dm.players = [];
+  dm.multiplePlayers = false;
   dm.loadPlayers = loadPlayers;
   dm.addPlayer = addPlayer;
   dm.savePlayer = savePlayer;
@@ -29,16 +30,97 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location,
   dm.newPlayerName;
 
   dm.cancel = cancel;
-  dm.settings = {
-    'mode': 0
-  };
-
-  dm.modes = [
+  dm.mode = 0;
+  dm.settings = [
     {
-      'name': 'Classic',
+      'name': 'Firecup',
       'desc': 'An enhanced version of the game known widely by names like King\'s Cup, Sociables, Ring of Fire, Circle of Death, and many more.',
       'settings': {
-
+        'shareDevice': true,
+        'takeTurns': true,
+        'hands': [
+          {
+            'type': 'trap',
+            'min': 0,
+            'max': 6,
+            'public': false,
+            'singleUse': true
+          },
+          {
+            'type': 'status',
+            'min': 0,
+            'max': 3,
+            'public': true
+          }
+        ],
+        'decks': [
+          {
+            'type': 'event',
+            'contents': ['event', 'trap'],
+            'turn': true,
+            'visible': true
+          },
+          {
+            'type': 'burn',
+            'contents': ['status', 'action'],
+            'turn': false,
+            'visible': true
+          }
+        ]
+      }
+    },
+    {
+      'name': 'Traps',
+      'desc': 'Each player gets 6 trap cards. When another player activates your trap, make them draw a burn card. If they correctly guess what your trap card is, replace it with a new one.',
+      'settings': {
+        'shareDevice': false,
+        'takeTurns': false,
+        'hands': [
+          {
+            'type': 'trap',
+            'min': 6,
+            'max': 6,
+            'public': false
+          }
+        ],
+        'decks': [
+          {
+            'type': 'event',
+            'contents': ['trap'],
+            'turn': false,
+            'visible': false
+          },
+          {
+            'type': 'burn',
+            'contents': ['action'],
+            'turn': false,
+            'visible': true
+          }
+        ]
+      }
+    },
+    {
+      'name': 'Traps Lite',
+      'desc': 'Just like regular Traps rules, but with no Burn cards. If someone triggers your trap, make them take a drink. This variant is great for movie nights -- when someone in the movie triggers your trap, replace it with a new one and everyone takes a drink.',
+      'settings': {
+        'shareDevice': false,
+        'takeTurns': false,
+        'hands': [
+          {
+            'type': 'trap',
+            'min': 6,
+            'max': 6,
+            'public': false
+          }
+        ],
+        'decks': [
+          {
+            'type': 'event',
+            'contents': ['trap'],
+            'turn': false,
+            'visible': false
+          }
+        ]
       }
     }
   ];
@@ -77,13 +159,14 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location,
 
   function activate() {
     dm.players = JSON.parse(JSON.stringify(GameManager.session.players));
+    dm.multiplePlayers = _.filter(dm.players, {'deviceToken': GameManager.session.deviceToken}).length !== 1;
     Facebook.getLoginStatus(function(response) {
       console.log(response);
     });
   }
   function createGame() {
     console.log('Create');
-    $mdDialog.hide(dm.settings);
+    $mdDialog.hide(dm.settings[dm.mode]);
   }
 
   function addPlayer() {
@@ -104,6 +187,8 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location,
       name: data.name,
       deviceToken: data.deviceToken
     });
+
+    dm.multiplePlayers = _.filter(dm.players, {'deviceToken': GameManager.session.deviceToken}).length !== 1;
   });
   function loadPlayers() {
     dm.players = JSON.parse(JSON.stringify(GameManager.session.players));
@@ -120,6 +205,7 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location,
   Socket.on('player:updated', function(data) {
     console.log('Update Player Setup');
     dm.players[data.index] = data;
+    dm.multiplePlayers = _.filter(dm.players, {'deviceToken': GameManager.session.deviceToken}).length !== 1;
   });
 
   function linkPlayer(player) {

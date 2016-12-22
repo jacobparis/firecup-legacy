@@ -26,7 +26,7 @@
 			class="clickable event card"
 			ng-class="{'facedown': game.session.facedown}"
 			ng-click="vm.drawEvent($event)"
-			ng-if="vm.deckChoice == 0 && game.session.players[game.session.turn].deviceToken == game.session.deviceToken && !vm.burnCard.length">
+			ng-if="vm.deckChoice == 'event' && thisDevice(game.session.turn) && !vm.burnCard.length && _.find(game.session.settings.decks, {'type': 'event', 'visible': true})">
 				<p class="primary">{{vm.eventCard.primary}}</p>
 				<p class="secondary">{{vm.eventCard.secondary}}</p>
 				<span class="type">{{vm.eventCard.type}} TYPE</span>
@@ -35,27 +35,27 @@
 			<div
 			class="clickable facedown burn card"
 			ng-click="vm.drawBurn($mdOpenMenu, $event)"
-			ng-if="vm.deckChoice == 1 && game.session.players[game.session.turn].deviceToken == game.session.deviceToken && !vm.burnCard.length">
+			ng-if="vm.deckChoice == 'burn' && thisDevice(game.session.turn) && !vm.burnCard.length && _.find(game.session.settings.decks, {'type': 'burn', 'visible': true})">
 			</div>
 			<!-- BURN CARD when YOU HAVE BEEN BURNED -->
 			<div
 			class="clickable burn card"
 			ng-class="{'facedown': vm.burnCard[0].facedown}"
 			ng-click="vm.drawBurn($mdOpenMenu, $event)"
-			ng-if="vm.burnCard.length">
+			ng-if="vm.burnCard.length && _.find(game.session.settings.decks, {'type': 'burn', 'visible': true})">
 				<p class="primary">{{vm.burnCard[0].primary}}</p>
 				<p class="secondary">{{vm.burnCard[0].secondary}}</p>
 				<span class="type">{{vm.burnCard[0].type}} TYPE</span>
 			</div>
-			<!-- PLACEHOLDER when NOT YOUR TURN and YOU HAVE NOT BEEN BURNED-->
+			<!-- PLACEHOLDER when NOT YOUR TURN and YOU HAVE NOT BEEN BURNED and GAME SUPPORTS TURNS-->
 			<div
 			class="placeholder card"
-			ng-if="game.session.players[game.session.turn].deviceToken !== game.session.deviceToken && !vm.burnCard.length">
+			ng-if="!thisDevice(game.session.turn) && !vm.burnCard.length && game.session.settings.takeTurns">
 			</div>
 		</div>
 
 		<!-- EVENT CARD when LARGE SCREEN and YOUR TURN and YOU HAVE NOT BEEN BURNED-->
-		<div class="large card-container" ng-if="$mdMedia('gt-xs') && game.session.players[game.session.turn].deviceToken == game.session.deviceToken && !vm.burnCard.length">
+		<div class="large card-container" ng-if="$mdMedia('gt-xs') && thisDevice(game.session.turn) && !vm.burnCard.length && _.find(game.session.settings.decks, {'type': 'event', 'visible': true})">
 			<div class="clickable event card" ng-class="{'facedown': game.session.facedown}" ng-click="vm.drawEvent($event)">
 				<p class="primary">{{vm.eventCard.primary}}</p>
 				<p class="secondary">{{vm.eventCard.secondary}}</p>
@@ -63,23 +63,24 @@
 			</div>
 		</div>
 
-		<div flex></div>
+		<!-- PUSH EVENT DECK TO SIDE WHEN MORE THAN ONE DECK -->
+		<div ng-if="$mdMedia('gt-xs') && _.find(game.session.settings.decks, {'type': 'event', 'visible': true}) && !thisDevice(game.session.turn)" flex></div>
 		<!-- BURN CARD when LARGE SCREEN and YOUR TURN and YOU HAVE NOT BEEN BURNED -->
-		<div ng-if="$mdMedia('gt-xs') && game.session.players[game.session.turn].deviceToken == game.session.deviceToken && !vm.burnCard.length"  class="large card-container flex-right" >
+		<div ng-if="$mdMedia('gt-xs') && thisDevice(game.session.turn) && !vm.burnCard.length && _.find(settings.decks, {'type': 'burn', 'visible': true})"  class="large card-container flex-right" >
 			<div class="clickable facedown burn card"
 				ng-click="vm.drawBurn($mdOpenMenu, $event)"
 				md-menu-origin>
 			</div>
 		</div>
 
-		<!-- PLACEHOLDER CARD when LARGE SCREEN and NOT YOUR TURN and YOU HAVE NOT BEEN BURNED -->
-		<div class="large card-container" ng-if="$mdMedia('gt-xs') && game.session.players[game.session.turn].deviceToken !== game.session.deviceToken && !vm.burnCard.length">
+		<!-- PLACEHOLDER CARD when LARGE SCREEN and NOT YOUR TURN and YOU HAVE NOT BEEN BURNED and GAME SUPPORTS TURNS-->
+		<div class="large card-container" ng-if="$mdMedia('gt-xs') && !thisDevice(game.session.turn) && !vm.burnCard.length && game.session.settings.takeTurns">
 			<div class="placeholder card" ng-click="vm.alertTurn()"></div>
 		</div>
 
 
 		<!-- BURN CARD when LARGE SCREEN and YOU HAVE BEEN BURNED -->
-		<div ng-if="$mdMedia('gt-xs') && vm.burnCard.length"  class="large card-container flex-right" >
+		<div ng-if="$mdMedia('gt-xs') && vm.burnCard.length && log(game) && _.filter(game.session.settings.decks, {'visible': true}).length"  class="large card-container flex-right" >
 			<div class="clickable burn card"
 				ng-class="{'facedown': vm.burnCard[0].facedown}"
 				ng-click="vm.drawBurn($mdOpenMenu, $event)">
@@ -88,31 +89,31 @@
 				<span class="type">{{vm.burnCard[0].type}} TYPE</span>
 			</div>
 		</div>
-		<!-- CENTER SINGLE DECK when LARGE SCREEN and (YOU HAVE BEEN BURNED)
+		<!-- CENTER SINGLE DECK when LARGE SCREEN and (YOU HAVE BEEN BURNED or THERE IS ONLY ONE DECK)
 		OR (NOT YOUR TURN) -->
-		<div ng-if="$mdMedia('gt-xs') && ((game.session.players[game.session.turn].deviceToken !== game.session.deviceToken) || vm.burnCard.length)" flex></div>
+		<div ng-if="$mdMedia('gt-xs') && (!(thisDevice(game.session.turn) && game.session.settings.takeTurns) || vm.burnCard.length || _.filter(settings.decks, {'visible': true}).length) " flex></div>
 		</md-menu>
 
-		<md-fab-speed-dial hide-gt-xs md-open="vm.dialOpen" class="md-scale md-fab-bottom-right" md-direction="up">
+		<md-fab-speed-dial ng-if="game.session.settings.takeTurns"hide-gt-xs md-open="vm.dialOpen" class="md-scale md-fab-bottom-right" md-direction="up">
 			<md-fab-trigger>
 				<md-button aria-label="menu" class="mainButton md-fab md-warn"></md-button>
 			</md-fab-trigger>
 
 			<md-fab-actions >
-				<md-button ng-click="vm.switchDecks()" class="md-raised" ng-disabled="game.session.players[game.session.turn].deviceToken !== game.session.deviceToken">
+				<md-button ng-click="vm.switchDecks()" ng-if="_.filter(settings.decks, {'visible': true}).length > 1" class="md-raised" ng-disabled="!thisDevice(game.session.turn)">
 					{{vm.otherDeck}} DECK
 				</md-button>
-				<md-button ng-click="vm.showHand()" class="md-raised" ng-disabled="game.session.players[game.session.turn].deviceToken !== game.session.deviceToken">
+				<md-button ng-click="vm.showHand()" class="md-raised" ng-disabled="!thisDevice(game.session.turn)">
 					CHECK HAND
 				</md-button>
-				<md-button ng-if="game.session.turn != vm.selectedPlayer" ng-click="vm.turnChange(vm.selectedPlayer)" class="md-raised">
+				<md-button ng-if="game.session.turn != vm.selectedPlayer && game.session.settings.takeTurns" ng-click="vm.turnChange(vm.selectedPlayer)" class="md-raised">
 					SET TURN
 				</md-button>
-				<md-button ng-if="game.session.turn == vm.selectedPlayer" ng-click="vm.turnChange(game.session.turn)" class="md-raised">
+				<md-button ng-if="game.session.turn == vm.selectedPlayer && game.session.settings.takeTurns" ng-click="vm.turnChange(game.session.turn)" class="md-raised">
 					RESET TURN
 				</md-button>
 			</md-fab-actions>
 		</md-fab-speed-dial>
 	</div>
-	<handsheet ng-if="vm.startEh && ($mdMedia('gt-xs') || (game.session.players[game.session.turn].deviceToken !== game.session.deviceToken && !vm.burnCard.length))">
+	<handsheet ng-if="vm.startEh && ($mdMedia('gt-xs') || (!thisDevice(game.session.turn) && !vm.burnCard.length) || !_.find(settings.decks, {'visible': true})  && !vm.burnCard.length)">
 </main>

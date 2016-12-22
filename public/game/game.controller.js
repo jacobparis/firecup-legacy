@@ -24,8 +24,10 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
 //  angular.element(document.body).addClass("noscroll");
   $scope.$mdMedia = $mdMedia;
   $scope.game = GameManager;
-  $scope.logscope = function() {
-    console.log($scope);
+  $scope.thisDevice = {'deviceToken': ''};
+  $scope._ = _;
+  $scope.log = function(log) {
+    console.log(log);
     return true;
   };
 
@@ -40,7 +42,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
   vm.click = {x: 0, y: 0};
   vm.switchDecks = switchDecks;
   vm.otherDeck = 'BURN';
-  vm.deckChoice = 0;
+  vm.deckId = 0;
 
   vm.drawEvent = drawEvent;
   vm.drawBurn = drawBurn;
@@ -69,6 +71,13 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
       .then(firstDeal)
       .then(function() {
         vm.startEh = true;
+        $scope.thisDevice = function(index) {
+          if(index == -1) {return false;}
+          return GameManager.session.players[index].deviceToken === GameManager.session.deviceToken;
+        };
+
+        const deck = _.find(GameManager.session.settings.decks, {'visible': true});
+        vm.deckChoice = deck ? deck.type : '';
         console.log('Game Start!');
       });
     }
@@ -118,6 +127,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
         console.log(room);
         GameManager.session.mode = room.mode;
         GameManager.session.players = room.players;
+        GameManager.session.settings = room.settings;
         GameManager.session.eventDeck = room.eventDeck;
         GameManager.session.totalTurns = room.totalTurns;
         GameManager.session.turn = vm.selectedPlayer = room.turn;
@@ -233,16 +243,25 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
         // Bind data to local client
         GameManager.session.players = room.players;
         GameManager.session.eventDeck = room.eventDeck;
+        GameManager.session.settings = room.settings;
         GameManager.session.mode = room.mode;
         GameManager.session.turn = room.turn;
         GameManager.session.facedown = true;
-        return DialogService.showAlert({
-          'title': 'Choose your actions carefully.',
-          'text': GameManager.session.players[GameManager.session.turn].name + '\'s turn is starting'
-        })
-        .then(function() {
-          vm.selectedPlayer = room.turn;
 
+        if(GameManager.session.settings.takeTurns) {
+          return DialogService.showAlert({
+            'title': 'Choose your actions carefully.',
+            'text': GameManager.session.players[GameManager.session.turn].name + '\'s turn is starting'
+          })
+          .then(function() {
+            vm.selectedPlayer = room.turn;
+
+          });
+        }
+
+        return Promise.resolve()
+        .then(function() {
+          vm.selectedPlayer = _.find(GameManager.session.players, {'deviceToken': GameManager.session.deviceToken}).index;
         });
       });
 
@@ -263,10 +282,11 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
   }
 
   function switchDecks(id) {
-    const deckId = id || (vm.deckChoice + 1) % 2;
+    const decks = _.filter(GameManager.session.settings.decks, {'visible': true});
+    vm.deckId = id || (vm.deckId + 1) % decks.length || 0;
     console.log(deckId);
-    vm.deckChoice = deckId;
-    vm.otherDeck = deckId ? 'EVENT' : 'BURN';
+    vm.deckChoice = decks[deckId].type;
+    vm.otherDeck = deckId ? 'EVENT' : 'BURN'; // TODO make dynamic
   }
 
   /* External functions **/
@@ -323,7 +343,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
       GameManager.giveCardToPlayer(vm.burnCard[0], vm.burnCard[0].player);
     }
 
-    // Remove first card
+    // Remove top card
     vm.burnCard.splice(0, 1);
 
     // Bring up dialog if there's another card waiting
@@ -333,8 +353,6 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
       });
     }
   }
-
-  /* Internal functions **/
 
   function alertTurn() {
     return DialogService.showAlert({
@@ -365,19 +383,29 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
 
   Socket.on('player:burned', function(cards) {
     console.log('On Player Burned');
+
     vm.burnCard = [];
     _.each(cards, function(card) {
       if(GameManager.session.deviceToken === GameManager.session.players[card.player].deviceToken) {
         // Target Player is on this device
 
         vm.burnCard.push(card);
-        _.last(vm.burnCard).facedown = true;
+
+        if(!card.empty) {
+          _.last(vm.burnCard).facedown = true;
+        }
       }
     });
 
+    // TODO make empty cards work for multiple players
     if(vm.burnCard.length) {
       DialogService.showAlert({
         'text': GameManager.session.players[vm.burnCard[0].player].name + ' has been burned!'
+      })
+      .then(function() {
+        if(vm.burnCard[0].empty) {
+          vm.burnCard.splice(0, 1);
+        }
       });
     }
   });
@@ -385,27 +413,29 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
   Socket.on('player:updated', function(data) {
     console.log('Update Player');
     console.log(data);
-    GameManager.session.players[data.index] = Object.assign(GameManager.session.players[data.index], data);
+
+    let player = GameManager.session.players[data.index];
+    player = Object.assign(player, data);
 
     // If YOUR TURN and YOU HAVE STARTED THE GAME
-    if(GameManager.session.players[data.index].deviceToken === GameManager.session.deviceToken && vm.startEh) {
+    if(player.deviceToken === GameManager.session.deviceToken && vm.startEh) {
       // Check hand and table lengths
-    // The hand (trap cards) should be no more than 6
+      // The hand (trap cards) should be no more than default 6
       const hand = GameManager.getHandByPlayer(data.index);
-      if(hand.length > 6) {
+      if(hand.length > _.find(GameManager.session.settings.hands, {'type': 'trap'}).max) {
         DialogService.showAlert({
-          'text': GameManager.session.players[data.index].name + ' has more than 6 trap cards! Please discard one.'
+          'text': player.name + ' has more than ' + _.find(GameManager.session.settings.hands, {'type': 'trap'}).max + ' trap cards! Please discard one.'
         }).then(function() {
           vm.selectedPlayer = data.index;
           showHand();
         });
       }
 
-    // The table (status cards) should be no more than 3
+      // The table (status cards) should be no more than default 3
       const table = GameManager.getTableByPlayer(data.index);
-      if(table.length > 3) {
+      if(table.length > _.find(GameManager.session.settings.hands, {'type': 'status'}).max) {
         DialogService.showAlert({
-          'text': GameManager.session.players[data.index].name + ' has more than 3 status cards! Please discard one.'
+          'text': player.name + ' has more than ' + _.find(GameManager.session.settings.hands, {'type': 'status'}).max + ' status cards! Please discard one.'
         }).then(function() {
           vm.selectedPlayer = data.index;
           showHand();

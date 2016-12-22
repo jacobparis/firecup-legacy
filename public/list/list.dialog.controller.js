@@ -23,7 +23,14 @@ function ListDialogController($scope, $q, $mdDialog, $mdMedia) {
   dm.cancel = $mdDialog.cancel;
   dm.create = create;
 
-  dm.rule = {};
+  dm.rule = {
+    data: []
+  };
+  dm.addData = function(datum) {
+    dm.rule.data = dm.rule.data || [];
+    dm.data = '';
+    return dm.rule.data.push(datum);
+  };
   dm.listThemes = listThemes;
 
   dm.deck = getDeck;
@@ -34,7 +41,8 @@ function ListDialogController($scope, $q, $mdDialog, $mdMedia) {
     dm.rule = {
       primary: newVal.primary,
       secondary: newVal.secondary,
-      theme: newVal.theme
+      theme: newVal.theme,
+      data: newVal.data || []
     };
   });
 

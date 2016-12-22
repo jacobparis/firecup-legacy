@@ -41,6 +41,21 @@
               </md-not-found>
             </md-autocomplete>
           </div>
+          <div layout="row">
+            <md-content>
+              <md-list flex>
+                <md-list-item ng-repeat="datum in dm.rule.data">
+                  {{datum}}
+                </md-list-item>
+              </md-list>
+            </md-content>
+          </div>
+          <div layout="row">
+            <md-input-container flex>
+              <label>Data</label>
+              <input ng-model="dm.data" ng-keyup="$event.keyCode == 13 && dm.addData(dm.data)">
+            </md-input-container>
+          </div>
         </form>
       </div>
   </md-dialog-content>

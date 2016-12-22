@@ -8,6 +8,7 @@
     "express": "~4.5.1",
     "express.io": "^1.1.13",
     "less": "^2.7.1",
+    "lodash": "^4.17.2",
     "method-override": "~2.0.2",
     "mongoose": "~4.4.0",
     "ng-fx": "^2.0.4",

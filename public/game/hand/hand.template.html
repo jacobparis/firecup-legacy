@@ -1,6 +1,6 @@
 <md-bottom-sheet class="md-grid" layout="column">
   <md-tabs md-selected="hm.handType" md-stretch-tabs md-dynamic-height>
-    <md-tab label="Table ({{hm.tableCards}})">
+    <md-tab label="Table ({{hm.tableCards}})" ng-if="game.session.settings.hands[1].public">
       <md-content ng-if="hm.tableCards">
         <md-grid-list
         md-cols="3" md-cols-gt-xs="6" md-row-height="5:7" md-gutter="4px">

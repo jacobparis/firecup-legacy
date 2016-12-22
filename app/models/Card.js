@@ -29,5 +29,8 @@ mongoose.model('Card', {
   deck: {
     type: String,
     enum: ['event', 'burn']
-  }
+  },
+  data: [{
+    type: mongoose.Schema.Types.Mixed
+  }]
 });
