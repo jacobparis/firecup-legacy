@@ -31,6 +31,10 @@ mongoose.model('Card', {
     enum: ['event', 'burn']
   },
   data: [{
-    type: mongoose.Schema.Types.Mixed
-  }]
+    type: String
+  }],
+  frequency: {
+    type: Number,
+    default: 1
+  }
 });

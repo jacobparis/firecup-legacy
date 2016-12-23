@@ -73,6 +73,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
         vm.startEh = true;
         $scope.thisDevice = function(index) {
           if(index == -1) {return false;}
+          if(!vm.startEh) {return false;}
           return GameManager.session.players[index].deviceToken === GameManager.session.deviceToken;
         };
 
@@ -171,6 +172,10 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
 
     function setupParser() {
       vm.parser = new Parser();
+      vm.parser.addRule('RANDOM', function(tag, history, source) {
+        if(!source.data) {return false;}
+        return _.sample(source.data, 1);
+      });
       vm.parser.addRule('PLAYER1', function(tag, history) {
         // Return PLAYERA if already used
         const existing = _.find(history, function(record) {
@@ -295,9 +300,9 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
     const card = GameManager.session.eventDeck[GameManager.session.totalTurns];
     if (GameManager.session.facedown) {
       // Parse card contents
-      vm.eventCard.primary = vm.parser.render(card.primary);
-      vm.eventCard.secondary = vm.parser.render(card.secondary);
-      vm.eventCard.type = vm.parser.render(card.type);
+      vm.eventCard.primary = vm.parser.render(card.primary, card);
+      vm.eventCard.secondary = vm.parser.render(card.secondary, card);
+      vm.eventCard.type = vm.parser.render(card.type, card);
 
         // Flip card up
       GameManager.session.facedown = false;

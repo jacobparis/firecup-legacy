@@ -277,6 +277,7 @@ function drawBurnCards(room, players) {
     // TODO refill deck if empty
     let newCard = {};
     for(let i = 0; i < players.length; i++) {
+      // Here I can parse the burn cards before delivering to client
       newCard = deck.splice(0, 1)[0];
       newCard.player = players[i];
       cards.push(newCard);

@@ -51,7 +51,7 @@ class Parser {
 
         switch (istype(r)) {
         case 'function':
-          args = [str, self.history];
+          args = [str, self.history, self.source];
           if (groups) {args = args.concat(groups);}
           v = r.apply(this, args);
           break;
@@ -141,7 +141,8 @@ class Parser {
     }, []);
   }
 
-  render(str) {
+  render(str, source) {
+    this.source = source;
     this.history = [];
     return this.toTree(str).map((part) => {
       if (typeof part === 'string') {return part;}
