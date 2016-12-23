@@ -10,6 +10,7 @@ angular
 
 function ListDialogController($scope, $q, $mdDialog, $mdMedia) {
   $scope.$mdMedia = $mdMedia;
+  $scope._ = _;
   let vm;
   if($scope.vm) {
     vm = $scope.vm;

@@ -41,20 +41,23 @@
               </md-not-found>
             </md-autocomplete>
           </div>
-          <div layout="row">
+          <div layout="column">
             <md-content>
-              <md-list flex>
-                <md-list-item ng-repeat="datum in dm.rule.data">
-                  {{datum}}
+              <md-list>
+                <md-list-item ng-repeat="datum in _.uniq(dm.rule.data)">
+                  <p>
+                    {{datum}}
+                  </p>
+                  <md-icon ng-click="dm.rule.data = _.without(dm.rule.data, datum)" class="md-secondary">
+                    close
+                  </md-icon>
                 </md-list-item>
               </md-list>
+              <md-input-container flex>
+                <label>Data</label>
+                <input ng-model="dm.data" ng-keyup="$event.keyCode == 13 && dm.addData(dm.data)">
+              </md-input-container>
             </md-content>
-          </div>
-          <div layout="row">
-            <md-input-container flex>
-              <label>Data</label>
-              <input ng-model="dm.data" ng-keyup="$event.keyCode == 13 && dm.addData(dm.data)">
-            </md-input-container>
           </div>
         </form>
       </div>
