@@ -53,8 +53,8 @@ function ListController($scope, $q, $mdMedia, RuleService, DialogService, Analyt
   function saveRule(rule) {
     if(!rule) {return $q.reject();}
     rule.type = vm.cardTypes[vm.card.type];
-    if(rule.type === 'action') {rule.deck = 'smite';}
-    if(rule.type === 'status') {rule.deck = 'smite';}
+    if(rule.type === 'action') {rule.deck = 'burn';}
+    if(rule.type === 'status') {rule.deck = 'burn';}
     if(rule.type === 'event') {rule.deck = 'event';}
     if(rule.type === 'trap') {rule.deck = 'event';}
 

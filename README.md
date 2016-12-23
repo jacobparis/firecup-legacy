@@ -31,3 +31,7 @@ Find
 
 Replace
 `this.$1 = $1;\n function $1(`
+
+#Exhaustive List of Rules
+
+Rhyme words must be distinct words. 'Prey' and 'pray' do not rhyme.
