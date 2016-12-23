@@ -35,3 +35,24 @@ Replace
 #Exhaustive List of Rules
 
 Rhyme words must be distinct words. 'Prey' and 'pray' do not rhyme.
+A casual drink is one not commanded by a card or rule.
+
+If one card tells you to hold your hands in fists, and another tells you to hold
+them flat and straight, do one of each. A third card means you must discard one
+of the first two.
+#Styleguide for Cards
+
+Do not end card with periods. Other punctuation only if it benefits the card.
+Use *may* not *can*
+Use *speaks* not *says something*
+Use *must* not *has to*
+Use *takes a drink* not *drinks*
+Use *4* not *four*
+Use *you* not *ME* when possible
+
+To insert the current player's name, use *ME*
+To choose a player's name at random, use *PLAYERA*
+To choose a different player on the same card, use *PLAYERB*
+To insert a random line from the DATA field, use *RANDOM*
+
+Use the data field for variations on the same content, most applicable to the categories cards.
