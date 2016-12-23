@@ -21,8 +21,8 @@ function DeckService(DeckResource, CardResource) {
 
   function getDeck(deck) {
     return DeckResource.query({
-        "deckId": deck
-      })
+      'deckId': deck
+    })
       .$promise;
   }
 
