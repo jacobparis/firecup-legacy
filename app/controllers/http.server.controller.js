@@ -1,6 +1,7 @@
 require('../models/Game');
 require('../models/Card');
 require('../../node_modules/lodash/lodash');
+const Socket = require('./socket.server.controller');
 const _ = require('lodash');
 const Game = require('mongoose')
 .model('Game');
@@ -27,7 +28,6 @@ exports.addPlayer = addPlayer;
 exports.list = list;
 
 function newGame(req, res, next) {
-  console.log('NEW GAME');
   const adjectives = ['active', 'basic', 'calm', 'dark', 'eerie', 'fancy',
     'giant', 'happy', 'icy', 'juicy', 'kind', 'large', 'magic', 'nifty', 'odd',
     'perky', 'quiet', 'royal', 'scary', 'tiny', 'urban', 'vast', 'warm', 'young', 'zesty'];
@@ -43,34 +43,28 @@ function newGame(req, res, next) {
   const randomItem = function(array) {
     return array[Math.floor(Math.random() * array.length)];
   };
-
+  const title = randomItem(adjectives) + '-' + randomItem(animals) + '-' + randomItem(places);
+  console.log('NEW GAME: ' + title);
   console.log(req.body.settings);
   const settings = {
     settings: req.body.settings,
     turn: -1,
     totalTurns: 0,
-    title: randomItem(adjectives) + '-' + randomItem(animals) + '-' + randomItem(places),
+    title: title,
   };
 
   settings.turn = req.body.settings.takeTurns ? 0 : -1;
   const decks = [];
   _.each(req.body.settings.decks, function(deck) {
-    decks.push(Card.find({
-      'deck': deck.type,
-      'type': {
-        $in: deck.contents
-      }
-    })
-    .lean()
-    .exec());
+    decks.push(Socket.buildADeck(deck));
   });
 
   Promise.all(decks)
   .then(function(results) {
     // TODO Dynamify results array to be based on settings
-    settings.eventDeck = shuffle(results[0].slice(1), true);
+    settings.eventDeck = results[0];
     if(results.length > 1) {
-      settings.burnDeck = shuffle(results[1].slice(1));
+      settings.burnDeck = results[1];
     }
     const game = new Game(settings);
 
@@ -86,25 +80,7 @@ function newGame(req, res, next) {
   });
 
 }
-function shuffle(deck, index = false) {
-  let m = deck.length,
-    t, i;
 
-  // While there remain elements to shuffle…
-  while (m) {
-
-    // Pick a remaining element…
-    i = Math.floor(Math.random() * m--);
-
-    // And swap it with the current element.
-    t = deck[m];
-    deck[m] = deck[i];
-    deck[i] = t;
-
-    if(index) {deck[m].index = m;}
-  }
-  return deck;
-}
 function addPlayer(req, res, next) {
   console.log('ADD PLAYER');
   const player = req.body;

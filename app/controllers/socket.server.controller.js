@@ -12,7 +12,8 @@ exports.addPlayer = addPlayer;
 exports.updatePlayer = updatePlayer;
 exports.setTurn = setTurn;
 exports.getRoom = getRoom;
-exports.buildDeck = buildDeck;
+exports.buildDeck = buildDeck2;
+exports.buildADeck = buildADeck;
 exports.drawBurnCards = drawBurnCards;
 
 function addPlayer(room, name, deviceToken) {
@@ -36,7 +37,11 @@ function addPlayer(room, name, deviceToken) {
     })
     .select('players')
     .where('title').equals(room)
-    .exec();
+    .exec()
+    .then(function(blag) {
+      updatePlayer(room, {index: game.players.length, name: name});
+      return blag;
+    });
   });
 
   return query;
@@ -213,6 +218,59 @@ function updatePlayer(title, doc) {
   });
 }
 
+function buildADeck(deck) {
+  if(!deck) {return Promise.reject();}
+  return Card.find({
+    'deck': deck.type,
+    'type': {
+      $in: deck.contents
+    }
+  })
+  .lean()
+  .then(function(sourceDeck) {
+    let deck = [];
+    _.each(sourceDeck, function(sourceCard) {
+      let cards = [{
+        'primary': sourceCard.primary,
+        'secondary': sourceCard.secondary,
+        'theme': sourceCard.theme,
+        'type': sourceCard.type,
+        'deck': sourceCard.deck
+      }];
+
+      // Card has a data array
+      if(sourceCard.data && sourceCard.data.length) {
+        const result = [];
+        _.each(sourceCard.data, function(line, index) {
+          result[index] = {
+            'primary': sourceCard.primary,
+            'secondary': sourceCard.secondary.slice(0).replace('RANDOM', line),
+            'theme': sourceCard.theme,
+            'type': sourceCard.type,
+            'deck': sourceCard.deck
+          };
+        });
+        cards = result;
+      }
+
+      // Duplicate cards
+      if(sourceCard.frequency > 1) {
+        let result = [];
+        _.times(sourceCard.frequency, function() {
+          result = result.concat(cards);
+        });
+        cards = result;
+      }
+      deck = deck.concat(cards);
+    });
+
+    return _.first(_.map(_.shuffle(deck), function(doc, index) {
+      doc.index = index;
+      return doc;
+    }), 50);
+  });
+}
+
 function setTurn(room, index) {
   if(!room) {return Promise.reject();}
   if(index == null) {return Promise.reject();} // eslint-disable-line
@@ -245,7 +303,7 @@ function getRoom(room) {
   return loadGame;
 }
 
-function buildDeck() {
+function buildDeck2() {
   const burnCards = Card
   .where('deck').equals('burn')
   .find()
@@ -273,8 +331,19 @@ function drawBurnCards(room, players) {
       });
       return cards;
     }
+
+    // Check length of deck
+    if(game.burnDeck.length < 5) {
+      buildADeck(_.find(game.settings.decks, {type: 'burn'}))
+      .then(function(burnDeck) {
+        Game
+        .where('title').equals(room)
+        .update({'burnDeck': burnDeck})
+        .exec();
+      });
+    }
     const deck = game.burnDeck;
-    // TODO refill deck if empty
+
     let newCard = {};
     for(let i = 0; i < players.length; i++) {
       // Here I can parse the burn cards before delivering to client
