@@ -289,9 +289,9 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
   function switchDecks(id) {
     const decks = _.filter(GameManager.session.settings.decks, {'visible': true});
     vm.deckId = id || (vm.deckId + 1) % decks.length || 0;
-    console.log(deckId);
-    vm.deckChoice = decks[deckId].type;
-    vm.otherDeck = deckId ? 'EVENT' : 'BURN'; // TODO make dynamic
+    console.log(vm.deckId);
+    vm.deckChoice = decks[vm.deckId].type;
+    vm.otherDeck = vm.deckId ? 'EVENT' : 'BURN'; // TODO make dynamic
   }
 
   /* External functions **/
