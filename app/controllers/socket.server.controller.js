@@ -264,10 +264,10 @@ function buildADeck(deck) {
       deck = deck.concat(cards);
     });
 
-    return _.first(_.map(_.shuffle(deck), function(doc, index) {
+    return _.take(_.map(_.shuffle(deck), function(doc, index) {
       doc.index = index;
       return doc;
-    }), 50);
+    }), 52);
   });
 }
 
@@ -315,13 +315,17 @@ function buildDeck2() {
 function drawBurnCards(room, players) {
   if(!room) {return Promise.reject();}
 
+  console.log('Draw burn card');
   return Game
   .where('title').equals(room)
   .select('burnDeck settings')
   .findOne()
   .then(function(game) {
+    console.log('1');
+    console.log(game);
     const cards = [];
     if(!_.find(game.settings.decks, {type: 'burn'})) {
+      console.log('3');
       // No burn deck in this variant, return an empty object
       _.each(players, function(player) {
         cards.push({
@@ -331,17 +335,21 @@ function drawBurnCards(room, players) {
       });
       return cards;
     }
-
     // Check length of deck
+    console.log('Burndeck in ' + room + ' has ' + game.burnDeck.length + ' cards left.');
     if(game.burnDeck.length < 5) {
+      console.log(room + ' needs a new burn deck');
       buildADeck(_.find(game.settings.decks, {type: 'burn'}))
       .then(function(burnDeck) {
+        console.log('New Deck');
+        console.log(burnDeck);
         Game
         .where('title').equals(room)
         .update({'burnDeck': burnDeck})
         .exec();
       });
     }
+    console.log('2');
     const deck = game.burnDeck;
 
     let newCard = {};
@@ -350,19 +358,21 @@ function drawBurnCards(room, players) {
       newCard = deck.splice(0, 1)[0];
       newCard.player = players[i];
       cards.push(newCard);
+      console.log(newCard);
       Game
       .where('title').equals(room)
       .select('burnDeck')
       .update({
         $pull: {
           'burnDeck': {
-            _id: newCard._id
+            index: newCard.index
           }
         }
       })
       .exec();
     }
-
+    console.log('END');
+    console.log(cards);
     return cards;
   });
 
