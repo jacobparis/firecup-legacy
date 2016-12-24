@@ -112,5 +112,5 @@
 			</md-fab-actions>
 		</md-fab-speed-dial>
 	</div>
-	<handsheet ng-if="vm.startEh && ($mdMedia('gt-xs') || (!thisDevice(game.session.turn) && !vm.burnCard.length) || !_.find(game.sessions.settings.decks, {'visible': true})  && !vm.burnCard.length)">
+	<handsheet ng-if="vm.startEh && ($mdMedia('gt-xs') || (!thisDevice(game.session.turn) && !vm.burnCard.length) || !_.find(game.session.settings.decks, {'visible': true})  && !vm.burnCard.length)">
 </main>
