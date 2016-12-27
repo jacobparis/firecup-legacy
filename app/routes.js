@@ -111,8 +111,15 @@ module.exports = function(app) {
   // frontend routes =========================================================
   // route to handle all angular requests
 
+  app.get('/game', function(req, res) {
+    res.sendfile('./public/app.html');
+  });
+
+  app.get('/list', function(req, res) {
+    res.sendfile('./public/app.html');
+  });
+
   app.get('*', function(req, res) {
     res.sendfile('./public/index.html');
   });
-
 };

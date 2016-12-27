@@ -8,78 +8,258 @@
 		<meta property="og:title"              content="Firecup Party Game" />
 		<meta property="og:description"        content="An online drinking game for you and your friends" />
 		<meta property="og:image"              content="https://scontent-sea1-1.xx.fbcdn.net/v/t1.0-9/15578693_307999119601085_1587181854120401537_n.png" />
-		<title>Firecup</title>
+		<title>Firecup Main</title>
 
 		<link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		<!-- CSS -->
-		<link rel="stylesheet" href="libs/angular-material/angular-material.css">
-		<link rel="stylesheet" href="libs/angular-material-data-table/dist/md-data-table.min.css">
-		<link rel="stylesheet" href="libs/angular-material-expansion-panel/dist/md-expansion-panel.css">
+    <link href="libs/normalize-css/normalize.css" rel="stylesheet" type="text/css">
 
-		<link rel="stylesheet/less" href="assets/css/style.less" type="text/css">
-		<link rel="stylesheet/less" href="assets/css/home.less" type="text/css">
-		<link rel="stylesheet/less" href="assets/css/card.less" type="text/css">
+    <link rel="stylesheet/less" href="assets/css/home.less" type="text/css">
 
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.7.1/less.min.js"></script>
-		<!-- custom styles -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.7.1/less.min.js"></script>
+  </head>
+  <body>
+    <header>
+      <img src="assets/img/firecupbanner.png" />
+      <form action="game">
+        <button type="submit">PLAY FIRECUP NOW</button>
+      </form>
+    </header>
+    <section class="intro">
+      <aside>
+        <img src="assets/img/burncard.png" />
+      </aside>
+      <aside>
+        <ul>
+          <li>
+            Do you like playing drinking games?
+          </li>
+          <li>
+            Do you like getting together with your friends and having a great time?
+          </li>
+          <li>
+            Do you want a game with endless replay value, minigames, and challenges, that is so easy to learn drunk people can do it?
+          </li>
+        </ul>
+        <div class="statement">
+          If you answered YES to any of these questions, you're going to love Firecup!
+        </div>
+      </aside>
+    </section>
+    <section class="bridge-1">
+      <h2>The World Of Party Games is Changing</h2>
+      <p>
+        In the old days you could walk into a dorm party with a deck of cards, sit down, and play a game. But who decides the game? And who decides the rules? You can play King's Cup in Room 231 this week, but next week you're going to walk into Room 316 where they play Kings with a completely different set of rules.
+      </p>
+    </section>
+    <section class="bridge-2">
+      <div>
+        <h2>But You Have a Better Game...</h2>
+        <p>
+          …And it DOESN'T depend on everyone agreeing which thirteen rules we're using this week…
+        </p>
+        <p>
+          …And it DOESN'T require cards, dice, coins, ping pong balls, or twenty extra plastic cups either.
+        </p>
+      </div>
+    </section>
+    <section class="counter">
+      <h2>"But those games are party classics!"</h2>
+      <p>
+        It's true. King's Cup, Sociables, Ring of Fire, Circle of Death, President, Ride the Bus, Never Have I Ever -- these are a small sample of hordes of drinking games that have become house party staples.
+      </p>
+      <p>
+        But it's 2017, and it's time to start acting like it. Take everything you love about those other party games  -- the spontaneity, the house rules, the endless nights of fun -- and put them on your phone; that's where Firecup comes in. Imagine never needing another deck of cards.
+      </p>
+      <p>
+        Create a game and let all your friends join from their own devices. Phone dies? A single device can support multiple players, or even the whole party as needed. Just pass it around.
+      </p>
+      <h3>
+        Spend a night you won't remember with a game you won't forget.
+      </h3>
+    </section>
+    <section class="explain">
+      <aside>
+        <img src="assets/img/eventcard1.png" />
+      </aside>
+      <aside>
+        <p>
+          It's your turn, you've drawn this card. Starting with the person to your left, name different fruits.
+        </p>
+        <p>
+          <strong>Lois:</strong>
+          Starfruit
+        </p>
+        <p>
+          <strong>Stewie:</strong>
+          Mango
+        </p>
+        <p>
+          <strong>Peter:</strong>
+          Pineapple
+        </p>
+        <p>
+          <strong>Brian:</strong>
+          Dragonfruit
+        </p>
+        <p>
+          <strong>Stewie:</strong>
+          I'm going to have to and stop you right there, Brian. You see I had a papaya just last week and it was quite delicious.
+        </p>
+        <p>
+          Brian lost, so click the red Burn deck and send him his punishment.
+        </p>
+      </aside>
+    </section>
+    <section class="explain">
+      <aside>
+        <p>
+          Brian received the CB Radio card.
+        </p>
+        <p>
+          <strong>Brian:</strong>
+          How long do I have to do this? Over.
+        </p>
+        <p>
+          <strong>Stewie:</strong>
+          Well Brian it's a Status card, so you keep saying 'Over' until you get your fourth status and can discard a previous one.
+        </p>
+        <p>
+          <strong>Brian:</strong>
+          I just hope it's soon. I can't wait until this is over.
+        </p>
+        <p>
+          <strong>Stewie:</strong>
+          Until this is what, Brian?
+        </p>
+        <p>
+          <strong>Brian:</strong>
+          ...I have to say over even if the sentence already ends with over?
+        </p>
+        <p>
+          <strong>Stewie:</strong>
+          If it ends with what Brian? You've got to finish your sentences.
+        </p>
+      </aside>
+      <aside>
+        <img src="assets/img/burncard1.png" />
+      </aside>
+    </section>
+    <section class="gallery">
+      <h2>See What Kinds of Cards Can Appear</h2>
+      <p>
+        On your turn, you draw from the white deck and play cards like these
+      </p>
+      <div>
+        <figure>
+          <img src="assets/img/minievent1.png" />
+        </figure>
+        <figure>
+          <img src="assets/img/minievent2.png" />
+        </figure>
+        <figure>
+          <img src="assets/img/minievent3.png" />
+        </figure>
+      </div>
+      <p>
+        Fail a round, or trigger someone's trap, and get burned with cards like these
+      </p>
+      <div>
+        <figure>
+          <img src="assets/img/miniburn1.png" />
+        </figure>
+        <figure>
+          <img src="assets/img/miniburn2.png" />
+        </figure>
+        <figure>
+          <img src="assets/img/miniburn3.png" />
+        </figure>
+      </div>
+    </section>
+    <section class="devices">
+      <h2>What Does the Game Work On?</h2>
+      <p>
+        Android and iOS apps are on the roadmap, but right now you can play for free from any device by navigating to <a href="game">Firecup.ca</a>
+      </p>
 
-		<!-- JS -->
-		<script src="libs/lodash/lodash.js"></script>
-		<script src="libs/angular/angular.js"></script>
-		<script src="libs/angular-route/angular-route.js"></script>
-		<script src="libs/angular-ui-router/release/angular-ui-router.js"></script>
-		<script src="libs/angular-resource/angular-resource.js"></script>
-		<script src="libs/angular-aria/angular-aria.js"></script>
-		<script src="libs/angular-messages/angular-messages.js"></script>
-		<script src="libs/angular-animate/angular-animate.js"></script>
-		<script src="libs/angular-material/angular-material.js"></script>
-		<script src="libs/angular-material-data-table/dist/md-data-table.min.js"></script>
-		<script src="libs/angular-material-expansion-panel/dist/md-expansion-panel.js"></script>
-		<script src="libs/angular-facebook/lib/angular-facebook.js"></script>
-		<script src="libs/angular-google-analytics/dist/angular-google-analytics.min.js"></script>
-		<script src="/socket.io/socket.io.js"></script>
-
-		<script src="scripts/simple-text-parser.js"></script>
-		<!-- ANGULAR CUSTOM -->
-		<script src="home/home.controller.js"></script>
-
-		<script src="card/card.controller.js"></script>
-		<script src="card/card.service.js"></script>
-
-		<script src="dialog/dialog.service.js"></script>
-
-		<script src="game/game.controller.js"></script>
-		<script src="game/game.manager.js"></script>
-		<script src="game/player.service.js"></script>
-
-		<script src="game/game.setup.controller.js"></script>
-
-		<script src="game/hand/hand.controller.js"></script>
-		<script src="game/hand/hand.input.controller.js"></script>
-
-		<script src="game/burn/burn.input.controller.js"></script>
-
-		<script src="list/list.controller.js"></script>
-		<script src="list/list.dialog.controller.js"></script>
-		<script src="list/list.service.js"></script>
-
-		<script src="app.js"></script>
-		<script src="app.routes.js"></script>
-		<script src="app.socket.service.js"></script>
-
-		<meta name="google-site-verification" content="kaEQR5JqusUWcrJRNCUHE8o0N9jIPrWrpcBdynPRDQs" />
-	</head>
-
-	<body ng-app="app">
-		<div class="container">
-
-
-
-			<!-- ANGULAR DYNAMIC CONTENT -->
-			<ui-view></ui-view>
-
-		</div>
-	</body>
-
+    </section>
+    <section class="traps">
+      <h2>Are there any other ways to play?</h2>
+      <p>
+        If you're looking for some lighter action, try our Traps variant! There is no event deck and no turns. Each player gets a secret hand of 6 trap cards that they can activate at any time. Instead of discarding them the moment you use them, you keep using them until someone figures out what your card says.
+      </p>
+      <p>
+        The main Traps variant sends red burn cards at the other players when you trigger a trap, while the Traps Lite variant just notifies them they've been hit with a trap, for more casual nights if you just want to take a drink every time.
+      </p>
+      <aside>
+        <img src="assets/img/minitrap1.png" />
+        <img src="assets/img/minitrap2.png" />
+      </aside>
+      <aside>
+        <p>
+          <strong>Elrond:</strong>
+          The ring must be taken deep into Mordor and cast back into the fiery chasm from whence it came. One of you must do this.
+        </p>
+        <p>
+          <strong>Samwise:</strong>
+          Take a drink, Mr Elrond sir.
+        </p>
+        <p>
+          <strong>Boromir:</strong>
+          One does not simply walk into Mordor. Its black gates are guarded by more than just Orcs. There is evil there that does not sleep. The great Eye is ever watchful. It is a barren wasteland, riddled with fire, ash, and dust. The very air you breathe is a poisonous fume. Not with ten-thousand men could you do this. It is folly.
+        </p>
+        <p>
+          <strong>Legolas:</strong>
+          Have you heard nothing Lord Elrond has said? The ring must be destroyed!
+        </p>
+        <p>
+          <strong>Samwise:</strong>
+          Oh now Legolas must drink too!
+        </p>
+        <p>
+          <strong>Elrond:</strong>
+          Do you intend to say that every time someone utters the word ‘Ring’?
+        </p>
+        <p>
+          <strong>Samwise:</strong>
+          Well no Mr Elrond, now that you’ve mentioned it my trap card is no good, see? I’m meant to discard it and draw a new one.
+        </p>
+      </aside>
+      <p>
+        For extra fun, break out Firecup Traps Lite during a movie night, and wait for the movie characters to trigger your traps. When one does, everyone drinks and you swap your trap for a new one. With four people playing, that's 24 chances to catch John McClane take his socks off or hear Vizzini shout in anger. And with hundreds of cards in the deck, it's a new fresh experience every time.
+      </p>
+    </section>
+    <section class="faq">
+      <h2>Frequently Asked Questions</h2>
+      <div class="qa">
+        <h4>How many people can play at once?</h4>
+        <p>
+          Theoretically, unlimited, but play testing has show groups of 4 to 10 people to be optimal.
+        </p>
+      </div>
+      <div class="qa">
+        <h4>Do I need to drink alcohol to enjoy this game?</h4>
+        <p>
+          Absolutely not. All it takes is good company. For cards that request drinking, however, we define a 'drink' as homeopathic snake oil diluted to 5% and a 'shot' as the same diluted to 40%.
+        </p>
+      </div>
+      <div class="qa">
+        <h4>I have ideas for cards that you should include!</h4>
+        <p>
+          Great! Get in touch with me on <a href="https://twitter.com/JacobPariseau">Twitter</a> and I'll explain how you can contribute.
+        </p>
+      </div>
+    </section>
+    <section class="action">
+      <h2>Start The Party</h2>
+      <form action="game">
+        <button type="submit">PLAY FIRECUP NOW</button>
+      </form>
+      <h3>SPREAD THE WORD</h3>
+    </section>
+    <footer>
+      Copyright © 2016-2017 Jacob Pariseau and Firecup Team
+    </footer>
+  </body>
 </html>

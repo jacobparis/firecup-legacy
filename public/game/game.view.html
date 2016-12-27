@@ -98,7 +98,7 @@
 
 			<md-fab-actions >
 				<md-button ng-click="vm.switchDecks()" ng-if="_.filter(game.session.settings.decks, {'visible': true}).length > 1" class="md-raised" ng-disabled="!thisDevice(game.session.turn)">
-					{{vm.otherDeck}} DECK
+					SWITCH DECKS
 				</md-button>
 				<md-button ng-click="vm.showHand()" class="md-raised" ng-disabled="!thisDevice(game.session.turn)">
 					CHECK HAND

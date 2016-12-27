@@ -13,12 +13,6 @@ function Routes($stateProvider, $urlRouterProvider, $locationProvider, Analytics
 
   $locationProvider.html5Mode(true);
   $stateProvider
-    .state('home', {
-      url: '/',
-      templateUrl: 'home/home.view.html',
-      controller: 'HomeController',
-      controllerAs: 'vm'
-    })
     .state('cards', {
       url: '/cards/',
       templateUrl: 'card/card.view.html',

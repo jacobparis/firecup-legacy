@@ -1,0 +1,84 @@
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<base href="/">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		<meta property="og:url"                content="http://www.firecup.ca/" />
+		<meta property="og:type"               content="website" />
+		<meta property="og:title"              content="Firecup Party Game" />
+		<meta property="og:description"        content="An online drinking game for you and your friends" />
+		<meta property="og:image"              content="https://scontent-sea1-1.xx.fbcdn.net/v/t1.0-9/15578693_307999119601085_1587181854120401537_n.png" />
+		<title>Firecup</title>
+
+		<link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<!-- CSS -->
+		<link rel="stylesheet" href="libs/angular-material/angular-material.css">
+		<link rel="stylesheet" href="libs/angular-material-data-table/dist/md-data-table.min.css">
+		<link rel="stylesheet" href="libs/angular-material-expansion-panel/dist/md-expansion-panel.css">
+
+		<link rel="stylesheet/less" href="assets/css/style.less" type="text/css">
+		<link rel="stylesheet/less" href="assets/css/card.less" type="text/css">
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.7.1/less.min.js"></script>
+		<!-- custom styles -->
+
+		<!-- JS -->
+		<script src="libs/lodash/lodash.js"></script>
+		<script src="libs/angular/angular.js"></script>
+		<script src="libs/angular-route/angular-route.js"></script>
+		<script src="libs/angular-ui-router/release/angular-ui-router.js"></script>
+		<script src="libs/angular-resource/angular-resource.js"></script>
+		<script src="libs/angular-aria/angular-aria.js"></script>
+		<script src="libs/angular-messages/angular-messages.js"></script>
+		<script src="libs/angular-animate/angular-animate.js"></script>
+		<script src="libs/angular-material/angular-material.js"></script>
+		<script src="libs/angular-material-data-table/dist/md-data-table.min.js"></script>
+		<script src="libs/angular-material-expansion-panel/dist/md-expansion-panel.js"></script>
+		<script src="libs/angular-facebook/lib/angular-facebook.js"></script>
+		<script src="libs/angular-google-analytics/dist/angular-google-analytics.min.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
+
+		<script src="scripts/simple-text-parser.js"></script>
+		<!-- ANGULAR CUSTOM -->
+		<script src="home/home.controller.js"></script>
+
+		<script src="card/card.controller.js"></script>
+		<script src="card/card.service.js"></script>
+
+		<script src="dialog/dialog.service.js"></script>
+
+		<script src="game/game.controller.js"></script>
+		<script src="game/game.manager.js"></script>
+		<script src="game/player.service.js"></script>
+
+		<script src="game/game.setup.controller.js"></script>
+
+		<script src="game/hand/hand.controller.js"></script>
+		<script src="game/hand/hand.input.controller.js"></script>
+
+		<script src="game/burn/burn.input.controller.js"></script>
+
+		<script src="list/list.controller.js"></script>
+		<script src="list/list.dialog.controller.js"></script>
+		<script src="list/list.service.js"></script>
+
+		<script src="app.js"></script>
+		<script src="app.routes.js"></script>
+		<script src="app.socket.service.js"></script>
+
+		<meta name="google-site-verification" content="kaEQR5JqusUWcrJRNCUHE8o0N9jIPrWrpcBdynPRDQs" />
+	</head>
+
+	<body ng-app="app">
+		<div class="container">
+
+
+
+			<!-- ANGULAR DYNAMIC CONTENT -->
+			<ui-view></ui-view>
+
+		</div>
+	</body>
+
+</html>

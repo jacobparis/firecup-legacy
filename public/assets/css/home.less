@@ -1,21 +1,249 @@
-header.home {
-  padding: 1rem;
-  background: #2f2f2f;
-  color: rgba(255,255,255,0.8);
-    box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);
+//
+// Variables for em / rem use
+//
+
+@base_px: 16; //set to the most common base px size used in browsers, should generally be left at default
+
+@toRems: (1 / @base_px) + 0rem; //allows you to set values as the default px size to target, which is then converted into scalable rem values.
+
+@toEms: (1 / @base_px) + 0em; //same as above, but with em values
+
+//
+// Grid mixins
+//
+
+@default-width: 1200 * @toRems;
+
+@default-colspan: 1;
+
+@total_cols: 12;
+
+@sm-ceiling: 500px;
+
+.Row ( @width : @default-width ) {
+    max-width: @width;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0 auto;
+    // clear at the end of container
+    &:before,
+    &:after {
+        content:"";
+        display:table;
+    }
+    &:after {
+        clear:both;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+}
+
+.Cols ( @colspan : @default-colspan;) {
+
+      width: ( @colspan * (100 / @total_cols) ) + 0%;
+    float: left;
+}
+
+// Colours
+
+@white: #fafafa;
+@black: #282828;
+
+@primary: #f44336;
+@accent: #ff9800;
+// Thematic Mixins
+
+.Dark() {
+  background-color: @black;
+  color: @white;
+}
+
+.Light() {
+  background-color: @white;
+  color: @black;
+}
+
+body {
+  background-color: @black;
+  font-family: 'Roboto', 'Open Sans', sans-serif !important;
+  line-height: 25 * @toRems;
+}
+
+button {
+  padding: 30 * @toRems 15 * @toRems;
+  font-size: 1.5rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 5 * @toRems;
+
+  margin: auto;
+  display: block;
+  font-family: 'Roboto', 'Open Sans', sans-serif !important;
+  cursor: pointer;
+}
+
+img {
+  max-width: 100%;
+  margin: auto; //Center horizontally
+  display: block;
+}
+
+figure {
+  margin: 0 !important;
+}
+header {
+  .Row;
+  .Dark;
+  min-height: 200 * @toRems;
   img {
-    max-height: 20vh;
+    max-width: 80%;
+    padding: 50 * @toRems 0;
+  }
+  button {
+    min-width: 50%;
+    max-width: 80%;
+    background: @accent;
   }
 }
 
-section.home {
-  padding: 1rem;
+section.intro {
+  .Dark;
+  .2Col;
+  img {
+    margin: auto; //Center horizontally
+    display: block;
+    border-radius: 10 * @toRems;
+  }
+
+  li {
+    padding: 10 * @toRems 0;
+    text-align: left;
+  }
+  .statement {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+}
+
+.2Col() {
+  & > aside {
+    @media only screen and (max-width : @sm-ceiling - 1) {
+      .Cols(12);
+    }
+    @media only screen and (min-width : @sm-ceiling) {
+      .Cols(6);
+    }
+  }
+}
+section.bridge-1 {
+  .Light;
+}
+
+section.bridge-2 {
+  .Dark;
+}
+
+section.counter {
+  .Dark;
+  p {
+    text-align: left;
+  }
+}
+
+section.explain {
+  .Light;
+  .2Col;
+  text-align: left;
+}
+
+section.gallery {
+  .Dark;
+  & > div {
+    .Row;
+    figure {
+      @media only screen and (max-width : @sm-ceiling - 1) {
+        .Cols(12);
+      }
+      @media only screen and (min-width : @sm-ceiling) {
+        .Cols(4);
+      }
+
+    }
+  }
+}
+
+section.devices {
+  .Light;
+}
+
+section.traps {
+  .Dark;
+  .2Col;
+  aside {
+    text-align: left;
+  }
+  & > p:last-child {
+    clear: both;
+  }
+}
+
+section.faq {
+  .Light;
+  .qa {
+    @media only screen and (max-width : @sm-ceiling - 1) {
+      .Cols(12);
+    }
+    @media only screen and (min-width : @sm-ceiling) {
+      .Cols(6);
+    }
+    text-align: left;
+    padding: 0 20 * @toRems;
+    & > h4 {
+      position: relative;
+      &:before {
+        content: 'Q';
+        position: absolute;
+        left: -2rem;
+        font-size: 1.5rem;
+        opacity: 0.6;
+      }
+    }
+    & > p {
+      position: relative;
+      &:before {
+        content: 'A';
+        position: absolute;
+        left: -2rem;
+        font-size: 1.5rem;
+        font-weight: bold;
+        opacity: 0.6;
+      }
+    }
+  }
 }
 
 section.action {
-  text-align: center;
+  .Dark;
+  button {
+    min-width: 50%;
+    max-width: 80%;
+    background: @accent;
+  }
 }
-.md-button.large {
-  padding: 2rem;
-font-size: 2rem;
+
+footer {
+  .Row;
+  .Dark;
+  text-align: center;
+  padding: 10 * @toRems;
+}
+section  {
+  .Row;
+  min-height: 200 * @toRems;
+  padding: 40 * @toRems;
+  text-align: center;
+
 }
