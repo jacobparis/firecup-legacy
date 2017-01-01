@@ -176,10 +176,10 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
         if(!source.data) {return false;}
         return _.sample(source.data, 1);
       });
-      vm.parser.addRule('PLAYER1', function(tag, history) {
+      vm.parser.addRule('PLAYERA', function(tag, history) {
         // Return PLAYERA if already used
         const existing = _.find(history, function(record) {
-          return record.match === 'PLAYER1';
+          return record.match === 'PLAYERA';
         });
 
         if (existing && existing.text) {
@@ -195,10 +195,10 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
         return playerName;
       });
 
-      vm.parser.addRule('PLAYER2', function(tag, history) {
+      vm.parser.addRule('PLAYERB', function(tag, history) {
         // Return tag if already used
         const existing = _.find(history, function(record) {
-          return record.match === 'PLAYER2';
+          return record.match === 'PLAYERB';
         });
 
         if(existing && existing.text) {
@@ -207,7 +207,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
 
         // Return random that is not used
         let blacklist = _.filter(history, function(record) {
-          return record.match === 'PLAYER1';
+          return record.match === 'PLAYERA';
         });
 
         if(blacklist.length === 0) {
