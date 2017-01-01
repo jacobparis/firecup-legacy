@@ -17,14 +17,13 @@ exports.buildADeck = buildADeck;
 exports.drawBurnCards = drawBurnCards;
 
 function addPlayer(room, name, deviceToken) {
-  console.log('Add Player named ' + name);
+  console.log('Add player ' + name + ' to ' + room);
 
   const query = Game
   .where('title').equals(room)
   .select('players')
   .findOne()
   .then(function(game) {
-    console.log('Found room: ' + room);
     return Game
     .findOneAndUpdate({
       $push: {
@@ -131,7 +130,6 @@ function updatePlayer(title, doc) {
               numCards = numCards + 1;
             }
           }
-          console.log(numCards);
           if(numCards >= hand.min) {
             // Skip to next player
             continue;
@@ -315,17 +313,14 @@ function buildDeck2() {
 function drawBurnCards(room, players) {
   if(!room) {return Promise.reject();}
 
-  console.log('Draw burn card');
+  console.log('Draw burn card in ' + room);
   return Game
   .where('title').equals(room)
   .select('burnDeck settings')
   .findOne()
   .then(function(game) {
-    console.log('1');
-    console.log(game);
     const cards = [];
     if(!_.find(game.settings.decks, {type: 'burn'})) {
-      console.log('3');
       // No burn deck in this variant, return an empty object
       _.each(players, function(player) {
         cards.push({
@@ -349,7 +344,6 @@ function drawBurnCards(room, players) {
         .exec();
       });
     }
-    console.log('2');
     const deck = game.burnDeck;
 
     let newCard = {};
@@ -371,8 +365,6 @@ function drawBurnCards(room, players) {
       })
       .exec();
     }
-    console.log('END');
-    console.log(cards);
     return cards;
   });
 

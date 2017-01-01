@@ -49,8 +49,6 @@ module.exports = function(app) {
     'update': function(req) {
       Game.updatePlayer(req.data.room, req.data.player)
       .then(function(result) {
-        console.log('THEN');
-        console.log(result);
         app.io.room(req.data.room).broadcast('player:updated', result.players[0]);
       }, function(error) {
         console.log(error);
@@ -69,8 +67,6 @@ module.exports = function(app) {
     'burn': function(req) {
       Game.drawBurnCards(req.data.room, req.data.players)
       .then(function(cards) {
-        console.log(cards);
-
         app.io.room(req.data.room).broadcast('player:burned', cards);
       });
       // Insert list of cards and players here
@@ -79,13 +75,9 @@ module.exports = function(app) {
 
   app.io.route('turn', {
     'set': function(req) {
-      console.log('Begin set turn');
-      console.log(req.data.room);
-      console.log(req.data.index);
+      console.log('Change turn in ' + req.data.room);
       Game.setTurn(req.data.room, req.data.index)
       .then(function(data) {
-        console.log('Turn set, sending callback');
-        console.log(data);
         app.io.room(req.data.room).broadcast('turn:changed', {
           turn: req.data.index,
           totalTurns: data.totalTurns
