@@ -111,11 +111,11 @@ module.exports = function(app) {
   // frontend routes =========================================================
   // route to handle all angular requests
 
-  app.get('/game', function(req, res) {
+  app.get('/game/*', function(req, res) {
     res.sendfile('./public/app.html');
   });
 
-  app.get('/list', function(req, res) {
+  app.get('/list/*', function(req, res) {
     res.sendfile('./public/app.html');
   });
 

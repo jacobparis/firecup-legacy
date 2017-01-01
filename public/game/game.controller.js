@@ -297,6 +297,8 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
   /* External functions **/
 
   function drawEvent() {
+    console.log('Draw Event');
+
     const card = GameManager.session.eventDeck[GameManager.session.totalTurns];
     if (GameManager.session.facedown) {
       // Parse card contents
