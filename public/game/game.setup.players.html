@@ -2,6 +2,10 @@
   <form ng-cloak>
     <md-toolbar>
       <div class="md-toolbar-tools">
+        <!-- Only show toolbar back arrow if SMALL SCREEN -->
+        <md-button class="md-icon-button" ng-if="$mdMedia('xs')">
+          <md-icon>arrow_back</md-icon>
+        </md-button>
         <h2>Firecup: {{game.session.Title()}}</h2>
         <span flex></span>
         <!--md-menu>
@@ -90,10 +94,14 @@
     </md-dialog-content>
 
     <md-dialog-actions layout="row">
-      <md-button ng-click="dm.cancel()">
+      <!-- only show back dialog action if LARGER SCREEN -->
+      <md-button ng-click="dm.cancel()" ng-if="$mdMedia('gt-xs')">
         Back
       </md-button>
+
       <span flex></span>
+
+      <md-button>Invite Friends</md-button>
       <md-button ng-click="dm.confirmPlayers()" ng-if="dm.players.length > 1 && game.session.settings.shareDevice || !(game.session.settings.shareDevice || dm.multiplePlayers)" md-autofocus>
         Start Game
       </md-button>
