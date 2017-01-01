@@ -8,7 +8,7 @@
         </md-button>
         <h2>Firecup: {{game.session.Title()}}</h2>
         <span flex></span>
-        <!--md-menu>
+        <md-menu>
         <md-button ng-click="$mdOpenMenu($event)" class="md-icon-button">
   				<md-icon class="material-icons">share</md-icon>
   			</md-button>
@@ -17,14 +17,20 @@
               <div class="fb-share-button" data-href="http://www.firecup.ca/" data-layout="button" data-size="large" data-mobile-iframe="false"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.firecup.ca%2F&amp;src=sdkpreparse">Share</a></div>
             </md-menu-item>
           </md-menu-content>
-        </md-menu -->
+        </md-menu>
       </div>
     </md-toolbar>
 
     <md-dialog-content class="md-padding">
       <md-content layout-padding>
-        <span ng-if="game.modes[game.session.mode].settings.shareDevice">Add other players to this device. Other players can now connect to this game from their own devices and play their turns there.</span>
-        <span ng-if="!game.modes[game.session.mode].settings.shareDevice">In this game mode, each player must connect from their own device.</span>
+        <!-- if players CAN SHARE DEVICES in this variant -->
+        <span ng-if="game.modes[game.session.mode].settings.shareDevice">
+          Add other players to this device. Other players can now connect to this game from their own devices and play their turns there.
+        </span>
+        <!-- if players CAN NOT SHARE DEVICES in this variant -->
+        <span ng-if="!game.modes[game.session.mode].settings.shareDevice">
+          In this game mode, each player must connect from their own device.
+        </span>
         <div flex>
           <div class="fb-send" data-href="{{url()}}"></div>
         </div>
@@ -101,7 +107,9 @@
 
       <span flex></span>
 
-      <md-button>Invite Friends</md-button>
+      <md-button class="{{$location.absUrl()}}">
+        <div class="fb-send" data-href="{{$location.absUrl()}}"></div>
+      </md-button>
       <md-button ng-click="dm.confirmPlayers()" ng-if="dm.players.length > 1 && game.session.settings.shareDevice || !(game.session.settings.shareDevice || dm.multiplePlayers)" md-autofocus>
         Start Game
       </md-button>

@@ -32,5 +32,8 @@ function Config($mdThemingProvider, AnalyticsProvider, FacebookProvider) {
     'trackEvent': true
   });
 
-  FacebookProvider.init('1891222457802172');
+  TOKENS = {
+    fb: '1891222457802172'
+  };
+  FacebookProvider.init(TOKENS.fb);
 }

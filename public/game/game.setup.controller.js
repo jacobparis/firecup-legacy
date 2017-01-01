@@ -17,7 +17,8 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location,
   const dm = this;
   $scope.game = GameManager;
   $scope.$mdMedia = $mdMedia;
-  $scope.url = $location.absUrl;
+  $scope.$location = $location;
+  $scope.tokens = TOKENS;
   dm.createGame = createGame;
   dm.players = [];
   dm.multiplePlayers = false;
@@ -160,6 +161,8 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location,
   function activate() {
     dm.players = JSON.parse(JSON.stringify(GameManager.session.players));
     dm.multiplePlayers = _.filter(dm.players, {'deviceToken': GameManager.session.deviceToken}).length !== 1;
+    console.log($scope);
+    console.log($location.absUrl());
     Facebook.getLoginStatus(function(response) {
       console.log(response);
     });
