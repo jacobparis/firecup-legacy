@@ -23,11 +23,11 @@
 
     <md-dialog-content class="md-padding">
       <!-- if players CAN SHARE DEVICES in this variant -->
-      <span ng-if="game.modes[game.session.mode].settings.shareDevice">
+      <span ng-if="game.session.settings.shareDevice">
         Add other players to this device. Other players can now connect to this game from their own devices and play their turns there.
       </span>
       <!-- if players CAN NOT SHARE DEVICES in this variant -->
-      <span ng-if="!game.modes[game.session.mode].settings.shareDevice">
+      <span ng-if="!game.session.settings.shareDevice">
         In this game mode, each player must connect from their own device.
       </span>
       <div ng-if="!facebook.loggedIn">
