@@ -135,16 +135,23 @@ function GameManager($resource, $q, Socket, GameResource, DeckService) {
   }
 
   function updatePlayer(player) {
+    const params = {
+      'player': player.index,
+      'setName': !!player.name,
+      'link': !!player.link,
+      'title': gm.session.title
+    };
+
+    if(gm.session.fb && gm.session.fb === player.facebook) {
+      params.facebook = player.facebook;
+    }
     const Players = $resource('api/games/:title', {
       'title': gm.session.title
     }, {
       'update': {
         'method': 'PUT',
         'params': {
-          'player': player.index,
-          'setName': !!player.name,
-          'link': !!player.link,
-          'title': gm.session.title
+
         }
       }
     });

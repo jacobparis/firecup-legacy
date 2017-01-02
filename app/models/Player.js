@@ -10,6 +10,9 @@ mongoose.model('Player', {
     required: true,
     dropDups: true
   },
+  room: {
+    type: String,
+  },
   games: {
     type: Number,
     default: 0

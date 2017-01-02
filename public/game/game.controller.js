@@ -313,12 +313,19 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
     }
     // Take status and trap cards
     if (card.type === 'trap') {
+      const player = {
+        index: GameManager.session.turn,
+        pushCard: angular.toJson(card)
+      };
+
+      if(GameManager.session.fb
+      && GameManager.session.fb === GameManager.session.players[GameManager.session.turn].facebook) {
+        player.facebook = GameManager.session.fb;
+      }
+
       Socket.emit('player:update', {
         room: GameManager.session.title,
-        player: {
-          index: GameManager.session.turn,
-          pushCard: angular.toJson(card)
-        }
+        player: player
       });
     }
 
@@ -347,7 +354,20 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
 
     // Take status and trap cards
     if (vm.burnCard[0].type === 'status') {
-      GameManager.giveCardToPlayer(vm.burnCard[0], vm.burnCard[0].player);
+      const player = {
+        index: vm.burnCard[0].player,
+        pushCard: angular.toJson(vm.burnCard[0])
+      };
+
+      if(GameManager.session.fb
+      && GameManager.session.fb === GameManager.session.players[vm.burnCard[0].player].facebook) {
+        player.facebook = GameManager.session.fb;
+      }
+
+      Socket.emit('player:update', {
+        room: GameManager.session.title,
+        player: player
+      });
     }
 
     // Remove top card

@@ -100,13 +100,31 @@ function updatePlayer(title, doc) {
     }
 
     const newPlayer = new Player({
-      facebook: doc.facebook
+      facebook: doc.facebook,
+      room: title,
     });
 
     newPlayer
     .save()
-    .then(function(err) {
-      console.log(err);
+    .then(function(result) {
+      console.log(result);
+    }, function(err) {
+      Player
+      .where('facebook').equals(doc.facebook)
+      .findOne()
+      .then(function(user) {
+        console.log(user);
+        console.log(user.room);
+        if(user.room === title) {
+          // User is already here, abort;
+          return Promise.resolve();
+        }
+
+        return Player
+        .where('facebook').equals(doc.facebook)
+        .update({$set: {room: title}, $inc: {games: 1}})
+        .exec();
+      });
     });
 
     query = Game
@@ -119,6 +137,16 @@ function updatePlayer(title, doc) {
 
   if(doc.pushCard) {
     console.log('Give card to player #' + doc.index);
+    console.log(doc.facebook);
+    const a = JSON.parse(doc.pushCard);
+    if(doc.facebook && a.type === 'status') {
+      Player
+      .where('facebook').equals(doc.facebook)
+      .update({
+        $inc: {statuses: 1}
+      })
+      .exec();
+    }
     query = Game
     .findOneAndUpdate({$push: {'players.$.hand': JSON.parse(doc.pushCard)}})
     .setOptions({
@@ -127,7 +155,7 @@ function updatePlayer(title, doc) {
     .merge(query);
   }
 
-  if(doc.pullCard) {
+  if(doc.hasOwnProperty('pullCard')) {
     console.log('Discard from player #' + doc.index);
     query = Game
     .findOneAndUpdate({$pull: {'players.$.hand': {index: doc.pullCard}}})
@@ -307,6 +335,13 @@ function setTurn(room, index) {
   .select('turn totalTurns')
   .update({$inc: {'totalTurns': 1}, $set: {'turn': index}})
   .then(function() {
+    Player
+    .where('room').equals(room)
+    .update({
+      $inc: {turns: 1}
+    })
+    .exec();
+
     return Game
     .where('title').equals(room)
     .select('totalTurns')
@@ -342,7 +377,7 @@ function drawBurnCards(room, players) {
   console.log('Draw burn card in ' + room);
   return Game
   .where('title').equals(room)
-  .select('burnDeck settings')
+  .select('burnDeck settings players')
   .findOne()
   .then(function(game) {
     const cards = [];
@@ -374,6 +409,14 @@ function drawBurnCards(room, players) {
 
     let newCard = {};
     for(let i = 0; i < players.length; i++) {
+      if(game.players[players[i]].facebook) {
+        Player
+        .where('facebook').equals(game.players[players[i]].facebook)
+        .update({
+          $inc: {burns: 1}
+        })
+        .exec();
+      }
       // Here I can parse the burn cards before delivering to client
       newCard = deck.splice(0, 1)[0];
       newCard.player = players[i];
