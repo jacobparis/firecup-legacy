@@ -415,8 +415,8 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
     _.each(cards, function(card) {
       if(GameManager.session.deviceToken === GameManager.session.players[card.player].deviceToken) {
         // Target Player is on this device
-
         vm.burnCard.push(card);
+        _.last(vm.burnCard).secondary = vm.parser.render(card.secondary, card);
 
         if(!card.empty) {
           _.last(vm.burnCard).facedown = true;
