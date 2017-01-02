@@ -14,7 +14,7 @@
   			</md-button>
           <md-menu-content width="1">
             <md-menu-item ng-repeat="item in dm.socials">
-              <div class="fb-share-button" data-href="http://www.firecup.ca/" data-layout="button" data-size="large" data-mobile-iframe="false"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.firecup.ca%2F&amp;src=sdkpreparse">Share</a></div>
+              <div class="fb-share-button" data-href="{{$location.absUrl()}}" data-layout="button" data-size="large" data-mobile-iframe="false"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.firecup.ca%2F&amp;src=sdkpreparse">Share</a></div>
             </md-menu-item>
           </md-menu-content>
         </md-menu>
@@ -22,19 +22,31 @@
     </md-toolbar>
 
     <md-dialog-content class="md-padding">
-      <md-content layout-padding>
-        <!-- if players CAN SHARE DEVICES in this variant -->
-        <span ng-if="game.modes[game.session.mode].settings.shareDevice">
-          Add other players to this device. Other players can now connect to this game from their own devices and play their turns there.
-        </span>
-        <!-- if players CAN NOT SHARE DEVICES in this variant -->
-        <span ng-if="!game.modes[game.session.mode].settings.shareDevice">
-          In this game mode, each player must connect from their own device.
-        </span>
-        <div flex>
-          <div class="fb-send" data-href="{{url()}}"></div>
-        </div>
-      </md-content>
+      <!-- if players CAN SHARE DEVICES in this variant -->
+      <span ng-if="game.modes[game.session.mode].settings.shareDevice">
+        Add other players to this device. Other players can now connect to this game from their own devices and play their turns there.
+      </span>
+      <!-- if players CAN NOT SHARE DEVICES in this variant -->
+      <span ng-if="!game.modes[game.session.mode].settings.shareDevice">
+        In this game mode, each player must connect from their own device.
+      </span>
+      <div ng-if="!facebook.loggedIn">
+        Connect to Facebook to keep track of your stats and access more content.
+      </div>
+      <div ng-if="facebook.loggedIn">
+        You are connected to Facebook.
+      </div>
+      <div
+      class="fb-login-button"
+      data-max-rows="1"
+      data-size="medium"
+      data-show-faces="false"
+      data-auto-logout-link="true"
+      data-scope="
+        public_profile,
+        user_friends,
+        publish_actions
+        "></div>
 
 
       <div layout="column">
@@ -48,6 +60,7 @@
               <span ng-if="game.session.deviceToken === player.deviceToken" class="md-caption">On this device</span>
               <span ng-if="game.session.deviceToken !== player.deviceToken" class="md-caption">On another device</span>
             </div>
+            <img ng-if="player.facebook && game.session.fb === player.facebook" src="/assets/img/FB-f-Logo__blue_50.png" />
             <md-expansion-panel-icon></md-expansion-panel-icon>
           </md-expansion-panel-collapsed>
 
@@ -60,25 +73,45 @@
                 <span ng-if="game.session.deviceToken === player.deviceToken" class="md-caption">On this device</span>
                 <span ng-if="game.session.deviceToken !== player.deviceToken" class="md-caption">On another device</span>
               </div>
+              <img ng-if="player.facebook && game.session.fb === player.facebook" src="/assets/img/FB-f-Logo__blue_50.png" />
               <md-expansion-panel-icon></md-expansion-panel-icon>
             </md-expansion-panel-header>
 
             <md-expansion-panel-content>
+              <div layout="column">
                 <md-input-container>
                   <label>Name</label>
                   <input ng-model="player.name"></input>
                 </md-input-container>
+                <div ng-if="facebook.loggedIn">
+                  Only connect one player per Facebook account. If more people want to connect, they can join the game from their own devices and connect there.
+                </div>
+              </div>
+
             </md-expansion-panel-content>
 
             <md-expansion-panel-footer>
               <md-button class="md-warn" ng-click="$panel.collapse() && dm.loadPlayers()">Reset</md-button>
               <div flex></div>
 
-              <md-button ng-click="$panel.collapse() && dm.linkPlayer(player)"ng-hide="$mdMedia('xs')">Link to this device</md-button>
-              <md-button ng-click="$panel.collapse() && dm.linkPlayer(player)"ng-hide="$mdMedia('gt-xs')">Link</md-button>
+              <md-button
+                ng-if="facebook.loggedIn && game.session.fb !== player.facebook"
+                ng-click="$panel.collapse() && dm.fbPlayer(player)">
+                Connect FB
+              </md-button>
+              <md-button
+                ng-if="facebook.loggedIn && game.session.fb === player.facebook"
+                ng-click="$panel.collapse() && dm.removefbPlayer(player)">
+                Remove FB
+              </md-button>
 
-              <md-button ng-click="$panel.collapse() && dm.savePlayer(player)" ng-hide="$mdMedia('xs')">Save Changes</md-button>
-              <md-button ng-click="$panel.collapse() && dm.savePlayer(player)" ng-hide="$mdMedia('gt-xs')">Save</md-button>
+              <md-button
+                ng-if="game.session.deviceToken !== player.deviceToken"
+                ng-click="$panel.collapse() && dm.linkPlayer(player)">
+                Link Device
+              </md-button>
+
+              <md-button ng-click="$panel.collapse() && dm.savePlayer(player)">Save</md-button>
             </md-expansion-panel-footer>
 
           </md-expansion-panel-expanded>
@@ -107,16 +140,23 @@
 
       <span flex></span>
 
-      <md-button class="{{$location.absUrl()}}">
+      <md-button>
         <div class="fb-send" data-href="{{$location.absUrl()}}"></div>
       </md-button>
-      <md-button ng-click="dm.confirmPlayers()" ng-if="dm.players.length > 1 && game.session.settings.shareDevice || !(game.session.settings.shareDevice || dm.multiplePlayers)" md-autofocus>
+      <!-- NUMBER OF PLAYERS GOOD and CORRECT # PLAYERS ON DEVICE and CORRECT # FACEBOOK USERS -->
+      <md-button ng-click="dm.confirmPlayers()" ng-if="dm.players.length > 1 && !(facebook.loggedIn && dm.multipleFacebooks) && game.session.settings.shareDevice || !(game.session.settings.shareDevice || dm.multiplePlayers)" md-autofocus>
         Start Game
       </md-button>
-      <md-button ng-if="dm.players.length > 1 && !game.session.settings.shareDevice && dm.multiplePlayers" ng-disabled="true" md-autofocus>
+      <!-- NUMBER OF PLAYERS GOOD and CORRECT # PLAYERS ON DEVICE and INCORRECT # FACEBOOK USERS -->
+      <md-button ng-click="dm.confirmPlayers()" ng-if="dm.players.length > 1 && (facebook.loggedIn && dm.multipleFacebooks) && game.session.settings.shareDevice || !(game.session.settings.shareDevice || dm.multiplePlayers)" ng-disabled="true">
+        One player per FB
+      </md-button>
+      <!-- NUMBER OF PLAYERS GOOD and INCORRECT # PLAYERS ON DEVICE -->
+      <md-button ng-if="dm.players.length > 1 && !game.session.settings.shareDevice && dm.multiplePlayers" ng-disabled="true">
          One Player Per Device
       </md-button>
-      <md-button ng-if="dm.players.length < 2" ng-disabled="true" md-autofocus>
+      <!-- TOO FEW PLAYERS -->
+      <md-button ng-if="dm.players.length < 2" ng-disabled="true">
         Add {{(dm.players.length) ? '1 Player' : '2 Players'}} to Start
       </md-button>
     </md-dialog-actions>

@@ -13,12 +13,12 @@ angular
     'GameManager',
     'DeckService',
     'DialogService',
-    'PlayerService',
+    'FBService',
     'Analytics',
     GameController
   ]);
 
-function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state, $timeout, Socket, GameManager, DeckService, DialogService, PlayerService, Analytics) {
+function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state, $timeout, Socket, GameManager, DeckService, DialogService, FBService, Analytics) {
   Analytics.trackPage('/game');
   // Lock scrolling hack
 //  angular.element(document.body).addClass("noscroll");

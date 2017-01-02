@@ -9,11 +9,12 @@ angular
     '$location',
     'Socket',
     'Facebook',
+    'FBService',
     'GameManager',
     GameSetupController
   ]);
 
-function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location, Socket, Facebook, GameManager) {
+function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location, Socket, Facebook, FBService, GameManager) {
   const dm = this;
   $scope.game = GameManager;
   $scope.$mdMedia = $mdMedia;
@@ -22,11 +23,14 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location,
   dm.createGame = createGame;
   dm.players = [];
   dm.multiplePlayers = false;
+  dm.multipleFacebooks = false;
   dm.loadPlayers = loadPlayers;
   dm.addPlayer = addPlayer;
   dm.savePlayer = savePlayer;
   dm.linkPlayer = linkPlayer;
-
+  dm.fbPlayer = fbPlayer;
+  dm.removefbPlayer = removefbPlayer;
+  dm.logout = function() {Facebook.logout();};
   dm.confirmPlayers = confirmPlayers;
   dm.newPlayerName;
 
@@ -132,21 +136,14 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location,
       'image': 'FB-f-Logo__blue_50.png'
     }
   ];
+
+  $scope.facebook = {
+    loggedIn: false
+  };
   $scope.login = function() {
       // From now on you can use the Facebook service just as Facebook api says
     Facebook.login(function(response) {
         // Do something with response.
-    });
-  };
-
-  $scope.getLoginStatus = function() {
-    Facebook.getLoginStatus(function(response) {
-      if(response.status === 'connected') {
-        $scope.loggedIn = true;
-      }
-      else {
-        $scope.loggedIn = false;
-      }
     });
   };
 
@@ -164,7 +161,27 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location,
     console.log($scope);
     console.log($location.absUrl());
     Facebook.getLoginStatus(function(response) {
-      console.log(response);
+      if(response.status === 'connected') {
+        $scope.facebook.loggedIn = true;
+
+        FBService.getUser('me')
+        .then(function(result) {
+          GameManager.session.fb = result.id;
+          dm.multipleFacebooks = _.filter(dm.players, {'facebook': GameManager.session.fb}).length > 1;
+          _.find(dm.players, function(player) {
+            if(player.facebook !== GameManager.session.fb) {return;}
+            if(player.deviceToken === GameManager.session.deviceToken) {return;}
+
+            linkPlayer(player);
+            return player;
+          });
+
+          FBService.getScores()
+          .then(function(result) {
+            console.log(result);
+          });
+        });
+      }
     });
   }
   function createGame() {
@@ -209,14 +226,27 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location,
     console.log('Update Player Setup');
     dm.players[data.index] = data;
     dm.multiplePlayers = _.filter(dm.players, {'deviceToken': GameManager.session.deviceToken}).length !== 1;
+    dm.multipleFacebooks = _.filter(dm.players, {'facebook': GameManager.session.fb}).length > 1;
+
   });
 
   function linkPlayer(player) {
     player.deviceToken = GameManager.session.deviceToken;
     savePlayer(player);
+  }
+
+  function fbPlayer(player) {
+    player.facebook = GameManager.session.fb;
+    player.deviceToken = GameManager.session.deviceToken;
+    savePlayer(player);
 
   }
 
+  function removefbPlayer(player) {
+    player.facebook = 'DELETE';
+    savePlayer(player);
+
+  }
   function confirmPlayers() {
     console.log('Confirm');
     const session = dm.settings;

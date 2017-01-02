@@ -91,6 +91,19 @@ function updatePlayer(title, doc) {
     .merge(query);
   }
 
+  if(doc.facebook) {
+    console.log('Connect player to facebook: ' + doc.facebook);
+    if(doc.facebook === 'DELETE') {
+      doc.facebook = null;
+    }
+    query = Game
+    .findOneAndUpdate({$set: {'players.$.facebook': doc.facebook}})
+    .setOptions({
+      'new': true
+    })
+    .merge(query);
+  }
+
   if(doc.pushCard) {
     console.log('Give card to player #' + doc.index);
     query = Game
