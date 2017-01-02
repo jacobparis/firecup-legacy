@@ -18,7 +18,7 @@ mongoose.model('Game', {
       type: mongoose.Schema.Types.Mixed
     }],
     deviceToken: String,
-    facebook: String,
+    facebook: String
   }],
   'turn': {
     type: Number

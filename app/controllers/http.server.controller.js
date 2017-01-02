@@ -1,5 +1,6 @@
 require('../models/Game');
 require('../models/Card');
+require('../models/Player');
 require('../../node_modules/lodash/lodash');
 const Socket = require('./socket.server.controller');
 const _ = require('lodash');
@@ -7,6 +8,7 @@ const Game = require('mongoose')
 .model('Game');
 const Card = require('mongoose')
 .model('Card');
+const Player = require('mongoose').model('Player');
 
 const getErrorMessage = function(err) {
   if (err.errors) {

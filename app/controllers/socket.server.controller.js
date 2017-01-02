@@ -1,5 +1,7 @@
 require('../models/Game');
 require('../models/Card');
+
+require('../models/Player');
 require('../../node_modules/lodash/lodash');
 const _ = require('lodash');
 const mongoose = require('mongoose');
@@ -7,6 +9,7 @@ const Game = require('mongoose')
 .model('Game');
 const Card = require('mongoose')
 .model('Card');
+const Player = require('mongoose').model('Player');
 
 exports.addPlayer = addPlayer;
 exports.updatePlayer = updatePlayer;
@@ -51,7 +54,6 @@ function updatePlayer(title, doc) {
   if(!doc.hasOwnProperty('index')) {return Promise.reject();}
 
   console.log('Update Player in ' + title);
-  console.log(doc);
   const playerObject = Game
   .where('title').equals(title)
   .where('players.index').equals(doc.index)
@@ -96,6 +98,17 @@ function updatePlayer(title, doc) {
     if(doc.facebook === 'DELETE') {
       doc.facebook = null;
     }
+
+    const newPlayer = new Player({
+      facebook: doc.facebook
+    });
+
+    newPlayer
+    .save()
+    .then(function(err) {
+      console.log(err);
+    });
+
     query = Game
     .findOneAndUpdate({$set: {'players.$.facebook': doc.facebook}})
     .setOptions({
