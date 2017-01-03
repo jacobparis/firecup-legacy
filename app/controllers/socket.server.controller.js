@@ -276,12 +276,17 @@ function updatePlayer(title, doc) {
   });
 }
 
-function buildADeck(deck) {
+function buildADeck(deck, themes) {
   if(!deck) {return Promise.reject();}
+  themes = themes || ['classic'];
+  console.log(themes);
   return Card.find({
     'deck': deck.type,
     'type': {
       $in: deck.contents
+    },
+    'theme': {
+      $in: themes
     }
   })
   .lean()

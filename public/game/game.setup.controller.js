@@ -36,6 +36,8 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location,
 
   dm.cancel = cancel;
   dm.mode = 0;
+  dm.themes = ['classic'];
+  dm.selectTheme = selectTheme;
   dm.settings = [
     {
       'name': 'Firecup',
@@ -130,6 +132,16 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location,
     }
   ];
 
+  function selectTheme(theme) {
+    const id = dm.themes.indexOf(theme);
+
+    if(id > -1) {dm.themes.splice(id, 1);}
+
+    else {dm.themes.push(theme);}
+
+    console.log(dm.themes);
+  }
+
   dm.socials = [
     {
       'name': 'Facebook',
@@ -186,7 +198,11 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location,
   }
   function createGame() {
     console.log('Create');
-    $mdDialog.hide(dm.settings[dm.mode]);
+    const theme = {
+      theme: dm.themes
+    };
+    console.log(Object.assign(dm.settings[dm.mode], theme));
+    $mdDialog.hide(Object.assign(dm.settings[dm.mode], theme));
   }
 
   function addPlayer() {

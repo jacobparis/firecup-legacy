@@ -21,6 +21,20 @@
       <div layout="row">
         {{dm.settings[dm.mode].desc}}
       </div>
+      <md-list flex>
+        <md-list-item ng-click="null">
+          <md-checkbox ng-disabled="true" ng-checked="true"></md-checkbox>
+          <span>Classic</span>
+        </md-list-item>
+        <md-list-item ng-click="dm.selectTheme('movietraps')">
+          <md-checkbox ng-checked="dm.themes.indexOf('movietraps') > -1"></md-checkbox>
+          <span>Movie Traps</span>
+        </md-list-item>
+        <md-list-item ng-click="dm.selectTheme('nsfw')">
+          <md-checkbox ng-checked="dm.themes.indexOf('nsfw') > -1"></md-checkbox>
+          <span>NSFW</span>
+        </md-list-item>
+      </md-list>
     </md-dialog-content>
 
     <md-dialog-actions layout="row">

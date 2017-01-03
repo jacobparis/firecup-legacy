@@ -47,7 +47,7 @@ function newGame(req, res, next) {
   };
   const title = randomItem(adjectives) + '-' + randomItem(animals) + '-' + randomItem(places);
   console.log('NEW GAME: ' + title);
-  console.log(req.body.settings);
+  console.log(req.body);
   const settings = {
     settings: req.body.settings,
     turn: -1,
@@ -58,7 +58,7 @@ function newGame(req, res, next) {
   settings.turn = req.body.settings.takeTurns ? 0 : -1;
   const decks = [];
   _.each(req.body.settings.decks, function(deck) {
-    decks.push(Socket.buildADeck(deck));
+    decks.push(Socket.buildADeck(deck, req.body.theme));
   });
 
   Promise.all(decks)
