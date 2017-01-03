@@ -67,7 +67,14 @@ module.exports = function(app) {
     'burn': function(req) {
       Game.drawBurnCards(req.data.room, req.data.players)
       .then(function(cards) {
-        app.io.room(req.data.room).broadcast('player:burned', cards);
+        Game.getRoom(req.data.room)
+        .then(function(room) {
+          app.io.room(req.data.room).broadcast('player:burned', {
+            cards: cards,
+            players: room.players
+          });
+
+        });
       });
       // Insert list of cards and players here
     }

@@ -408,11 +408,16 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
     }
   });
 
-  Socket.on('player:burned', function(cards) {
+  Socket.on('player:burned', function(obj) {
     console.log('On Player Burned');
 
+    // Update player stats
+    _.each(obj.players, function(player) {
+      GameManager.session.players[player.index] = Object.assign(GameManager.session.players[player.index], player);
+    });
+
     vm.burnCard = [];
-    _.each(cards, function(card) {
+    _.each(obj.cards, function(card) {
       if(GameManager.session.deviceToken === GameManager.session.players[card.player].deviceToken) {
         // Target Player is on this device
         vm.burnCard.push(card);

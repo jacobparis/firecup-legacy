@@ -17,7 +17,7 @@
 		<!-- HYBRID EVENT / BURN DECK -->
 		<div
 		class="large card-container"
-		ng-if="$mdMedia('xs')"
+		ng-if="$mdMedia('xs') && (thisDevice(game.session.turn) || vm.burnCard.length)"
 		md-swipe-up="vm.showGridBottomSheet()"
 		md-swipe-left="vm.switchDecks()"
 		md-swipe-right="vm.switchDecks()">
@@ -47,11 +47,6 @@
 				<p class="secondary">{{vm.burnCard[0].secondary}}</p>
 				<span class="type">{{vm.burnCard[0].type}} TYPE</span>
 			</div>
-			<!-- PLACEHOLDER when NOT YOUR TURN and YOU HAVE NOT BEEN BURNED and GAME SUPPORTS TURNS-->
-			<div
-			class="placeholder card"
-			ng-if="!thisDevice(game.session.turn) && !vm.burnCard.length && game.session.settings.takeTurns">
-			</div>
 		</div>
 
 		<!-- EVENT CARD when LARGE SCREEN and YOUR TURN and YOU HAVE NOT BEEN BURNED-->
@@ -71,10 +66,28 @@
 			</div>
 		</div>
 
-		<!-- PLACEHOLDER CARD when LARGE SCREEN and NOT YOUR TURN and YOU HAVE NOT BEEN BURNED and GAME SUPPORTS TURNS-->
-		<div class="large card-container" ng-if="$mdMedia('gt-xs') && !thisDevice(game.session.turn) && !vm.burnCard.length && game.session.settings.takeTurns">
-			<div class="placeholder card" ng-click="vm.alertTurn()"></div>
-		</div>
+		<!-- PLACEHOLDER CARD when NOT YOUR TURN and YOU HAVE NOT BEEN BURNED-->
+		<md-card
+		ng-click="vm.alertTurn()"
+		ng-if="!thisDevice(game.session.turn) && !vm.burnCard.length">
+			<md-card-title>
+				<md-card-title-text>
+					<span class="md-headline">
+						This game, {{game.session.players[vm.selectedPlayer].name}}
+					</span>
+				</md-card-title-text>
+			</md-card-title>
+			<md-card-content>
+				<md-list flex>
+					<md-list-item>
+						<span>...has been burned {{game.session.players[vm.selectedPlayer].stats.burns}} times.</span>
+					</md-list-item>
+					<md-list-item>
+						<span>...has had {{game.session.players[vm.selectedPlayer].stats.statuses}} status conditions.</span>
+					</md-list-item>
+				</md-list>
+			</md-card-content>
+		</md-card>
 
 
 		<!-- BURN CARD when LARGE SCREEN and YOU HAVE BEEN BURNED -->

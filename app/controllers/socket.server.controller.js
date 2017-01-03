@@ -138,8 +138,7 @@ function updatePlayer(title, doc) {
   if(doc.pushCard) {
     console.log('Give card to player #' + doc.index);
     console.log(doc.facebook);
-    const a = JSON.parse(doc.pushCard);
-    if(doc.facebook && a.type === 'status') {
+    if(doc.facebook && JSON.parse(doc.pushCard).type === 'status') {
       Player
       .where('facebook').equals(doc.facebook)
       .update({
@@ -148,7 +147,14 @@ function updatePlayer(title, doc) {
       .exec();
     }
     query = Game
-    .findOneAndUpdate({$push: {'players.$.hand': JSON.parse(doc.pushCard)}})
+    .findOneAndUpdate({
+      $push: {
+        'players.$.hand': JSON.parse(doc.pushCard)
+      },
+      $inc: {
+        'players.$.stats.statuses': (JSON.parse(doc.pushCard).type === 'status') ? 1 : 0
+      }
+    })
     .setOptions({
       'new': true
     })
@@ -424,12 +430,16 @@ function drawBurnCards(room, players) {
       console.log(newCard);
       Game
       .where('title').equals(room)
+      .where('players.index').equals(players[i])
       .select('burnDeck')
       .update({
         $pull: {
           'burnDeck': {
             index: newCard.index
           }
+        },
+        $inc: {
+          'players.$.stats.burns': 1
         }
       })
       .exec();
