@@ -30,11 +30,15 @@
           <md-checkbox ng-checked="dm.themes.indexOf('movietraps') > -1"></md-checkbox>
           <span>Movie Traps - For Movie Nights</span>
         </md-list-item>
-        <md-list-item ng-click="dm.showNSFW = !dm.showNSFW">
+        <md-list-item ng-click="dm.selectTheme('nsfw')">
+          <md-checkbox ng-checked="dm.themes.indexOf('nsfw') > -1"></md-checkbox>
+          <span>NSFW</span>
+        </md-list-item>
+        <!-- md-list-item ng-click="dm.showNSFW = !dm.showNSFW">
           <md-checkbox ng-checked="false"></md-checkbox>
           <span>NSFW</span>
           <md-button ng-show="dm.showNSFW" class="md-raised md-secondary md-primary">Buy $10 / 200 Cards</md-button>
-        </md-list-item>
+        </md-list-item -->
       </md-list>
     </md-dialog-content>
 

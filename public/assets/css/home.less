@@ -55,12 +55,12 @@
 @accent: #ff9800;
 // Thematic Mixins
 
-.Dark() {
+.Dark {
   background-color: @black;
   color: @white;
 }
 
-.Light() {
+.Light {
   background-color: @white;
   color: @black;
 }
@@ -162,7 +162,6 @@ section.explain {
 }
 
 section.gallery {
-  .Dark;
   & > div {
     .Row;
     figure {
@@ -238,15 +237,13 @@ section.action {
 
 // PRODUCT
 
-section.lightproduct {
-  .Light;
+section.product {
   .2Col;
   p {
     text-align: left;
     padding: 0 20 * @toRems;
   }
 }
-
 
 footer {
   .Row;
