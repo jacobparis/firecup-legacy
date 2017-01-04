@@ -50,8 +50,8 @@ function ListDialogController($scope, $q, $mdDialog, $mdMedia) {
   function getDeck() {
     const type = vm.cardTypes[vm.card.type];
 
-    if(type === 'action') {return 'smite';}
-    if(type === 'status') {return 'smite';}
+    if(type === 'action') {return 'burn';}
+    if(type === 'status') {return 'burn';}
     if(type === 'event') {return 'event';}
     if(type === 'trap') {return 'event';}
 
