@@ -33,6 +33,7 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location,
   dm.logout = function() {Facebook.logout();};
   dm.confirmPlayers = confirmPlayers;
   dm.newPlayerName;
+  dm.showNSFW = false;
 
   dm.cancel = cancel;
   dm.mode = 0;
@@ -201,7 +202,6 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location,
     const theme = {
       theme: dm.themes
     };
-    console.log(Object.assign(dm.settings[dm.mode], theme));
     $mdDialog.hide(Object.assign(dm.settings[dm.mode], theme));
   }
 
@@ -238,6 +238,9 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location,
     });
   }
 
+  function showPurchase() {
+
+  }
   Socket.on('player:updated', function(data) {
     console.log('Update Player Setup');
     dm.players[data.index] = data;

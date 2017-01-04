@@ -59,15 +59,9 @@ function ListDialogController($scope, $q, $mdDialog, $mdMedia) {
 
   function listThemes(query) {
     const themes = [
-      'animals',
-      'food',
-      'music',
-      'party',
-      'sports',
-      'internet',
-      'language',
-      'history',
-      'movies'
+      'classic',
+      'movietraps',
+      'nsfw'
     ];
 
     const results = query ? themes.filter(createFilterFor(query)) : themes;

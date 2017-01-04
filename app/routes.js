@@ -118,6 +118,10 @@ module.exports = function(app) {
     res.sendfile('./public/app.html');
   });
 
+  app.get('/nsfw*', function(req, res) {
+    res.sendfile('./public/nsfw.html');
+  });
+
   app.get('*', function(req, res) {
     res.sendfile('./public/index.html');
   });

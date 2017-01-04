@@ -99,7 +99,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
         controller: 'GameSetupController',
         controllerAs: 'dm',
         templateUrl: 'game/game.setup.html',
-        clickOutsideToClose: true,
+        clickOutsideToClose: false,
       };
 
       return DialogService.showCustom(dialog)
