@@ -18,13 +18,20 @@
     <link rel="stylesheet/less" href="assets/css/home.less" type="text/css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.7.1/less.min.js"></script>
+		<script type="text/javascript" src="//s3.amazonaws.com/downloads.mailchimp.com/js/signup-forms/popup/embed.js" data-dojo-config="usePlainJson: true, isDebug: false"></script>
+
+		<script>
+		function showMailingPopUp() {
+		    require(["mojo/signup-forms/Loader"], function(L) { L.start({"baseUrl":"mc.us14.list-manage.com","uuid":"07b9ce9ce10f19b7b0e0b19d1","lid":"d6732c3fbd"}) })
+		    document.cookie = "MCEvilPopupClosed=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+		};
+		</script>
+
   </head>
   <body>
     <header>
       <img src="assets/img/nsfwbanner.png" />
-			<form action="game">
-        <button type="submit">BUY NSFW NOW</button>
-      </form>
+        <button type="submit" onclick="showMailingPopUp()">BUY NSFW PACK</button>
     </header>
     <section class="Light product">
       <aside>
@@ -45,7 +52,7 @@
     <section class="gallery Light">
       <h2>What's in the pack?</h2>
       <p>
-        It's the classic Firecup experience, but full of enticing cards like these
+        It's the classic Firecup experience: exciting cards personalized for you and your friends, but with more enticing cards like these
       </p>
       <div>
 				<figure>
@@ -126,9 +133,7 @@
     </section>
     <section class="action">
       <h2>Start The Party</h2>
-      <form action="game">
-        <button type="submit">BUY NSFW NOW</button>
-      </form>
+				<button type="submit" onclick="showMailingPopUp()">BUY NSFW PACK</button>
       <h3>SPREAD THE WORD</h3>
       <div class="fb-share-button" data-href="http://www.firecup.ca/nsfw" data-layout="button_count" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.firecup.ca%2Fnsfw&amp;src=sdkpreparse">Share</a></div>
     </section>
