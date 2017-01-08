@@ -1,1 +1,1 @@
-{ "indexes" : [ { "v" : 1, "key" : { "_id" : 1 }, "name" : "_id_", "ns" : "beta.games" } ] }
+{"options":{},"indexes":[{"v":1,"key":{"_id":1},"name":"_id_","ns":"beta.games"},{"v":1,"key":{"createdAt":1.0},"name":"createdAt_1","ns":"beta.games","expireAfterSeconds":86400.0}]}
