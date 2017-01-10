@@ -1,4 +1,5 @@
 /** Angular Material Overrides **/
+
 md-toolbar {
     box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);
     min-height: 48px !important;
@@ -11,6 +12,11 @@ md-toolbar {
 
     md-tabs.noTabPanel md-tabs-wrapper {
         display: none !important;
+    }
+
+    img {
+      width: 1rem;
+      margin-right: 1rem;
     }
 }
 
@@ -60,6 +66,13 @@ md-bottom-sheet {
 
 .md-caption {
   line-height: 1 !important;
+}
+
+.md-fab {
+  position: fixed !important;
+ md-icon {
+    padding: 0 9px;
+}
 }
 
 md-expansion-panel {

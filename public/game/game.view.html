@@ -1,9 +1,36 @@
 <header class="game" ng-cloak>
 	<md-toolbar ng-show="vm.startEh">
+		<div class="md-toolbar-tools">
+			<img src="/assets/img/icon.png" />
+			<h2>
+				Tiny Owl House
+			</h2>
+			<span flex></span>
+			<md-button class="md-icon-button" aria-label="More">
+        <md-icon>share</md-icon>
+      </md-button>
+			<md-menu md-position-mode="target-right target">
+				<md-button class="md-icon-button" ng-click="$mdOpenMenu()" aria-label="More">
+	        <md-icon>more_vert</md-icon>
+	      </md-button>
+				<md-menu-content>
+					<md-menu-item ng-if="game.session.turn != vm.selectedPlayer && game.session.settings.takeTurns">
+						<md-button ng-click="vm.turnChange(vm.selectedPlayer)">
+							<p>SET TURN</p>
+						</md-button>
+					</md-menu-item>
+					<md-menu-item ng-if="game.session.turn == vm.selectedPlayer && game.session.settings.takeTurns">
+						<md-button ng-click="vm.turnChange(game.session.turn)">
+							<p>RESET TURN</p>
+						</md-button>
+					</md-menu-item>
+				</md-menu-content>
+			</md-menu>
+		</div>
 		<md-tabs md-selected="vm.selectedPlayer" md-stretch-tabs md-dynamic-height>
 			<md-tab id="tab_{{player.name}}" ng-repeat="player in game.session.players" >
 				<md-tab-label>
-					{{(vm.turn == $index) ? player.name + "'S TURN" : player.name}}
+					{{(game.session.turn == $index) ? player.name + "'S TURN" : player.name}}
 				</md-tab-label>
 			</md-tab>
 
@@ -102,28 +129,20 @@
 		</div>
 		<!-- CENTER SINGLE DECK when LARGE SCREEN and (NOT YOUR TURN) -->
 		<div ng-if="$mdMedia('gt-xs') && false" flex></div>
-		</md-menu>
 
-		<md-fab-speed-dial ng-if="game.session.settings.takeTurns"hide-gt-xs md-open="vm.dialOpen" class="md-scale md-fab-bottom-right" md-direction="up">
-			<md-fab-trigger>
-				<md-button aria-label="menu" class="mainButton md-fab md-warn"></md-button>
-			</md-fab-trigger>
+		<md-button
+		class="md-fab md-accent md-fab-bottom-right"
+		ng-click="vm.showHand()"
+		ng-if="thisDevice(game.session.turn)">
+			<md-icon>pan_tool</md-icon>
+		</md-button>
 
-			<md-fab-actions >
-				<md-button ng-click="vm.switchDecks()" ng-if="_.filter(game.session.settings.decks, {'visible': true}).length > 1" class="md-raised" ng-disabled="!thisDevice(game.session.turn)">
-					SWITCH DECKS
-				</md-button>
-				<md-button ng-click="vm.showHand()" class="md-raised" ng-disabled="!thisDevice(game.session.turn)">
-					CHECK HAND
-				</md-button>
-				<md-button ng-if="game.session.turn != vm.selectedPlayer && game.session.settings.takeTurns" ng-click="vm.turnChange(vm.selectedPlayer)" class="md-raised">
-					SET TURN
-				</md-button>
-				<md-button ng-if="game.session.turn == vm.selectedPlayer && game.session.settings.takeTurns" ng-click="vm.turnChange(game.session.turn)" class="md-raised">
-					RESET TURN
-				</md-button>
-			</md-fab-actions>
-		</md-fab-speed-dial>
+		<md-button
+		class="md-fab md-warn md-fab-bottom-left"
+		ng-click="vm.switchDecks()"
+		ng-if="_.filter(game.session.settings.decks, {'visible': true}).length > 1" >
+			<md-icon>swap_horiz</md-icon>
+		</md-button>
 	</div>
 	<handsheet ng-if="vm.startEh && ($mdMedia('gt-xs') || (!thisDevice(game.session.turn) && !vm.burnCard.length) || !_.find(game.session.settings.decks, {'visible': true})  && !vm.burnCard.length)">
 </main>
@@ -131,5 +150,5 @@
 <angular-bootstrap-feedback options="options">
 
 		<angular-bootstrap-feedback-screenshot></angular-bootstrap-feedback-screenshot>
-	
+
 </angular-bootstrap-feedback>
