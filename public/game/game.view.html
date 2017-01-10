@@ -146,7 +146,7 @@
 		<md-button
 		class="md-fab md-accent md-fab-bottom-right"
 		ng-click="vm.showHand()"
-		ng-if="thisDevice(game.session.turn)">
+		ng-if="thisDevice(game.session.turn) && game.session.players[game.session.turn].hand.length">
 			<md-icon>pan_tool</md-icon>
 		</md-button>
 
