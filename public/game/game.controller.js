@@ -31,7 +31,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
     return true;
   };
   $scope.options = {
-    modalTitle: 'Feedblack',
+    modalTitle: 'Give Developer Feedback',
     takeScreenshotButtonText: 'Take screenshot',
     submitButtonText: 'Submit',
     sendFeedbackButtonText: 'Send Feedback',
@@ -80,7 +80,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
       .then(function() {
         vm.startEh = true;
         $scope.thisDevice = function(index) {
-          if(index == -1) {return false;}
+          if(index === -1) {return false;}
           if(!vm.startEh) {return false;}
           return GameManager.session.players[index].deviceToken === GameManager.session.deviceToken;
         };
