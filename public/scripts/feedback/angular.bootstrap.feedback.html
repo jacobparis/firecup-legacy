@@ -1,0 +1,39 @@
+<md-dialog ng-class="{'fullscreen-dialog': !$mdMedia('gt-sm')}" class="feedback">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>{{$ctrl.factory.options.modalTitle}}</h2>
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="$ctrl.closeModal(); $event.stopPropagation()">
+        <md-icon aria-label="Close dialog">close</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <form name="feedback2" ng-submit="$ctrl.submitButtonPressed({data: feedback, img: $ctrl.factory.screenshotBase64})">
+  <md-dialog-content>
+    <blockquote>
+  		Let me know of any pain points, confusing areas, or poorly conceived ideas and I will immediately work at solving them. If you leave contact information, I'll get back to you via email or SMS as soon as possible.
+  		<footer>
+  			Jacob Pariseau, Firecup Developer
+  		</footer>
+  	</blockquote>
+  	<div layout-xs="column" layout-gt-xs="row">
+  		<div flex-gt-xs="50">
+    		<md-input-container class="md-block">
+    			<label>Contact (email or sms number)</label>
+    			<input ng-model="feedback.contact" type="text">
+    		</md-input-container>
+    		<md-input-container class="md-block">
+          <label>Comments (required)</label>
+          <textarea ng-model="feedback.comment" md-maxlength="1000" rows="5" required md-select-on-focus></textarea>
+        </md-input-container>
+  	  </div>
+    	<div flex-gt-xs="50" class="screenshot"></div>
+    </div>
+  </md-dialog-content>
+  <md-dialog-actions layout="row">
+    <md-button type="submit">
+      {{$ctrl.factory.options.submitButtonText}}
+    </md-button>
+  </md-dialog-actions>
+</form>
+</md-dialog>

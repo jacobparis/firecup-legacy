@@ -127,3 +127,9 @@
 	</div>
 	<handsheet ng-if="vm.startEh && ($mdMedia('gt-xs') || (!thisDevice(game.session.turn) && !vm.burnCard.length) || !_.find(game.session.settings.decks, {'visible': true})  && !vm.burnCard.length)">
 </main>
+
+<angular-bootstrap-feedback options="options">
+
+		<angular-bootstrap-feedback-screenshot></angular-bootstrap-feedback-screenshot>
+	
+</angular-bootstrap-feedback>

@@ -1,0 +1,11 @@
+<div class="send-feedback" layout="column">
+  <md-button class="md-raised md-accent" ng-if="!$ctrl.factory.isScreenshotMode" ng-click="$ctrl.openModal()">
+    <md-icon>comment</md-icon>
+  </md-button>
+  <md-button class="md-raised md-accent" ng-if="$ctrl.factory.isScreenshotMode" ng-click="$ctrl.takeScreenshotPressed()">
+    <md-icon>check_circle</md-icon>
+  </md-button>
+  <md-button class="md-raised" ng-if="$ctrl.factory.isScreenshotMode" ng-click="$ctrl.cancelScreenshotPressed()">
+    <md-icon>cancel</md-icon>
+  </md-button>
+</div>

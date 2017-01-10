@@ -1,0 +1,56 @@
+/**
+ * angular-bootstrap-feedback - User feedback form for angular with screenshot and highlighting
+ * @author Robert Young
+ * @version v1.0.2
+ * @link https://robertyoung.github.io/angular-bootstrap-feedback/
+ * @license MIT
+ * This file is auto-generated. Please modify the Typescript related file.
+ */
+/** FEEDBACK */
+@keyframes slide
+{
+    100%
+    {
+        right: 0;
+    }
+}
+
+.send-feedback
+{
+  position: fixed;
+  z-index: 9001;
+  top: 20%;
+  right: 0;
+
+
+}
+.send-feedback button {
+  min-width: 40px !important;
+  border-radius: 3px 0 0 3px;
+  margin-right: 0;
+}
+.feedback-screenshot img
+{
+    max-height: 230px;
+
+    border: 5px solid #eee;
+    border-radius: 12px;
+
+    object-fit: cover;
+}
+#feedback-canvas
+{
+    position: absolute;
+    z-index: 9000;
+    opacity: 0.5;
+    cursor: crosshair;
+}
+
+.close-modal-button
+{
+    cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}

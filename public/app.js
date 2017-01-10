@@ -5,6 +5,7 @@ angular.module('app', [
   'ui.router',
   'md.data.table',
   'angular-google-analytics',
+  'angular.bootstrap.feedback',
   'facebook',
   'material.components.expansionPanels',
   'Home',

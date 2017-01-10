@@ -92,6 +92,12 @@ module.exports = function(app) {
       });
     }
   });
+
+  app.io.route('feedback', {
+    'submit': function(req) {
+      Game.saveFeedback(req.data);
+    }
+  });
   app.io.route('user:join', function(req) {
     req.io.broadcast('user:joined');
   });

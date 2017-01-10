@@ -12,6 +12,7 @@
     "angular-material-expansion-panel": "^0.7.1",
     "angular-facebook": "^0.2.3",
     "normalize-strings": "normalize#^1.1.0",
-    "normalize-css": "^5.0.0"
+    "normalize-css": "^5.0.0",
+    "angular-bootstrap-feedback": "^1.0.3"
   }
 }

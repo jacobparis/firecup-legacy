@@ -30,7 +30,15 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
     console.log(log);
     return true;
   };
-
+  $scope.options = {
+    modalTitle: 'Feedblack',
+    takeScreenshotButtonText: 'Take screenshot',
+    submitButtonText: 'Submit',
+    sendFeedbackButtonText: 'Send Feedback',
+    cancelScreenshotOptionsButtonText: 'Cancel',
+    takeScreenshotOptionsButtonText: 'Take Screenshot',
+    submitButtonPressed: submitFeedback
+  };
   const vm = this;
   /* Properties **/
   vm.selectedPlayer = 0;
@@ -475,6 +483,11 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
       }
     }
   });
+
+  function submitFeedback(result) {
+    console.log(result);
+    Socket.emit('feedback:submit', result);
+  }
 }
 
 function randomIndex(array) {

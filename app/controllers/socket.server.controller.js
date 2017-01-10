@@ -1,6 +1,6 @@
 require('../models/Game');
 require('../models/Card');
-
+require('../models/Feedback');
 require('../models/Player');
 require('../../node_modules/lodash/lodash');
 const _ = require('lodash');
@@ -10,7 +10,7 @@ const Game = require('mongoose')
 const Card = require('mongoose')
 .model('Card');
 const Player = require('mongoose').model('Player');
-
+const Feedback = require('mongoose').model('Feedback');
 exports.addPlayer = addPlayer;
 exports.updatePlayer = updatePlayer;
 exports.setTurn = setTurn;
@@ -18,6 +18,7 @@ exports.getRoom = getRoom;
 exports.buildDeck = buildDeck2;
 exports.buildADeck = buildADeck;
 exports.drawBurnCards = drawBurnCards;
+exports.saveFeedback = saveFeedback;
 
 function addPlayer(room, name, deviceToken) {
   console.log('Add player ' + name + ' to ' + room);
@@ -454,6 +455,14 @@ function drawBurnCards(room, players) {
 
 }
 
+function saveFeedback(doc) {
+  const feedback = new Feedback({
+    contact: doc.data.contact,
+    comment: doc.data.comment,
+    img: doc.img
+  });
+  feedback.save();
+}
 function randomIndex(array) {
   return Math.floor(Math.random() * (array.length));
 }

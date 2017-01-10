@@ -28,8 +28,13 @@ md-fab-actions {
   text-align: right;
 }
 
-md-input-container .md-errors-spacer {
+md-input-container {
+  label {
+    box-sizing: border-box;
+  }
+  .md-errors-spacer {
     min-height: 0;
+  }
 }
 md-dialog.list {
   min-width: 50vw;
@@ -128,6 +133,41 @@ handsheet {
 
 .flex-right {
   margin-left: auto;
+}
+
+blockquote {
+  background: #f9f9f9;
+  margin: 1.5em 10px !important;
+  padding: 0.5em 10px;
+  quotes: "\201C""\201D""\2018""\2019";
+  &:before {
+   color: #ccc;
+   content: open-quote;
+   font-size: 4em;
+   line-height: 0.1em;
+   margin-right: 0.25em;
+   vertical-align: -0.4em;
+ }
+ &:after {
+  color: #ccc;
+  content: close-quote;
+  font-size: 4em;
+  line-height: 0.1em;
+  margin-right: 0.25em;
+  vertical-align: -0.4em;
+  float: right;
+}
+
+footer {
+    text-transform: uppercase;
+    font-size: 80%;
+    padding: 0.5rem;
+    opacity: 0.8;
+    /* float: right; */
+}
+}
+blockquote p {
+  display: inline;
 }
 .BoxShadowHelper(@level: 1, @hover: false){
     & when (@level = 1) {
