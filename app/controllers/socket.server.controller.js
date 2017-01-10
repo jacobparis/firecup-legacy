@@ -277,9 +277,10 @@ function updatePlayer(title, doc) {
   });
 }
 
-function buildADeck(deck, themes) {
+function buildADeck(deck, themes, len) {
   if(!deck) {return Promise.reject();}
   themes = themes || ['classic'];
+  len = len || 100000;
   console.log(themes);
   return Card.find({
     'deck': deck.type,
@@ -331,7 +332,7 @@ function buildADeck(deck, themes) {
     return _.take(_.map(_.shuffle(deck), function(doc, index) {
       doc.index = index;
       return doc;
-    }), 52);
+    }), len);
   });
 }
 
@@ -345,8 +346,8 @@ function setTurn(room, index) {
   .where('title').equals(room)
   .where('turn').ne(-1)
   .select('turn totalTurns')
-  .update({$inc: {'totalTurns': 1}, $set: {'turn': index}})
-  .then(function() {
+  .findOneAndUpdate({$inc: {'totalTurns': 1}, $set: {'turn': index}})
+  .then(function(game) {
     Player
     .where('room').equals(room)
     .update({

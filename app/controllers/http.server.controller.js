@@ -58,7 +58,7 @@ function newGame(req, res, next) {
   settings.turn = req.body.settings.takeTurns ? 0 : -1;
   const decks = [];
   _.each(req.body.settings.decks, function(deck) {
-    decks.push(Socket.buildADeck(deck, req.body.theme));
+    decks.push(Socket.buildADeck(deck, req.body.theme, deck.len));
   });
 
   Promise.all(decks)

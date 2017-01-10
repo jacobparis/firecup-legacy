@@ -72,7 +72,8 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location,
             'type': 'burn',
             'contents': ['status', 'action'],
             'turn': false,
-            'visible': true
+            'visible': true,
+            'len': 50
           }
         ]
       }
@@ -102,7 +103,8 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location,
             'type': 'burn',
             'contents': ['action'],
             'turn': false,
-            'visible': true
+            'visible': true,
+            'len': 50
           }
         ]
       }
@@ -126,7 +128,8 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location,
             'type': 'event',
             'contents': ['trap'],
             'turn': false,
-            'visible': false
+            'visible': false,
+            'len': 50
           }
         ]
       }
