@@ -336,10 +336,14 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
         room: GameManager.session.title,
         player: player
       });
-    }
 
-    // Is regular card, flipped up. Continue to next player
-    turnChange();
+      turnChange(GameManager.session.turn);
+    }
+    else {
+
+      // Is regular card, flipped up. Continue to next player
+      turnChange();
+    }
   }
 
   function drawBurn() {
@@ -410,13 +414,16 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
     console.log('on turn changed');
     vm.dialOpen = false;
     vm.selectedPlayer = data.turn;
-    GameManager.session.turn = data.turn;
     GameManager.session.totalTurns = data.totalTurns;
     GameManager.session.facedown = true;
-    // Is this account on my device?
-    if(GameManager.session.deviceToken === GameManager.session.players[data.turn].deviceToken) {
+    // this account is ON MY DEVICE and it's NOT ALREADY MY TURN
+    if(GameManager.session.deviceToken === GameManager.session.players[data.turn].deviceToken
+    && GameManager.session.turn !== data.turn) {
+      GameManager.session.turn = data.turn;
       alertTurn();
     }
+    GameManager.session.turn = data.turn;
+
   });
 
   Socket.on('player:burned', function(obj) {
