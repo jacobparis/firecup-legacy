@@ -181,10 +181,12 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
     function setupParser() {
       vm.parser = new Parser();
       vm.parser.addRule('RANDOM', function(tag, history, source) {
+        console.log(source);
         if(!source.data) {return false;}
         return _.sample(source.data, 1);
       });
-      vm.parser.addRule('PLAYERA', function(tag, history) {
+      vm.parser.addRule('PLAYERA', function(tag, history, source) {
+        console.log(source);
         // Return PLAYERA if already used
         const existing = _.find(history, function(record) {
           return record.match === 'PLAYERA';
@@ -194,16 +196,17 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
           return existing.text;
         }
 
-        const myName = GameManager.session.players[GameManager.session.turn].name;
+        const me = (source && source.player) ? source.player : GameManager.session.turn;
+        const myName = GameManager.session.players[me].name;
         let playerName = myName;
-
         while(playerName === myName) {
           playerName = GameManager.session.players[randomIndex(GameManager.session.players)].name;
         }
         return playerName;
       });
 
-      vm.parser.addRule('PLAYERB', function(tag, history) {
+      vm.parser.addRule('PLAYERB', function(tag, history, source) {
+        console.log(source);
         // Return tag if already used
         const existing = _.find(history, function(record) {
           return record.match === 'PLAYERB';
@@ -222,7 +225,8 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
           blacklist = [{text: ''}];
         }
 
-        const myName = GameManager.session.players[GameManager.session.turn].name;
+        const me = (source && source.player) ? source.player : GameManager.session.turn;
+        const myName = GameManager.session.players[me].name;
         let name = blacklist[0].text;
         while(name === blacklist[0].text || name === myName) {
           name = GameManager.session.players[randomIndex(GameManager.session.players)].name;
@@ -230,21 +234,23 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
         return name;
       });
 
-      vm.parser.addRule('ME', function(tag) {
-        // Return player at random
-        return GameManager.session.players[GameManager.session.turn].name;
+      vm.parser.addRule('ME', function(tag, history, source) {
+        console.log(source);
+        const me = (source && source.player) ? source.player : GameManager.session.turn;
+        return GameManager.session.players[me].name;
       });
 
-      vm.parser.addRule('NEXTPLAYER', function(tag) {
-        // Return player at random
+      vm.parser.addRule('NEXTPLAYER', function(tag, history, source) {
+        console.log(source);
+        const me = (source && source.player) ? source.player : GameManager.session.turn;
         const len = GameManager.session.players.length;
-        return GameManager.session.players[(GameManager.session.turn + 1) % len].name;
+        return GameManager.session.players[(me + 1) % len].name;
       });
 
-      vm.parser.addRule('PREVPLAYER', function(tag) {
-        // Return player at random
+      vm.parser.addRule('PREVPLAYER', function(tag, history, source) {
+        const me = (source && source.player) ? source.player : GameManager.session.turn;
         const len = GameManager.session.players.length;
-        return GameManager.session.players[(GameManager.session.turn + len - 1) % len].name;
+        return GameManager.session.players[(me + len - 1) % len].name;
       });
     }
     function firstDeal() {
