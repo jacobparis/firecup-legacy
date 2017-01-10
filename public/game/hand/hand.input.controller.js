@@ -54,6 +54,7 @@ function HandInputController($scope, $mdDialog, DialogService, GameManager, Sock
       'room': GameManager.session.title,
       'players': [id]
     });
+    discard();
   }
 
   function giveCard(id) {

@@ -347,7 +347,9 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
       // We can burn multiples now, so reset to the event deck automagically
       DialogService.showBurnInput($scope)
       .then(function() {
-        vm.deckChoice = 0;
+        switchDecks(0);
+      }, function() {
+        switchDecks(0);
       });
       return;
     }

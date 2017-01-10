@@ -13,7 +13,7 @@ function BurnInputController($scope, $mdDialog, Socket, DialogService, GameManag
   const sm = this;
   $scope.game = GameManager;
   sm.selectPlayer = selectPlayer;
-  sm.selection = [$scope.vm.selectedPlayer];
+  sm.selection = [];
   sm.cancel = $mdDialog.cancel;
   sm.burnPlayer = burnPlayer;
   console.log($scope);

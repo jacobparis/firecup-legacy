@@ -89,6 +89,7 @@ var AngularBootstrapFeedback;
     function Factory($mdDialog, $mdMedia, $document, $templateCache, $timeout) {
       const _this = this;
       this.$mdDialog = $mdDialog;
+      this.$mdMedia = $mdMedia;
       this.$document = $document;
       this.$templateCache = $templateCache;
       this.$timeout = $timeout;
