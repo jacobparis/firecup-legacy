@@ -122,7 +122,7 @@
               <label>What is your name?</label>
               <input ng-model="dm.newPlayerName">
             </md-input-container>
-            <md-button type="submit" ng-disabled="!dm.newPlayerName.length" class="md-secondary md-fab md-mini" ng-click="dm.addPlayer()">
+            <md-button type="submit" ng-disabled="!dm.newPlayerName.length" class="md-secondary md-primary md-raised" ng-click="dm.addPlayer()">
               <md-icon>person_add</md-icon>
             </md-button>
           </form>
@@ -143,12 +143,8 @@
         <div class="fb-send" data-href="{{$location.absUrl()}}"></div>
       </md-button>
       <!-- NUMBER OF PLAYERS GOOD and CORRECT # PLAYERS ON DEVICE and CORRECT # FACEBOOK USERS -->
-      <md-button ng-click="dm.confirmPlayers()" ng-if="dm.players.length > 1 && !(facebook.loggedIn && dm.multipleFacebooks) && game.session.settings.shareDevice || !(game.session.settings.shareDevice || dm.multiplePlayers)" md-autofocus>
+      <md-button ng-click="dm.confirmPlayers()" ng-if="dm.players.length > 1 && game.session.settings.shareDevice || !(game.session.settings.shareDevice || dm.multiplePlayers)" md-autofocus>
         Start Game
-      </md-button>
-      <!-- NUMBER OF PLAYERS GOOD and CORRECT # PLAYERS ON DEVICE and INCORRECT # FACEBOOK USERS -->
-      <md-button ng-click="dm.confirmPlayers()" ng-if="dm.players.length > 1 && (facebook.loggedIn && dm.multipleFacebooks) && game.session.settings.shareDevice || !(game.session.settings.shareDevice || dm.multiplePlayers)" ng-disabled="true">
-        One player per FB
       </md-button>
       <!-- NUMBER OF PLAYERS GOOD and INCORRECT # PLAYERS ON DEVICE -->
       <md-button ng-if="dm.players.length > 1 && !game.session.settings.shareDevice && dm.multiplePlayers" ng-disabled="true">
