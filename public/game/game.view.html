@@ -56,7 +56,10 @@
 			ng-if="vm.deckChoice == 'event' && thisDevice(game.session.turn) && !vm.burnCard.length && _.find(game.session.settings.decks, {'type': 'event', 'visible': true})">
 				<p class="primary">{{vm.eventCard.primary}}</p>
 				<p class="secondary">{{vm.eventCard.secondary}}</p>
-				<span class="type">{{vm.eventCard.type}} TYPE</span>
+				<span class="type">
+					<p class="tertiary">{{vm.eventCard.tertiary}}</p>
+					{{vm.eventCard.type}} TYPE
+				</span>
 			</div>
 			<!-- BURN CARD when SELECTED and YOUR TURN and YOU HAVE NOT BEEN BURNED just acts as button -->
 			<div
@@ -72,7 +75,10 @@
 			ng-if="vm.burnCard.length && _.find(game.session.settings.decks, {'type': 'burn', 'visible': true})">
 				<p class="primary">{{vm.burnCard[0].primary}}</p>
 				<p class="secondary">{{vm.burnCard[0].secondary}}</p>
-				<span class="type">{{vm.burnCard[0].type}} TYPE</span>
+				<span class="type">
+					<p class="tertiary">{{vm.burnCard[0].tertiary}}</p>
+					{{vm.burnCard[0].type}} TYPE
+				</span>
 			</div>
 		</div>
 
@@ -81,7 +87,10 @@
 			<div class="clickable event card" ng-class="{'facedown': game.session.facedown}" ng-click="vm.drawEvent($event)">
 				<p class="primary">{{vm.eventCard.primary}}</p>
 				<p class="secondary">{{vm.eventCard.secondary}}</p>
-				<span class="type">{{vm.eventCard.type}} TYPE</span>
+				<span class="type">
+					<p class="tertiary">{{vm.eventCard.tertiary}}</p>
+					{{vm.eventCard.type}} TYPE
+				</span>
 			</div>
 		</div>
 
@@ -124,7 +133,10 @@
 				ng-click="vm.drawBurn($mdOpenMenu, $event)">
 				<p class="primary">{{vm.burnCard[0].primary}}</p>
 				<p class="secondary">{{vm.burnCard[0].secondary}}</p>
-				<span class="type">{{vm.burnCard[0].type}} TYPE</span>
+				<span class="type">
+					<p class="tertiary">{{vm.burnCard[0].tertiary}}</p>
+					{{vm.burnCard[0].type}} TYPE
+				</span>
 			</div>
 		</div>
 		<!-- CENTER SINGLE DECK when LARGE SCREEN and (NOT YOUR TURN) -->

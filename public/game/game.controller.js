@@ -310,9 +310,10 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
     const card = GameManager.session.eventDeck[GameManager.session.totalTurns];
     if (GameManager.session.facedown) {
       // Parse card contents
-      vm.eventCard.primary = vm.parser.render(card.primary, card);
+      vm.eventCard.primary = card.primary;
       vm.eventCard.secondary = vm.parser.render(card.secondary, card);
-      vm.eventCard.type = vm.parser.render(card.type, card);
+      vm.eventCard.tertiary = card.tertiary;
+      vm.eventCard.type = card.type;
 
         // Flip card up
       GameManager.session.facedown = false;

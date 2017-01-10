@@ -298,6 +298,7 @@ function buildADeck(deck, themes, len) {
       let cards = [{
         'primary': sourceCard.primary,
         'secondary': sourceCard.secondary,
+        'tertiary': sourceCard.tertiary,
         'theme': sourceCard.theme,
         'type': sourceCard.type,
         'deck': sourceCard.deck

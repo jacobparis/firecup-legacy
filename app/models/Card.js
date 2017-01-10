@@ -10,6 +10,9 @@ mongoose.model('Card', {
   secondary: {
     type: String
   },
+  tertiary: {
+    type: String
+  },
   type: {
     type: String,
     enum: ['event', 'action', 'status', 'trap']

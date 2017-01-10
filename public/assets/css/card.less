@@ -14,6 +14,9 @@
       padding: 1rem;
       font-size: 3vw;
     }
+    .tertiary {
+      font-size: 2vw;
+    }
     .type {
       padding: 1rem;
       font-size: 3vw;
@@ -31,6 +34,9 @@
       .secondary {
         padding: 1rem;
         font-size: 6vw;
+      }
+      .tertiary {
+        font-size: 3vw;
       }
       .type {
         padding: 1rem;
@@ -52,6 +58,11 @@
         @media (min-width: 700px) {
           padding: 0 1rem !important;
           font-size: 21px !important;
+        }
+      }
+      .tertiary {
+        @media (min-width: 700px) {
+          font-size: 12px !important;
         }
       }
       .type {
@@ -107,6 +118,19 @@
     @media (min-width: 600px) {
       padding: 0 0.5rem;
       font-size: 1.5vw;
+    }
+
+  }
+  .tertiary {
+    margin: 0;
+    text-align: center;
+    font-weight: 500;
+    opacity: 0.8;
+    @media (max-width: 599px) {
+      font-size: 2vw;
+    }
+    @media (min-width: 600px) {
+      font-size: 1vw;
     }
 
   }
