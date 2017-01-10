@@ -142,6 +142,7 @@
 		<!-- CENTER SINGLE DECK when LARGE SCREEN and (NOT YOUR TURN) -->
 		<div ng-if="$mdMedia('gt-xs') && false" flex></div>
 
+		<!-- SHOW HAND when YOUR TURN and YOU HAVE CARDS in it -->
 		<md-button
 		class="md-fab md-accent md-fab-bottom-right"
 		ng-click="vm.showHand()"
@@ -149,10 +150,11 @@
 			<md-icon>pan_tool</md-icon>
 		</md-button>
 
+		<!-- SHOW SWITCH when YOUR TURN and MORE THAN ONE DECK -->
 		<md-button
 		class="md-fab md-warn md-fab-bottom-left"
 		ng-click="vm.switchDecks()"
-		ng-if="_.filter(game.session.settings.decks, {'visible': true}).length > 1" >
+		ng-if="thisDevice(game.session.turn) && _.filter(game.session.settings.decks, {'visible': true}).length > 1" >
 			<md-icon>swap_horiz</md-icon>
 		</md-button>
 	</div>
