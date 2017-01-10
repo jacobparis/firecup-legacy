@@ -449,6 +449,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
 
     // TODO make empty cards work for multiple players
     if(vm.burnCard.length) {
+      vm.selectedPlayer = vm.burnCard[0].player;
       DialogService.showAlert({
         'text': GameManager.session.players[vm.burnCard[0].player].name + ' has been burned!'
       })
