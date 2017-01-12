@@ -314,6 +314,7 @@ function buildADeck(deck, themes, len) {
           result[index] = {
             'primary': sourceCard.primary,
             'secondary': sourceCard.secondary.slice(0).replace('RANDOM', line),
+            'tertiary': sourceCard.tertiary,
             'theme': sourceCard.theme,
             'type': sourceCard.type,
             'deck': sourceCard.deck

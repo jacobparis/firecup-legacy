@@ -20,7 +20,7 @@
     <md-tab label="Hand ({{hm.handCards}})" ng-if="game.session.players[$parent.vm.selectedPlayer].deviceToken == game.session.deviceToken">
       <md-content ng-if="hm.handCards">
           <md-grid-list
-            md-cols="3" md-cols-gt-xs="6" md-row-height="5:7" md-gutter="4px">
+            md-cols="3" md-cols-gt-xs="6" md-row-height="5:7" md-row-height-gt-md="285px" md-gutter="4px">
             <md-grid-tile ng-cloak ng-repeat="card in $parent.hm.hand()" md-colspan="1" md-rowspan="1">
       				<div class="burn card" ng-click="$parent.$parent.hm.handClick(card)">
       					<p class="primary">{{card.primary}}</p>
