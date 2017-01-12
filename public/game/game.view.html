@@ -151,11 +151,11 @@
 		</md-button>
 
 		<!-- SHOW SWITCH when YOUR TURN and MORE THAN ONE DECK and YOU HAVE NOT BEEN BURNED
-		 and BURN DECK SELECTED or EVENT CARD FACEUP -->
+		 and EVENT CARD NOT TRAP and BURN DECK SELECTED or EVENT CARD FACEUP -->
 		<md-button
 		class="md-fab md-warn md-fab-bottom-left"
 		ng-click="vm.switchDecks()"
-		ng-if="thisDevice(game.session.turn) && _.filter(game.session.settings.decks, {'visible': true}).length > 1 && !vm.burnCard.length && (vm.deckChoice === 'burn' || !game.session.facedown)" >
+		ng-if="thisDevice(game.session.turn) && _.filter(game.session.settings.decks, {'visible': true}).length > 1 && !vm.burnCard.length && vm.eventCard.type !== 'trap' && (vm.deckChoice === 'burn' || !game.session.facedown)" >
 			<md-icon>swap_horiz</md-icon>
 		</md-button>
 	</div>

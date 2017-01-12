@@ -11,13 +11,10 @@ module.exports = function(app) {
   app.get('/api/cards/type/:type', cards.list);
   app.post('/api/cards/type/:type', cards.create);
 
-  app.get('/api/cards/deck/:deck', cards.list);
-
   app.get('/api/decks/:deckId', cards.shuffle);
   app.get('/api/decks/:deckId', cards.list);
   app.post('/api/decks/:deckId', cards.create);
 
-  app.post('/api/players/:title', games.addPlayer);
   app.post('/api/players/:title', games.list);
 
   app.get('/api/games/:gameID?', games.list);
@@ -25,7 +22,6 @@ module.exports = function(app) {
 
   app.param('deckId', cards.getDeck);
   app.param('type', cards.getByType);
-  app.param('deck', games.buildBurnDeck);
   app.param('gameID', games.getRoom);
 
   app.io.route('client:join', function(req) {
