@@ -1,0 +1,54 @@
+<header class="onboard" ng-cloak>
+	<md-toolbar>
+		<div class="md-toolbar-tools">
+			<img src="/assets/img/icon.png" />
+			<h2>
+				Welcome to Firecup
+			</h2>
+			<span flex></span>
+		</div>
+	</md-toolbar>
+</header>
+
+<main class="onboard">
+	<div layout-xs="column" layout-gt-xs="row">
+		<md-card flex-gt-xs=50>
+			<md-card-title>
+				<span class="md-title">
+					Single Device
+				</span>
+			</md-card-title>
+			<md-card-content>
+					<figure>
+						<img src="assets/img/playershotseat.png" />
+					</figure>
+					<figcaption>
+						Add as many players as you want on one device, and play by passing the device around.
+					</figcaption>
+			</md-card-content>
+		</md-card>
+		<md-card flex-gt-xs=50>
+			<md-card-title>
+				<span class="md-title">
+					Multi Device
+				</span>
+			</md-card-title>
+			<md-card-content>
+					<figure>
+						<img src="assets/img/playersmultidevice.png" />
+					</figure>
+					<figcaption>
+						Friends can join from their own devices and play across the network. If one friend's phone dies, they can just join on someone else's device.
+					</figcaption>
+				</md-card-content>
+			</md-card>
+		</div>
+		<md-card>
+			<md-card-actions layout="row">
+				<span class="md-title">Are you ready to party?</span>
+				<span flex></span>
+				<md-button ui-sref="game" class="md-raised md-primary">PLAY GAME</md-button>
+			</md-card-actions>
+		</md-card>
+	</div>
+</main>

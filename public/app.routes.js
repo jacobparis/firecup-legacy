@@ -25,6 +25,12 @@ function Routes($stateProvider, $urlRouterProvider, $locationProvider, Analytics
       controller: 'GameController',
       controllerAs: 'vm',
     })
+    .state('welcome', {
+      url: '/welcome',
+      templateUrl: 'game/game.onboard.html',
+      controller: 'OnboardController',
+      controllerAs: 'vm'
+    })
     .state('list', {
       url: '/list/',
       templateUrl: 'list/list.view.html',

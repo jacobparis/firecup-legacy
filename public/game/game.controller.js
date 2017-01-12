@@ -95,7 +95,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
     function createOrJoin() {
       GameManager.session = GameManager.cleanSession();
       const prompt = {
-        'text': 'Join an existing game or create a new one?',
+        'text': 'Join a friend\'s game or create your own?',
         'cancel': 'Join',
         'confirm': 'Create'
       };
