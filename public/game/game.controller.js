@@ -82,6 +82,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
         $scope.thisDevice = function(index) {
           if(index === -1) {return false;}
           if(!vm.startEh) {return false;}
+          if(!GameManager.session.players.length) {return false;}
           return GameManager.session.players[index].deviceToken === GameManager.session.deviceToken;
         };
 
@@ -259,6 +260,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
       Socket.emit('player:ready', {
         'room': GameManager.session.title
       }, function(room) {
+        console.log(room);
         // Bind data to local client
         GameManager.session.players = room.players;
         GameManager.session.eventDeck = room.eventDeck;

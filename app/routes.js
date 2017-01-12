@@ -53,11 +53,7 @@ module.exports = function(app) {
     'ready': function(req) {
       Game.getRoom(req.data.room)
       .then(function(room) {
-        Game.buildDeck()
-        .then(function(deck) {
-          room.burnDeck = deck;
-          req.io.respond(room);
-        });
+        req.io.respond(room);
       });
     },
     'burn': function(req) {

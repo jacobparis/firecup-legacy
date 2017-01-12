@@ -228,6 +228,7 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location,
     });
 
     dm.multiplePlayers = _.filter(dm.players, {'deviceToken': GameManager.session.deviceToken}).length !== 1;
+    console.log(dm);
   });
   function loadPlayers() {
     dm.players = JSON.parse(JSON.stringify(GameManager.session.players));

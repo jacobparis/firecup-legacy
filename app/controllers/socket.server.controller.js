@@ -2,20 +2,23 @@ require('../models/Game');
 require('../models/Card');
 require('../models/Feedback');
 require('../models/Player');
-require('../../node_modules/lodash/lodash');
-const _ = require('lodash');
+const _ = {
+  map: require('lodash').map,
+  each: require('lodash').each,
+  times: require('lodash').times,
+  take: require('lodash').take,
+  shuffle: require('lodash').shuffle,
+  find: require('lodash').find
+};
 const mongoose = require('mongoose');
-const Game = require('mongoose')
-.model('Game');
-const Card = require('mongoose')
-.model('Card');
+const Game = require('mongoose').model('Game');
+const Card = require('mongoose').model('Card');
 const Player = require('mongoose').model('Player');
 const Feedback = require('mongoose').model('Feedback');
 exports.addPlayer = addPlayer;
 exports.updatePlayer = updatePlayer;
 exports.setTurn = setTurn;
 exports.getRoom = getRoom;
-exports.buildDeck = buildDeck2;
 exports.buildADeck = buildADeck;
 exports.drawBurnCards = drawBurnCards;
 exports.saveFeedback = saveFeedback;
