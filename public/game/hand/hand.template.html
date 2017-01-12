@@ -1,6 +1,6 @@
 <md-bottom-sheet class="md-grid" layout="column">
   <md-tabs md-selected="hm.handType" md-stretch-tabs md-dynamic-height>
-    <md-tab label="Table ({{hm.tableCards}})" ng-if="game.session.settings.hands[1].public">
+    <md-tab label="Status Cards ({{hm.tableCards}})" ng-if="game.session.settings.hands[1].public">
       <md-content ng-if="hm.tableCards">
         <md-grid-list
         md-cols="3" md-cols-gt-xs="6" md-row-height="5:7" md-gutter="4px">
@@ -14,10 +14,10 @@
         </md-grid-list>
       </md-content>
       <md-content ng-cloak ng-if="!hm.tableCards" class="md-padding">
-        {{$parent.game.session.players[$parent.$parent.$parent.vm.selectedPlayer].name}} has no cards on the table.
+        {{$parent.game.session.players[$parent.$parent.$parent.vm.selectedPlayer].name}} has no status cards.
       </md-content>
     </md-tab>
-    <md-tab label="Hand ({{hm.handCards}})" ng-if="game.session.players[$parent.vm.selectedPlayer].deviceToken == game.session.deviceToken">
+    <md-tab label="Trap Cards ({{hm.handCards}})" ng-if="game.session.players[$parent.vm.selectedPlayer].deviceToken == game.session.deviceToken">
       <md-content ng-if="hm.handCards">
           <md-grid-list
             md-cols="3" md-cols-gt-xs="6" md-row-height="5:7" md-row-height-gt-md="285px" md-gutter="4px">
@@ -31,7 +31,7 @@
           </md-grid-list>
         </md-content>
       <md-content ng-if="!hm.handCards" class="md-padding">
-        You have no cards in your hand.
+        You have no trap cards.
       </md-content>
     </md-tab>
   </md-tabs>
