@@ -31,7 +31,7 @@
           </md-grid-list>
         </md-content>
       <md-content ng-if="!hm.handCards" class="md-padding">
-        You have no trap cards.
+        {{$parent.game.session.players[$parent.$parent.$parent.vm.selectedPlayer].name}} has no trap cards.
       </md-content>
     </md-tab>
   </md-tabs>
