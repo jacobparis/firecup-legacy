@@ -17,7 +17,7 @@
         {{$parent.game.session.players[$parent.$parent.$parent.vm.selectedPlayer].name}} has no status cards.
       </md-content>
     </md-tab>
-    <md-tab label="Trap Cards ({{hm.handCards}})" ng-if="game.session.players[$parent.vm.selectedPlayer].deviceToken == game.session.deviceToken">
+    <md-tab label="Trap Cards ({{hm.handCards}})" ng-if="$parent.vm.playerIsMe(game.session.players[$parent.vm.selectedPlayer])">
       <md-content ng-if="hm.handCards">
           <md-grid-list
             md-cols="3" md-cols-gt-xs="6" md-row-height="5:7" md-row-height-gt-md="285px" md-gutter="4px">

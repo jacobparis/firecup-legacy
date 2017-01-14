@@ -13,18 +13,18 @@ angular
     'GameManager',
     'DeckService',
     'DialogService',
+    'Facebook',
     'FBService',
     'Analytics',
     GameController
   ]);
 
-function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state, $timeout, Socket, GameManager, DeckService, DialogService, FBService, Analytics) {
+function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state, $timeout, Socket, GameManager, DeckService, DialogService, Facebook, FBService, Analytics) {
   Analytics.trackPage('/game');
   // Lock scrolling hack
 //  angular.element(document.body).addClass("noscroll");
   $scope.$mdMedia = $mdMedia;
   $scope.game = GameManager;
-  $scope.thisDevice = {'deviceToken': ''};
   $scope._ = _;
   $scope.log = function(log) {
     console.log(log);
@@ -59,6 +59,74 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
   vm.alertTurn = alertTurn;
   vm.startGame = activate;
   vm.startEh = false;
+  vm.playerIsMe = playerIsMe;
+  vm.facebook = {
+    fbLogin: false,
+    name: 'friend!',
+    id: 0,
+    picture: ''
+  };
+
+  vm.login = login;
+  vm.logout = logout;
+
+  function checkLoginStatus() {
+    console.log('Check login status');
+    return new Promise(function(resolve) {
+      Facebook.getLoginStatus(resolve);
+    })
+    .then(function(response) {
+      if(response.status !== 'connected') {
+        vm.fbLogin = false;
+        return Promise.reject();
+      }
+
+      vm.facebook.fbLogin = true;
+      return Promise.all([
+        FBService.getUser(),
+        FBService.getProfilePicture()
+      ])
+      .then(function(results) {
+        console.log(results);
+        vm.facebook.name = results[0].name;
+        vm.facebook.id = results[0].id;
+        vm.facebook.picture = results[1].data.url;
+      });
+    });
+  }
+  function logout() {
+    Facebook.logout(function(response) {
+      checkLoginStatus()
+      .then(loadPlayers)
+      .then(console.log);
+    });
+  }
+
+  function login() {
+    Facebook.login(function(response) {
+      checkLoginStatus()
+      .then(loadPlayers)
+      .then(console.log);
+    });
+  }
+
+  function playerIsMe(player) {
+    console.log(player);
+    console.log(vm.facebook.id);
+    console.log(GameManager.session.deviceToken);
+    // Player is an object
+    if(player.facebook === vm.facebook.id) {
+      console.log('My facebook');
+      return true;
+    }
+
+    if(player.deviceToken === GameManager.session.deviceToken) {
+      console.log('My device');
+      return true;
+    }
+
+    return false;
+  }
 
   Socket.on('client:joined', function(data) {
     console.log('User joined');
@@ -79,11 +147,12 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
       .then(firstDeal)
       .then(function() {
         vm.startEh = true;
+        checkLoginStatus();
         $scope.thisDevice = function(index) {
           if(index === -1) {return false;}
           if(!vm.startEh) {return false;}
           if(!GameManager.session.players.length) {return false;}
-          return GameManager.session.players[index].deviceToken === GameManager.session.deviceToken;
+          return playerIsMe(GameManager.session.players[index]);
         };
 
         const deck = _.find(GameManager.session.settings.decks, {'visible': true});
