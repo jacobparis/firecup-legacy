@@ -164,7 +164,8 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location,
     })
     .then(function(response) {
       if(response.status !== 'connected') {
-        dm.fbLogin = false;
+        console.log('not connected');
+        dm.facebook = {};
         return Promise.reject();
       }
 
@@ -185,15 +186,18 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location,
     Facebook.logout(function(response) {
       checkLoginStatus()
       .then(loadPlayers)
-      .then(console.log);
+      .then(console.log, function() {
+        console.log(dm.players);
+        console.log(dm.facebook);
+        $scope.$apply();
+      });
     });
   }
 
   function login() {
     Facebook.login(function(response) {
       checkLoginStatus()
-      .then(loadPlayers)
-      .then(console.log);
+      .then(loadPlayers);
     });
   }
 
@@ -249,7 +253,7 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location,
 
   function playerIsMe(player) {
     // Player is an object
-    if(player.facebook === dm.facebook.id) {
+    if(player.facebook && player.facebook === dm.facebook.id) {
       return true;
     }
 
@@ -275,7 +279,7 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location,
       dm.players[player.index] = player;
     });
     $scope.$apply();
-    return Promise.resolve();
+    return Promise.resolve(true);
   }
   function savePlayer(player) {
     console.log(player);
