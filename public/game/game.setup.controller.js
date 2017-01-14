@@ -268,7 +268,8 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location,
     dm.players.push({
       index: dm.players.length,
       name: data.name,
-      deviceToken: data.deviceToken
+      deviceToken: data.deviceToken,
+      facebook: data.facebook
     });
 
     dm.multiplePlayers = _.filter(dm.players, {'deviceToken': GameManager.session.deviceToken}).length !== 1;

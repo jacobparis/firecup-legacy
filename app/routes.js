@@ -38,7 +38,8 @@ module.exports = function(app) {
       .then(function() {
         app.io.room(req.data.room).broadcast('player:added', {
           name: req.data.name,
-          deviceToken: req.data.deviceToken
+          deviceToken: req.data.deviceToken,
+          facebook: req.data.facebook
         });
       });
     },
