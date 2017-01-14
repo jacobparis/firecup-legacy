@@ -27,6 +27,9 @@ function Config($mdThemingProvider, AnalyticsProvider, FacebookProvider) {
     .primaryPalette('red')
     .accentPalette('orange');
 
+  $mdThemingProvider.theme('facebook')
+    .primaryPalette('indigo');
+
   AnalyticsProvider.setAccount({
     'tracker': 'UA-74937612-2',
     'name': 'tracker1',

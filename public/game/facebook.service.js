@@ -9,6 +9,7 @@ angular
 function FBService(Facebook, $q) {
   console.log('INIT');
   this.getUser = getUser;
+  this.getProfilePicture = getProfilePicture;
   this.getFriends = getFriends;
   this.getPermissions = getPermissions;
   this.getScores = getScores;
@@ -29,6 +30,18 @@ function FBService(Facebook, $q) {
     return $q(function(resolve, reject) {
       FB.api(
         '/' + id,
+        function(response) {
+          resolve(response);
+        }
+      );
+    });
+  }
+
+  function getProfilePicture(id) {
+    id = id || 'me';
+    return $q(function(resolve, reject) {
+      FB.api(
+        '/' + id + '/picture',
         function(response) {
           resolve(response);
         }

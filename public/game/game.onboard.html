@@ -6,13 +6,25 @@
 				Welcome to Firecup
 			</h2>
 			<span flex></span>
+			<md-menu ng-if="vm.facebook.fbLogin" md-position-mode="target-right target">
+				<md-button class="md-icon-button" ng-click="$mdOpenMenu()" aria-label="More">
+	        <md-icon>more_vert</md-icon>
+	      </md-button>
+				<md-menu-content>
+					<md-menu-item>
+						<md-button ng-click="vm.logout()">
+							<p>Log out</p>
+						</md-button>
+					</md-menu-item>
+				</md-menu-content>
+			</md-menu>
 		</div>
 	</md-toolbar>
 </header>
 
 <main class="onboard">
-	<div layout-xs="column" layout-gt-xs="row">
-		<md-card flex-gt-xs=50>
+	<div layout-wrap layout-xs="column" layout-gt-xs="row">
+		<md-card flex-gt-xs>
 			<md-card-title>
 				<span class="md-title">
 					Single Device
@@ -27,7 +39,7 @@
 					</figcaption>
 			</md-card-content>
 		</md-card>
-		<md-card flex-gt-xs=50>
+		<md-card flex-gt-xs>
 			<md-card-title>
 				<span class="md-title">
 					Multi Device
@@ -43,12 +55,38 @@
 				</md-card-content>
 			</md-card>
 		</div>
-		<md-card>
+		<!-- display card when NOT LOGGED IN -->
+		<md-card ng-show="!vm.facebook.fbLogin">
+			<md-card-title>
+				<span class="md-title">
+					Facebook Login
+				</span>
+			</md-card-title>
+			<md-card-content>
+				Log in with Facebook to track stats, break records, and get freebies.
+			</md-card-content>
 			<md-card-actions layout="row">
-				<span class="md-title">Are you ready to party?</span>
 				<span flex></span>
-				<md-button ui-sref="game" class="md-raised md-primary">PLAY GAME</md-button>
+				<md-button ui-sref="game" class="md-raised md-primary">Continue as guest</md-button>
+				<md-button ng-click="vm.login()" class="md-raised md-primary" md-theme="facebook">Log in with Facebook</md-button>
 			</md-card-actions>
 		</md-card>
-	</div>
+
+		<!-- display card when LOGGED IN -->
+		<md-card ng-show="vm.facebook.fbLogin">
+			<md-card-title>
+				<span class="md-title">
+					Welcome, {{vm.facebook.name}}
+				</span>
+				<img ng-if="vm.facebook.picture" class="avatar" src="{{vm.facebook.picture}}" />
+			</md-card-title>
+			<md-card-content>
+				This is your latest info, man
+			</md-card-content>
+			<md-card-actions layout="row">
+				<span flex></span>
+				<md-button ng-click="vm.logout()">Log out</md-button>
+				<md-button ui-sref="game" class="md-raised md-primary">Continue</md-button>
+			</md-card-actions>
+		</md-card>
 </main>
