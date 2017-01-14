@@ -111,21 +111,16 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
   }
 
   function playerIsMe(player) {
-    console.log(player);
-    console.log(vm.facebook.id);
-    console.log(GameManager.session.deviceToken);
     // Player is an object
     if(typeof player === 'number') {
       player = GameManager.session.players[player];
     }
 
     if(player.facebook === vm.facebook.id) {
-      console.log('My facebook');
       return true;
     }
 
     if(player.deviceToken === GameManager.session.deviceToken) {
-      console.log('My device');
       return true;
     }
 
