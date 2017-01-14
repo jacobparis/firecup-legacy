@@ -115,6 +115,10 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
     console.log(vm.facebook.id);
     console.log(GameManager.session.deviceToken);
     // Player is an object
+    if(typeof player === 'number') {
+      player = GameManager.session.players[player];
+    }
+
     if(player.facebook === vm.facebook.id) {
       console.log('My facebook');
       return true;
@@ -349,6 +353,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
           });
         }
 
+        // If game has no turns, tab to me at start
         return Promise.resolve()
         .then(function() {
           vm.selectedPlayer = _.find(GameManager.session.players, {'deviceToken': GameManager.session.deviceToken}).index;
@@ -359,7 +364,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
   }
 
   function showHand() {
-    if($mdMedia('gt-xs') || GameManager.session.deviceToken !== GameManager.session.players[GameManager.session.turn].deviceToken) {
+    if($mdMedia('gt-xs') || !playerIsMe(GameManager.session.turn)) {
       // Should already have hand visible
       return;
     }
@@ -494,8 +499,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
     GameManager.session.totalTurns = data.totalTurns;
     GameManager.session.facedown = true;
     // this account is ON MY DEVICE and it's NOT ALREADY MY TURN
-    if(GameManager.session.deviceToken === GameManager.session.players[data.turn].deviceToken
-    && GameManager.session.turn !== data.turn) {
+    if(playerIsMe(data.turn) && GameManager.session.turn !== data.turn) {
       GameManager.session.turn = data.turn;
       alertTurn();
     }
@@ -513,7 +517,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
 
     vm.burnCard = [];
     _.each(obj.cards, function(card) {
-      if(GameManager.session.deviceToken === GameManager.session.players[card.player].deviceToken) {
+      if(playerIsMe(card.player)) {
         // Target Player is on this device
         vm.burnCard.push(card);
         _.last(vm.burnCard).secondary = vm.parser.render(card.secondary, card);
@@ -546,7 +550,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
     player = Object.assign(player, data);
 
     // If YOUR TURN and YOU HAVE STARTED THE GAME
-    if(player.deviceToken === GameManager.session.deviceToken && vm.startEh) {
+    if(playerIsMe(player) && vm.startEh) {
       // Check hand and table lengths
       // The hand (trap cards) should be no more than default 6
       const hand = GameManager.getHandByPlayer(data.index);
