@@ -34,7 +34,7 @@ module.exports = function(app) {
 
   app.io.route('player', {
     'add': function(req) {
-      Game.addPlayer(req.data.room, req.data.name, req.data.deviceToken)
+      Game.addPlayer(req.data.room, req.data.name, req.data.deviceToken, req.data.facebook)
       .then(function() {
         app.io.room(req.data.room).broadcast('player:added', {
           name: req.data.name,

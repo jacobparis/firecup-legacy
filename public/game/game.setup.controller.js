@@ -21,9 +21,10 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location,
   $scope.$location = $location;
   $scope.tokens = TOKENS;
   dm.createGame = createGame;
-  dm.players = [];
   dm.multiplePlayers = false;
   dm.multipleFacebooks = false;
+  dm.players = [];
+  dm.playerIsMe = playerIsMe;
   dm.loadPlayers = loadPlayers;
   dm.addPlayer = addPlayer;
   dm.savePlayer = savePlayer;
@@ -146,58 +147,85 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location,
     console.log(dm.themes);
   }
 
-  dm.socials = [
-    {
-      'name': 'Facebook',
-      'image': 'FB-f-Logo__blue_50.png'
-    }
-  ];
-
-  $scope.facebook = {
-    loggedIn: false
+  dm.facebook = {
+    fbLogin: false,
+    name: 'friend!',
+    id: 0,
+    picture: ''
   };
-  $scope.login = function() {
-      // From now on you can use the Facebook service just as Facebook api says
+
+  dm.login = login;
+  dm.logout = logout;
+
+  function checkLoginStatus() {
+    console.log('Check login status');
+    return new Promise(function(resolve) {
+      Facebook.getLoginStatus(resolve);
+    })
+    .then(function(response) {
+      if(response.status !== 'connected') {
+        dm.fbLogin = false;
+        return Promise.reject();
+      }
+
+      dm.facebook.fbLogin = true;
+      return Promise.all([
+        FBService.getUser(),
+        FBService.getProfilePicture()
+      ])
+      .then(function(results) {
+        console.log(results);
+        dm.facebook.name = results[0].name;
+        dm.facebook.id = results[0].id;
+        dm.facebook.picture = results[1].data.url;
+      });
+    });
+  }
+  function logout() {
+    Facebook.logout(function(response) {
+      checkLoginStatus()
+      .then(loadPlayers)
+      .then(console.log);
+    });
+  }
+
+  function login() {
     Facebook.login(function(response) {
-        // Do something with response.
+      checkLoginStatus()
+      .then(loadPlayers)
+      .then(console.log);
     });
-  };
-
-  $scope.me = function() {
-    Facebook.api('/me', function(response) {
-      $scope.user = response;
-    });
-  };
+  }
 
   activate();
 
   function activate() {
-    dm.players = JSON.parse(JSON.stringify(GameManager.session.players));
-    dm.multiplePlayers = _.filter(dm.players, {'deviceToken': GameManager.session.deviceToken}).length !== 1;
     console.log($scope);
-    console.log($location.absUrl());
-    Facebook.getLoginStatus(function(response) {
-      if(response.status === 'connected') {
-        $scope.facebook.loggedIn = true;
+    checkLoginStatus()
+    .then(function() {
+      loadPlayers();
+      // If there are already players, see if I'm one of them
+      if(dm.players.length) {
+        const hereEh = _.filter(dm.players, {'facebook': dm.facebook.id}).length;
+        if(hereEh) {
+          // I am already in the list
+          console.log('HERE!');
 
-        FBService.getUser('me')
-        .then(function(result) {
-          GameManager.session.fb = result.id;
-          dm.multipleFacebooks = _.filter(dm.players, {'facebook': GameManager.session.fb}).length > 1;
-          _.find(dm.players, function(player) {
-            if(player.facebook !== GameManager.session.fb) {return;}
-            if(player.deviceToken === GameManager.session.deviceToken) {return;}
-
-            linkPlayer(player);
-            return player;
-          });
-
-          FBService.getScores()
-          .then(function(result) {
-            console.log(result);
-          });
-        });
+          return;
+        }
       }
+      console.log('not here');
+      // I am not in this game yet, add me automagically
+      Socket.emit('player:add', {
+        room: GameManager.session.title,
+        name: dm.facebook.name,
+        deviceToken: GameManager.session.deviceToken,
+        facebook: dm.facebook.id
+      });
+    })
+    .catch(function(a) {
+      // Player is not logged in
+      loadPlayers();
     });
   }
   function createGame() {
@@ -219,6 +247,18 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location,
     dm.newPlayerName = '';
   }
 
+  function playerIsMe(player) {
+    // Player is an object
+    if(player.facebook === dm.facebook.id) {
+      return true;
+    }
+
+    if(player.deviceToken === GameManager.session.deviceToken) {
+      return true;
+    }
+
+    return false;
+  }
   Socket.on('player:added', function(data) {
     console.log(data);
     dm.players.push({
@@ -231,8 +271,11 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location,
     console.log(dm);
   });
   function loadPlayers() {
-    dm.players = JSON.parse(JSON.stringify(GameManager.session.players));
-
+    _.each(GameManager.session.players, function(player) {
+      dm.players[player.index] = player;
+    });
+    $scope.$apply();
+    return Promise.resolve();
   }
   function savePlayer(player) {
     console.log(player);

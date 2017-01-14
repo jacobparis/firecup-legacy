@@ -4,6 +4,19 @@
       <div class="md-toolbar-tools">
         <h2>Create a new game</h2>
         <span flex></span>
+        <md-button ng-show="!dm.facebook.fbLogin" ng-click="dm.login()">Log In With Facebook</md-button>
+        <md-menu ng-show="dm.facebook.fbLogin" md-position-mode="target-right target">
+  				<md-button class="md-icon-button" ng-click="$mdOpenMenu()" aria-label="More">
+  	        <md-icon>more_vert</md-icon>
+  	      </md-button>
+  				<md-menu-content>
+  					<md-menu-item>
+  						<md-button ng-click="dm.logout()">
+  							<p>Log out</p>
+  						</md-button>
+  					</md-menu-item>
+  				</md-menu-content>
+  			</md-menu>
       </div>
     </md-toolbar>
 

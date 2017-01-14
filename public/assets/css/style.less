@@ -3,6 +3,11 @@ body,
 .container {
   background: url('/assets/img/tabletexture.jpg');
 }
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  opacity: 0 !important;
+}
+
 md-toolbar {
     box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);
     min-height: 48px !important;
@@ -78,6 +83,10 @@ md-bottom-sheet {
 }
 }
 
+.progress {
+  min-height: 8rem;
+  padding: 3rem;
+}
 md-expansion-panel {
    md-icon:first-child {
     margin-left: -20px !important;

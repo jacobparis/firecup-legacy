@@ -8,16 +8,19 @@
         </md-button>
         <h2>Firecup: {{game.session.Title()}}</h2>
         <span flex></span>
-        <md-menu>
-        <md-button ng-click="$mdOpenMenu($event)" class="md-icon-button">
-  				<md-icon class="material-icons">share</md-icon>
-  			</md-button>
-          <md-menu-content width="1">
-            <md-menu-item ng-repeat="item in dm.socials">
-              <div class="fb-share-button" data-href="{{$location.absUrl()}}" data-layout="button" data-size="large" data-mobile-iframe="false"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.firecup.ca%2F&amp;src=sdkpreparse">Share</a></div>
-            </md-menu-item>
-          </md-menu-content>
-        </md-menu>
+        <md-button ng-show="!dm.facebook.fbLogin" ng-click="dm.login()">Log In With Facebook</md-button>
+        <md-menu ng-show="dm.facebook.fbLogin" md-position-mode="target-right target">
+  				<md-button class="md-icon-button" ng-click="$mdOpenMenu()" aria-label="More">
+  	        <md-icon>more_vert</md-icon>
+  	      </md-button>
+  				<md-menu-content>
+  					<md-menu-item>
+  						<md-button ng-click="dm.logout()">
+  							<p>Log out</p>
+  						</md-button>
+  					</md-menu-item>
+  				</md-menu-content>
+  			</md-menu>
       </div>
     </md-toolbar>
 
@@ -30,49 +33,29 @@
       <span ng-if="!game.session.settings.shareDevice">
         In this game mode, each player must connect from their own device.
       </span>
-      <div ng-if="!facebook.loggedIn">
-        Connect to Facebook to keep track of your stats and access more content.
-      </div>
-      <div ng-if="facebook.loggedIn">
-        You are connected to Facebook.
-      </div>
-      <div
-      class="fb-login-button"
-      data-max-rows="1"
-      data-size="medium"
-      data-show-faces="false"
-      data-auto-logout-link="true"
-      data-scope="
-        public_profile,
-        user_friends
-        "></div>
-
-
-      <div layout="column">
-        <md-expansion-panel-group>
+      <div layout="column" ng-show="dm.players.length">
+        <md-expansion-panel-group >
 
         <md-expansion-panel ng-repeat="player in dm.players">
           <md-expansion-panel-collapsed>
-            <md-icon ng-class="{'md-accent': game.session.deviceToken === player.deviceToken}">person</md-icon>
+            <md-icon ng-class="{'md-accent': dm.playerIsMe(player)}">person</md-icon>
             <div layout="column" flex>
               <span class="md-body-2">{{player.name}}</span>
-              <span ng-if="game.session.deviceToken === player.deviceToken" class="md-caption">On this device</span>
-              <span ng-if="game.session.deviceToken !== player.deviceToken" class="md-caption">On another device</span>
+              <span ng-if="dm.playerIsMe(player)" class="md-caption">On this device</span>
+              <span ng-if="!dm.playerIsMe(player)" class="md-caption">On another device</span>
             </div>
-            <img ng-if="player.facebook && game.session.fb === player.facebook" src="/assets/img/FB-f-Logo__blue_50.png" />
             <md-expansion-panel-icon></md-expansion-panel-icon>
           </md-expansion-panel-collapsed>
 
           <md-expansion-panel-expanded>
 
-            <md-expansion-panel-header>
-              <md-icon ng-class="{'md-accent': game.session.deviceToken === player.deviceToken}">person</md-icon>
+            <md-expansion-panel-header ng-click="$panel.collapse()">
+              <md-icon ng-class="{'md-accent': dm.playerIsMe(player)}">person</md-icon>
               <div layout="column" flex>
                 <span class="md-body-2">{{player.name}}</span>
-                <span ng-if="game.session.deviceToken === player.deviceToken" class="md-caption">On this device</span>
-                <span ng-if="game.session.deviceToken !== player.deviceToken" class="md-caption">On another device</span>
+                <span ng-if="dm.playerIsMe(player)" class="md-caption">On this device</span>
+                <span ng-if="!dm.playerIsMe(player)" class="md-caption">On another device</span>
               </div>
-              <img ng-if="player.facebook && game.session.fb === player.facebook" src="/assets/img/FB-f-Logo__blue_50.png" />
               <md-expansion-panel-icon></md-expansion-panel-icon>
             </md-expansion-panel-header>
 
@@ -82,9 +65,6 @@
                   <label>Name</label>
                   <input ng-model="player.name"></input>
                 </md-input-container>
-                <div ng-if="facebook.loggedIn">
-                  Only connect one player per Facebook account. If more people want to connect, they can join the game from their own devices and connect there.
-                </div>
               </div>
 
             </md-expansion-panel-content>
@@ -94,18 +74,7 @@
               <div flex></div>
 
               <md-button
-                ng-if="facebook.loggedIn && game.session.fb !== player.facebook"
-                ng-click="$panel.collapse() && dm.fbPlayer(player)">
-                Connect FB
-              </md-button>
-              <md-button
-                ng-if="facebook.loggedIn && game.session.fb === player.facebook"
-                ng-click="$panel.collapse() && dm.removefbPlayer(player)">
-                Remove FB
-              </md-button>
-
-              <md-button
-                ng-if="game.session.deviceToken !== player.deviceToken"
+                ng-if="!dm.playerIsMe(player)"
                 ng-click="$panel.collapse() && dm.linkPlayer(player)">
                 Link Device
               </md-button>
@@ -128,6 +97,9 @@
           </form>
         </md-list-item>
       </md-expansion-panel-group>
+      </div>
+      <div class="progress" ng-show="!dm.players.length" layout="row" layout-align="space-around">
+        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
       </div>
     </md-dialog-content>
 

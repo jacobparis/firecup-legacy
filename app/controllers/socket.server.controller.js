@@ -23,7 +23,7 @@ exports.buildADeck = buildADeck;
 exports.drawBurnCards = drawBurnCards;
 exports.saveFeedback = saveFeedback;
 
-function addPlayer(room, name, deviceToken) {
+function addPlayer(room, name, deviceToken, facebook) {
   console.log('Add player ' + name + ' to ' + room);
 
   const query = Game
@@ -37,7 +37,8 @@ function addPlayer(room, name, deviceToken) {
         players: {
           name: name,
           index: game.players.length,
-          deviceToken: deviceToken
+          deviceToken: deviceToken,
+          facebook: facebook
         }
       }
     })
