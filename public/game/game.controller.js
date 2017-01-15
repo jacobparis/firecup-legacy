@@ -116,7 +116,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
       player = GameManager.session.players[player];
     }
 
-    if(player.facebook === vm.facebook.id) {
+    if(player.facebook && player.facebook.id === vm.facebook.id) {
       return true;
     }
 

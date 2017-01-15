@@ -39,9 +39,9 @@
         <md-expansion-panel ng-repeat="player in dm.players">
           <md-expansion-panel-collapsed>
             <!-- if LOGGED IN -->
-            <img ng-if="dm.facebook.picture && player.facebook === dm.facebook.id" class="avatar" src="{{dm.facebook.picture}}" />
+            <img ng-if="dm.facebook.picture && player.facebook.id === dm.facebook.id" class="avatar" src="{{player.facebook.url}}" />
             <!-- if NOT LOGGED IN and LINKED-->
-            <md-icon ng-if="(!player.facebook || player.facebook !== dm.facebook.id) && player.deviceToken === game.session.deviceToken" class="md-accent">person</md-icon>
+            <md-icon ng-if="(!player.facebook || player.facebook.id !== dm.facebook.id) && player.deviceToken === game.session.deviceToken" class="md-accent">person</md-icon>
             <!-- if NOT LOGGED IN and NOT ME-->
             <md-icon ng-if="!dm.playerIsMe(player)">person</md-icon>
 
@@ -57,9 +57,9 @@
 
             <md-expansion-panel-header ng-click="$panel.collapse()">
               <!-- if LOGGED IN -->
-              <img ng-if="dm.facebook.picture && player.facebook === dm.facebook.id" class="avatar" src="{{dm.facebook.picture}}" />
+              <img ng-if="dm.facebook.picture && player.facebook.id === dm.facebook.id" class="avatar" src="{{player.facebook.url}}" />
               <!-- if NOT LOGGED IN and LINKED-->
-              <md-icon ng-if="(!player.facebook || player.facebook !== dm.facebook.id) && player.deviceToken === game.session.deviceToken" class="md-accent">person</md-icon>
+              <md-icon ng-if="(!player.facebook || player.facebook.id !== dm.facebook.id) && player.deviceToken === game.session.deviceToken" class="md-accent">person</md-icon>
               <!-- if NOT LOGGED IN and NOT ME-->
               <md-icon ng-if="!dm.playerIsMe(player)">person</md-icon>
 

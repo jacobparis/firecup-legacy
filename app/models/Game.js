@@ -18,7 +18,10 @@ mongoose.model('Game', {
       type: mongoose.Schema.Types.Mixed
     }],
     deviceToken: String,
-    facebook: String,
+    facebook: {
+      id: String,
+      url: String
+    },
     stats: {
       burns: {
         type: Number,

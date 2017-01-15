@@ -42,9 +42,7 @@ function FBService(Facebook, $q) {
     return $q(function(resolve, reject) {
       FB.api(
         '/' + id + '/picture',
-        function(response) {
-          resolve(response);
-        }
+        resolve
       );
     });
   }

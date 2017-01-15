@@ -26,6 +26,7 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location,
   dm.players = [];
   dm.playerIsMe = playerIsMe;
   dm.loadPlayers = loadPlayers;
+  dm.facebookPhoto = facebookPhoto;
   dm.addPlayer = addPlayer;
   dm.savePlayer = savePlayer;
   dm.linkPlayer = linkPlayer;
@@ -157,6 +158,20 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location,
   dm.login = login;
   dm.logout = logout;
 
+  function facebookPhoto(id) {
+    id = id || 'me';
+    if(id === 'me') {
+      return dm.facebook.picture;
+    }
+
+    return new Promise(function(resolve) {
+      FBService.getProfilePicture(id)
+      .then(function(result) {
+        console.log(result.data.url);
+        resolve('blag');
+      });
+    });
+  }
   function checkLoginStatus() {
     console.log('Check login status');
     return new Promise(function(resolve) {
@@ -210,8 +225,10 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location,
       loadPlayers();
       // If there are already players, see if I'm one of them
       if(dm.players.length) {
-        const hereEh = _.filter(dm.players, {'facebook': dm.facebook.id}).length;
-        if(hereEh) {
+        console.log('ARE PLAYERS');
+        console.log(dm.players);
+        console.log(dm.facebook.id);
+        if(_.find(dm.players, {'facebook': {id: dm.facebook.id}})) {
           // I am already in the list
           console.log('HERE!');
 
@@ -224,7 +241,10 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location,
         room: GameManager.session.title,
         name: dm.facebook.name,
         deviceToken: GameManager.session.deviceToken,
-        facebook: dm.facebook.id
+        facebook: {
+          id: dm.facebook.id,
+          url: dm.facebook.picture
+        }
       });
     })
     .catch(function(a) {
@@ -253,7 +273,7 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location,
 
   function playerIsMe(player) {
     // Player is an object
-    if(player.facebook && player.facebook === dm.facebook.id) {
+    if(player.facebook && player.facebook.id === dm.facebook.id) {
       return true;
     }
 
@@ -263,6 +283,7 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location,
 
     return false;
   }
+
   Socket.on('player:added', function(data) {
     console.log(data);
     dm.players.push({
@@ -275,6 +296,7 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location,
     dm.multiplePlayers = _.filter(dm.players, {'deviceToken': GameManager.session.deviceToken}).length !== 1;
     console.log(dm);
   });
+
   function loadPlayers() {
     _.each(GameManager.session.players, function(player) {
       dm.players[player.index] = player;
@@ -297,8 +319,6 @@ function GameSetupController($scope, $q, $mdDialog, $mdMedia, $state, $location,
     console.log('Update Player Setup');
     dm.players[data.index] = data;
     dm.multiplePlayers = _.filter(dm.players, {'deviceToken': GameManager.session.deviceToken}).length !== 1;
-    dm.multipleFacebooks = _.filter(dm.players, {'facebook': GameManager.session.fb}).length > 1;
-
   });
 
   function linkPlayer(player) {
