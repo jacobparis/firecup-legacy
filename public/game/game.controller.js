@@ -248,6 +248,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
     }
 
     function setupParser() {
+      console.log('SETUP PARSER');
       vm.parser = new Parser();
       vm.parser.addRule('RANDOM', function(tag, history, source) {
         console.log(source);
@@ -296,9 +297,13 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
 
         const me = (source && source.player) ? source.player : GameManager.session.turn;
         const myName = GameManager.session.players[me].name;
+        const numPlayers = GameManager.session.players.length * 2;
+
         let name = blacklist[0].text;
-        while(name === blacklist[0].text || name === myName) {
+        let i = 0;
+        while((name === blacklist[0].text || name === myName) && i < numPlayers) {
           name = GameManager.session.players[randomIndex(GameManager.session.players)].name;
+          i = i + 1;
         }
         return name;
       });
@@ -515,6 +520,9 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
       if(playerIsMe(card.player)) {
         // Target Player is on this device
         vm.burnCard.push(card);
+        if(!vm.parser) {
+          console.log(vm);
+        }
         _.last(vm.burnCard).secondary = vm.parser.render(card.secondary, card);
 
         if(!card.empty) {
