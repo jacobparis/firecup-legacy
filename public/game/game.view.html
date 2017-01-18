@@ -14,6 +14,11 @@
 	        <md-icon>more_vert</md-icon>
 	      </md-button>
 				<md-menu-content>
+					<md-menu-item>
+						<md-button ui-sref="gameSettings({title: game.session.title})">
+							<p>Settings</p>
+						</md-button>
+					</md-menu-item>
 					<md-menu-item ng-if="game.session.turn != vm.selectedPlayer && game.session.settings.takeTurns">
 						<md-button ng-click="vm.turnChange(vm.selectedPlayer)">
 							<p>SET TURN</p>

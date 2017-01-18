@@ -11,7 +11,6 @@ function GameResource($resource) {
 function GameManager($resource, $q, Socket, GameResource, DeckService) {
   const gm = this;
   gm.session = gm.session || cleanSession();
-  gm.cleanSession = cleanSession;
   gm.clientStatus = 0;
   gm.newGame = newGame;
   gm.getGame = getGame;
@@ -29,8 +28,7 @@ function GameManager($resource, $q, Socket, GameResource, DeckService) {
   gm.giveCardToPlayer = giveCardToPlayer;
 
   function cleanSession() {
-    return {
-      deviceToken: Math.random().toString(36).substr(2),
+    const session = {
       players: [],
       turn: 0,
       title: '',
@@ -43,6 +41,9 @@ function GameManager($resource, $q, Socket, GameResource, DeckService) {
 
       }
     };
+
+    return session;
+
   }
   function newGame(settings) {
     settings.turn = 0;

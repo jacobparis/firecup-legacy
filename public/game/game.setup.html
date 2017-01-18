@@ -1,68 +1,93 @@
-<md-dialog ng-class="{'fullscreen-dialog': $mdMedia('xs')}" aria-label="Create a new game">
-  <form ng-cloak>
-    <md-toolbar>
-      <div class="md-toolbar-tools">
-        <h2>Create a new game</h2>
-        <span flex></span>
-        <md-button ng-show="!dm.facebook.fbLogin" ng-click="dm.login()">Log In With Facebook</md-button>
-        <md-menu ng-show="dm.facebook.fbLogin" md-position-mode="target-right target">
-  				<md-button class="md-icon-button" ng-click="$mdOpenMenu()" aria-label="More">
-  	        <md-icon>more_vert</md-icon>
-  	      </md-button>
-  				<md-menu-content>
-  					<md-menu-item>
-  						<md-button ng-click="dm.logout()">
-  							<p>Log out</p>
-  						</md-button>
-  					</md-menu-item>
-  				</md-menu-content>
-  			</md-menu>
-      </div>
-    </md-toolbar>
+<md-toolbar>
+  <div class="md-toolbar-tools">
+    <h2>Create a new game</h2>
+    <span flex></span>
+    <md-button ng-show="!vm.facebook.fbLogin" ng-click="vm.login()">Log In With Facebook</md-button>
+    <md-menu ng-show="vm.facebook.fbLogin" md-position-mode="target-right target">
+			<md-button class="md-icon-button" ng-click="$mdOpenMenu()" aria-label="More">
+        <md-icon>more_vert</md-icon>
+      </md-button>
+			<md-menu-content>
+				<md-menu-item>
+					<md-button ng-click="vm.logout()">
+						<p>Log out</p>
+					</md-button>
+				</md-menu-item>
+			</md-menu-content>
+		</md-menu>
+  </div>
+</md-toolbar>
 
-    <md-dialog-content class="md-padding">
+<main class="setup">
+<md-card>
+  <md-card-title>
+    <span class="md-title">
+      Join Game
+    </span>
+  </md-card-title>
+  <md-card-content class="md-padding">
+    <p>
+      What is the title of the game your friend has created?
+    </p>
+    <md-input-container class="md-block">
+      <label>Title (eg, 'Laser Kitten Fiesta')</label>
+      <input ng-model="vm.joinRoom">
+    </md-input-container>
+  </md-card-content>
+  <md-card-actions layout="row">
+    <span flex></span>
+    <md-button type="submit" ng-click="vm.joinGame(vm.joinRoom)">Join Game</md-button>
+  </md-card-actions>
+</md-card>
+
+<md-card>
+  <md-card-title>
+    <span class="md-title">
+      Create Game
+    </span>
+  </md-card-title>
+  <form ng-cloak>
+    <md-card-content class="md-padding">
       <div layout="row">
         <md-input-container flex>
           <label>Mode</label>
-          <md-select ng-model="dm.mode">
-            <md-option ng-repeat="mode in dm.settings" value="{{$index}}">
+          <md-select ng-model="vm.mode">
+            <md-option ng-repeat="mode in vm.settings" value="{{$index}}">
               {{mode.name}}
             </md-option>
           </md-select>
         </md-input-container>
       </div>
       <div layout="row">
-        {{dm.settings[dm.mode].desc}}
+        {{vm.settings[vm.mode].desc}}
       </div>
       <md-list flex>
         <md-list-item ng-click="null">
           <md-checkbox ng-disabled="true" ng-checked="true"></md-checkbox>
           <span>Classic</span>
         </md-list-item>
-        <md-list-item ng-click="dm.selectTheme('movietraps')">
-          <md-checkbox ng-checked="dm.themes.indexOf('movietraps') > -1"></md-checkbox>
+        <md-list-item ng-click="vm.selectTheme('movietraps')">
+          <md-checkbox ng-checked="vm.themes.indexOf('movietraps') > -1"></md-checkbox>
           <span>Movie Traps - For Movie Nights</span>
         </md-list-item>
-        <!--md-list-item ng-click="dm.selectTheme('nsfw')">
-          <md-checkbox ng-checked="dm.themes.indexOf('nsfw') > -1"></md-checkbox>
+        <!--md-list-item ng-click="vm.selectTheme('nsfw')">
+          <md-checkbox ng-checked="vm.themes.indexOf('nsfw') > -1"></md-checkbox>
           <span>NSFW</span>
         </md-list-item -->
-        <md-list-item ng-click="dm.showNSFW = !dm.showNSFW">
+        <md-list-item ng-click="vm.showNSFW = !vm.showNSFW">
           <md-checkbox ng-checked="false"></md-checkbox>
           <span>NSFW</span>
-            <md-button ng-href="/nsfw" target="_self" ng-show="dm.showNSFW" class="md-raised md-secondary md-primary">Buy $10 / 200 Cards</md-button>
+            <md-button ng-href="/nsfw" target="_self" ng-show="vm.showNSFW" class="md-raised md-secondary md-primary">Buy $10 / 200 Cards</md-button>
         </md-list-item>
       </md-list>
-    </md-dialog-content>
+    </md-card-content>
 
-    <md-dialog-actions layout="row">
-      <md-button ng-click="dm.cancel()">
-        Back
-      </md-button>
+    <md-card-actions layout="row">
       <span flex></span>
-      <md-button ng-click="dm.createGame()" md-autofocus>
-        START GAME
+      <md-button ng-click="vm.createGame()" md-autofocus>
+        CREATE GAME
       </md-button>
-    </md-dialog-actions>
+    </md-card-actions>
   </form>
-</md-dialog>
+</md-card>
+</main>

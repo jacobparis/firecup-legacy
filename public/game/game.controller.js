@@ -78,7 +78,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
     .then(function(response) {
       if(response.status !== 'connected') {
         vm.fbLogin = false;
-        return Promise.reject();
+        return Promise.resolve();
       }
 
       vm.facebook.fbLogin = true;
@@ -135,62 +135,45 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
 
   function activate() {
     vm.startEh = false;
-    if($state.params.title.length === 0) {
-      createOrJoin()
-      .then(showCreateDialog, showJoinPrompt);
-    }
-    else {
-      joinGame()
-      .then(showAddPlayers)
-      .then(setupParser)
-      .then(firstDeal)
-      .then(function() {
-        vm.startEh = true;
-        checkLoginStatus();
-        $scope.thisDevice = function(index) {
-          if(index === -1) {return false;}
-          if(!vm.startEh) {return false;}
-          if(!GameManager.session.players.length) {return false;}
-          return playerIsMe(GameManager.session.players[index]);
-        };
-
-        const deck = _.find(GameManager.session.settings.decks, {'visible': true});
-        vm.deckChoice = deck ? deck.type : '';
-        console.log('Game Start!');
-      });
-    }
-
-    function createOrJoin() {
-      GameManager.session = GameManager.cleanSession();
-      const prompt = {
-        'text': 'Join a friend\'s game or create your own?',
-        'cancel': 'Join',
-        'confirm': 'Create'
+    // Am I in the game already? If not, send me to settings
+    joinGame()
+    .then(checkLoginStatus)
+    .then(directMe)
+    .then(setupParser)
+    .then(firstDeal)
+    .then(function() {
+      vm.startEh = true;
+      $scope.thisDevice = function(index) {
+        if(index === -1) {return false;}
+        if(!vm.startEh) {return false;}
+        if(!GameManager.session.players.length) {return false;}
+        return playerIsMe(GameManager.session.players[index]);
       };
 
-      return DialogService.showConfirm(prompt);
-    }
-    function showCreateDialog() {
-      // Decide to join a game or create a new one
-      const dialog = {
-        controller: 'GameSetupController',
-        controllerAs: 'dm',
-        templateUrl: 'game/game.setup.html',
-        clickOutsideToClose: false,
-      };
+      const deck = _.find(GameManager.session.settings.decks, {'visible': true});
+      vm.deckChoice = deck ? deck.type : '';
+      console.log('Game Start!');
+    });
 
-      return DialogService.showCustom(dialog)
-        .then(registerNewGame);
-      // If joining, connect and sync then startEh
-      // If creating, begin setup
-    }
+    function directMe() {
+      // If there are already players, see if I'm one of them
+      console.log(GameManager.session.players);
+      console.log(vm.facebook.id);
+      console.log(GameManager.session.deviceToken);
+      if(GameManager.session.players && GameManager.session.players.length) {
+        if(vm.facebook.id && _.find(GameManager.session.players, {'facebook': {id: vm.facebook.id}})) {
+          // I am already in the list
+          return Promise.resolve();
+        }
 
-    function registerNewGame(settings) {
-      console.log(settings);
-      return GameManager.newGame(settings)
-      .then(function(result) {
-        $state.go('game', {title: result.title});
-      });
+        if(_.find(GameManager.session.players, {'deviceToken': GameManager.session.deviceToken})) {
+          // I am already in the list
+          return Promise.resolve();
+        }
+      }
+
+      $state.go('gameSettings', {title: GameManager.session.title});
+      return Promise.reject();
     }
 
     function joinGame() {
@@ -209,42 +192,44 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
         GameManager.session.eventDeck = room.eventDeck;
         GameManager.session.totalTurns = room.totalTurns;
         GameManager.session.turn = vm.selectedPlayer = room.turn;
+
+        const token = getCookie(GameManager.session.title);
+        if (token !== '') {
+          GameManager.session.deviceToken = token;
+          console.log('Loaded token ' + GameManager.session.deviceToken + ' from memory');
+        }
+        else {
+          GameManager.session.deviceToken = Math.random().toString(36).substr(2);
+          setCookie(GameManager.session.title, GameManager.session.deviceToken);
+          console.log('Saved token ' + GameManager.session.deviceToken + ' to memory');
+        }
+
       });
-    }
 
-    function showJoinPrompt() {
-      // Decide to join a game or create a new one
-      const prompt = {
-        'text': 'What room would you like to join?',
-        'input': 'Room Name',
-        'confirm': 'Join Room',
-        'cancel': 'Back'
-      };
+      // Set device token cookie
+      // Check cookies for device tokens
+      function setCookie(cname, cvalue) {
+        const d = new Date();
+        d.setTime(d.getTime() + (86400));
+        const expires = 'expires=' + d.toUTCString();
+        document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/';
+      }
 
-      return DialogService.showPrompt(prompt)
-        .catch(() => $q.resolve())
-        .then(function(result) {
-          const title = (result || '').replace(/[\s+-]/g, '-').replace(/[^\w-]/g, '').toLowerCase();
-          $state.go('game', {title: title}, {reload: true});
-        });
-    }
+      function getCookie(cname) {
+        const name = cname + '=';
+        const ca = document.cookie.split(';');
+        for(let i = 0; i < ca.length; i++) {
+          let c = ca[i];
+          while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+          }
+          if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+          }
+        }
+        return '';
+      }
 
-    function showAddPlayers(e) {
-      // Decide to join a game or create a new one
-      const dialog = {
-        controller: 'GameSetupController',
-        controllerAs: 'dm',
-        templateUrl: 'game/game.setup.players.html',
-        scope: $scope.$new(),
-        targetEvent: e
-      };
-
-      return DialogService.showCustom(dialog)
-        .then(function(doc) {
-          console.log(doc);
-        });
-      // If joining, connect and sync then startEh
-      // If creating, begin setup
     }
 
     function setupParser() {

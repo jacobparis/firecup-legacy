@@ -11,6 +11,7 @@ function FBService(Facebook, $q) {
   this.getUser = getUser;
   this.getProfilePicture = getProfilePicture;
   this.getFriends = getFriends;
+  this.getInvitableFriends = getInvitableFriends;
   this.getPermissions = getPermissions;
   this.getScores = getScores;
 
@@ -52,6 +53,18 @@ function FBService(Facebook, $q) {
     return $q(function(resolve, reject) {
       FB.api(
         '/' + id + '/friends',
+        function(response) {
+          resolve(response);
+        }
+      );
+    });
+  }
+
+  function getInvitableFriends(id) {
+    id = id || 'me';
+    return $q(function(resolve, reject) {
+      FB.api(
+        '/' + id + '/invitable_friends',
         function(response) {
           resolve(response);
         }

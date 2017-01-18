@@ -19,10 +19,22 @@ function Routes($stateProvider, $urlRouterProvider, $locationProvider, Analytics
       controller: 'CardController',
       controllerAs: 'vm'
     })
+    .state('gameSetup', {
+      url: '/game/',
+      templateUrl: 'game/game.setup.html',
+      controller: 'GameSetupController',
+      controllerAs: 'vm',
+    })
     .state('game', {
-      url: '/game/:title?',
+      url: '/game/:title',
       templateUrl: 'game/game.view.html',
       controller: 'GameController',
+      controllerAs: 'vm',
+    })
+    .state('gameSettings', {
+      url: '/game/:title/settings',
+      templateUrl: 'game/game.settings.html',
+      controller: 'SettingsController',
       controllerAs: 'vm',
     })
     .state('welcome', {

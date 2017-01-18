@@ -14,7 +14,7 @@
   	        <md-icon>more_vert</md-icon>
   	      </md-button>
   				<md-menu-content>
-  					<md-menu-item>
+            <md-menu-item>
   						<md-button ng-click="dm.logout()">
   							<p>Log out</p>
   						</md-button>
@@ -98,7 +98,6 @@
           </md-expansion-panel-expanded>
         </md-expansion-panel>
         <md-list-item>
-          <form>
             <md-icon class="md-accent">person</md-icon>
             <md-input-container class="md-block">
               <label>What is your name?</label>
@@ -107,7 +106,6 @@
             <md-button type="submit" ng-disabled="!dm.newPlayerName.length" class="md-secondary md-primary md-raised" ng-click="dm.addPlayer()">
               <md-icon>person_add</md-icon>
             </md-button>
-          </form>
         </md-list-item>
       </md-expansion-panel-group>
       </div>
@@ -125,7 +123,7 @@
       <span flex></span>
 
       <md-button>
-        <div class="fb-send" data-href="{{$location.absUrl()}}"></div>
+        Invite Friends
       </md-button>
       <!-- NUMBER OF PLAYERS GOOD and CORRECT # PLAYERS ON DEVICE and CORRECT # FACEBOOK USERS -->
       <md-button ng-click="dm.confirmPlayers()" ng-if="dm.players.length > 1 && game.session.settings.shareDevice || !(game.session.settings.shareDevice || dm.multiplePlayers)" md-autofocus>
