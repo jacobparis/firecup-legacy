@@ -61,7 +61,8 @@ function ListDialogController($scope, $q, $mdDialog, $mdMedia) {
     const themes = [
       'classic',
       'movietraps',
-      'nsfw'
+      'nsfw',
+      'trump'
     ];
 
     const results = query ? themes.filter(createFilterFor(query)) : themes;
