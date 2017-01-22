@@ -1,14 +1,21 @@
 angular
   .module('Home', [])
-  .controller('HomeController',[
+  .controller('HomeController', [
     '$scope',
+    '$state',
     '$mdMedia',
     'Analytics',
     HomeController
   ]);
 
-function HomeController($scope, $mdMedia, Analytics) {
+function HomeController($scope, $state, $mdMedia, Analytics) {
   $scope.$mdMedia = $mdMedia;
-  var vm = this;
+  const vm = this;
   Analytics.trackPage('/');
+
+  vm.playFirecup = playFirecup;
+
+  function playFirecup() {
+    $state.go('gameSetup', {mode: 'firecup'});
+  }
 }

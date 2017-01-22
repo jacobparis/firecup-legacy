@@ -24,6 +24,10 @@ function Routes($stateProvider, $urlRouterProvider, $locationProvider, Analytics
       templateUrl: 'game/game.setup.html',
       controller: 'GameSetupController',
       controllerAs: 'vm',
+      params: {
+        mode: null,
+        themes: []
+      }
     })
     .state('game', {
       url: '/game/:title',
@@ -43,16 +47,16 @@ function Routes($stateProvider, $urlRouterProvider, $locationProvider, Analytics
       controller: 'OnboardController',
       controllerAs: 'vm'
     })
-    .state('home', {
-      url: '/home/',
-      templateUrl: 'home/home.view.html',
-      controller: 'HomeController',
-      controllerAs: 'vm'
-    })
     .state('list', {
       url: '/list/',
       templateUrl: 'list/list.view.html',
       controller: 'ListController',
+      controllerAs: 'vm'
+    })
+    .state('home', {
+      url: '/',
+      templateUrl: 'home/home.view.html',
+      controller: 'HomeController',
       controllerAs: 'vm'
     });
 

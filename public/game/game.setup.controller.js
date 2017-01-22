@@ -5,6 +5,7 @@ angular
     '$q',
     '$mdDialog',
     '$state',
+    '$stateParams',
     '$location',
     'Socket',
     'Facebook',
@@ -13,7 +14,7 @@ angular
     GameSetupController
   ]);
 
-function GameSetupController($scope, $q, $mdDialog, $state, $location, Socket, Facebook, FBService, GameManager) {
+function GameSetupController($scope, $q, $mdDialog, $state, $stateParams, $location, Socket, Facebook, FBService, GameManager) {
   const vm = this;
   $scope.game = GameManager;
   $scope.$location = $location;
@@ -29,7 +30,7 @@ function GameSetupController($scope, $q, $mdDialog, $state, $location, Socket, F
   vm.settings = [
     {
       'name': 'Firecup',
-      'desc': 'An enhanced version of the game known widely by names like King\'s Cup, Sociables, Ring of Fire, Circle of Death, and many more.',
+      'desc': 'An enhanced version of Firecup Lite that lets you draw trap cards and use them to burn your friends.',
       'settings': {
         'shareDevice': true,
         'takeTurns': true,
@@ -66,8 +67,46 @@ function GameSetupController($scope, $q, $mdDialog, $state, $location, Socket, F
       }
     },
     {
-      'name': 'Traps',
-      'desc': 'Each player gets 6 trap cards. When another player activates your trap, make them draw a burn card. If they correctly guess what your trap card is, replace it with a new one.',
+      'name': 'Firecup Lite',
+      'desc': 'The original party classic! Play rounds of minigames and burn the losers with elaborate drinking methods and persistent status effects.',
+      'settings': {
+        'shareDevice': true,
+        'takeTurns': true,
+        'hands': [
+          {
+            'type': 'trap',
+            'min': 0,
+            'max': 6,
+            'public': false,
+            'singleUse': true
+          },
+          {
+            'type': 'status',
+            'min': 0,
+            'max': 3,
+            'public': true
+          }
+        ],
+        'decks': [
+          {
+            'type': 'event',
+            'contents': ['event', 'trap'],
+            'turn': true,
+            'visible': true
+          },
+          {
+            'type': 'burn',
+            'contents': ['status', 'action'],
+            'turn': false,
+            'visible': true,
+            'len': 50
+          }
+        ]
+      }
+    },
+    {
+      'name': 'Firetraps',
+      'desc': 'Each player gets 6 trap cards with actions on them. When another player triggers your trap, burn them and grab a new card.',
       'settings': {
         'shareDevice': false,
         'takeTurns': false,
@@ -97,8 +136,8 @@ function GameSetupController($scope, $q, $mdDialog, $state, $location, Socket, F
       }
     },
     {
-      'name': 'Traps Lite',
-      'desc': 'Just like regular Traps rules, but with no Burn cards. If someone triggers your trap, make them take a drink. This variant is great for movie nights -- when someone in the movie triggers your trap, replace it with a new one and everyone takes a drink.',
+      'name': 'Firetraps Lite',
+      'desc': 'A simpler variant of Firetraps without the burn cards. Great for movie nights -- if your friend triggers a trap, make them drink, but if a movie character does, EVERYONE drinks.',
       'settings': {
         'shareDevice': false,
         'takeTurns': false,
@@ -187,9 +226,23 @@ function GameSetupController($scope, $q, $mdDialog, $state, $location, Socket, F
   }
 
   (function() {
+    console.log($stateParams);
     checkLoginStatus();
+    autoSetMode();
   })();
 
+  function autoSetMode() {
+    if($stateParams.mode) {
+      console.log(vm.settings);
+      console.log($stateParams.mode);
+      vm.mode = _.findIndex(vm.settings, {name: $stateParams.mode});
+    }
+
+    if($stateParams.themes && $stateParams.themes.length) {
+      vm.themes = $stateParams.themes;
+      console.log(vm.themes);
+    }
+  }
   function joinGame(result) {
     const title = (result || '').replace(/[\s+-]/g, '-').replace(/[^\w-]/g, '').toLowerCase();
     $state.go('game', {title: title}, {reload: true});
