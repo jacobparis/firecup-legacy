@@ -43,6 +43,12 @@ function Routes($stateProvider, $urlRouterProvider, $locationProvider, Analytics
       controller: 'OnboardController',
       controllerAs: 'vm'
     })
+    .state('home', {
+      url: '/home/',
+      templateUrl: 'home/home.view.html',
+      controller: 'HomeController',
+      controllerAs: 'vm'
+    })
     .state('list', {
       url: '/list/',
       templateUrl: 'list/list.view.html',

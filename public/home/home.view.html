@@ -1,136 +1,281 @@
 <!-- HEADER -->
-<header class="md-padding home">
-	<img src="assets/img/firecupbanner.png" />
-	<h2>A party game for the initiated</h2>
-</header>
 <main class="home">
-	<section class="home intro">
-		<h2>What is Firecup?</h2>
-		<p>King's Cup, Sociables, Ring of Fire, Circle of Death -- the game has many names and many rules. Firecup is an enhanced expansion of the game, packaged in a neat app with thousands of cards to play with and share.</p>
-	</section>
-	<section class="home">
-		<div layout="column">
-			<h2>How to Start?</h2>
-			<p>Sit everyone in a circle and enter their names in clock-wise. When everyone
-				is in, click THAT'S EVERYONE and the game will begin with the draw of a card.</p>
-
-			<h2>The Cards</h2>
-			<p>There are three types of cards: EVENT, TRAP, and BURN</p>
-			<h2>Event Cards</h2>
-			<p>At the start of your turn, the random card you draw will either be an
-				EVENT or TRAP card. EVENT cards start little minigames. A common type is
-				a Category card, where the players take turns listing items that fit the
-				category. If a player takes too long, says something wrong, or something
-				that another player has mentioned already, they must draw a BURN card.
-			</div>
-		</div>
+	<section class="Light" layout-padding>
+		<h1 class="md-headline">What are you doing tonight?</h1>
+		<div layout="column" layout-gt-sm="row">
 			<div layout="row" layout-xs="column">
-				<!-- SOLO EVENT DECK -->
-				<div class="unpad large card-container">
-					<div class="event card">
-						<p class="primary">Categories</p>
-						<p class="secondary">Name a movie based on a comic book</p>
-						<span class="type">EVENT TYPE</span>
-					</div>
-				</div>
 
-				<div class="unpad large card-container">
-					<div class="event card">
-						<p class="primary">Coin Duel</p>
-						<p class="secondary">Pick another player. Take turns bouncing coins at each other's drinks. First to win BURNS the other.</p>
-						<span class="type">EVENT TYPE</span>
-					</div>
-				</div>
+			<md-list-item flex-gt-xs class="md-card-container" ng-click="null">
+				<md-card flex>
+					<div flex>
+				<img class="md-card-image" src="assets/img/watchingmovie.png" />
+			</div>
+					<md-card-title class="md-title">
+						Watching Movies
+					</md-card-title>
+				</md-card>
+			</md-list-item>
 
-				<div class="unpad large card-container">
-					<div class="event card">
-						<p class="primary">Gecko Party</p>
-						<p class="secondary">BURN the last person to touch three limbs to a vertical surface</p>
-						<span class="type">EVENT TYPE</span>
-					</div>
-				</div>
+			<md-list-item flex-gt-xs class="md-card-container" ng-click="null">
+				<md-card flex>
+					<div flex>
+				<img class="md-card-image" src="http://placekitten.com/g/300/200" />
 			</div>
-			<div layout="column">
-			<h2>Trap Cards</h2>
-			<p>You can play a TRAP card at any point in the game, as long as its
-			condition is met. Unless the card says otherwise, a TRAP card will only work
-			on 1 player. If a TRAP card says to BURN a player when they stand up, and 2
-			players stand at the same time, you must choose which one to BURN. Active
-			trap cards can be found in their respective players' hand <strong>only on
-			the player's turn.</strong> The hand can be accessed through the action button
-			in the bottom right or by swiping up.</p>
-		</div>
-		<div layout="row" layout-xs="column">
-			<!-- SOLO TRAP DECK -->
-			<div class="unpad large card-container">
-				<div class="event card">
-					<p class="primary">BURN THEM</p>
-					<p class="secondary">Play this card when someone asks two questions in a row</p>
-					<span class="type">TRAP TYPE</span>
-				</div>
-			</div>
+					<md-card-title class="md-title">
+						Having a House Party
+					</md-card-title>
+				</md-card>
+			</md-list-item>
 
-			<div class="unpad large card-container">
-				<div class="event card">
-					<p class="primary">BURN BOTH</p>
-					<p class="secondary">Play this card when two players touch hands</p>
-					<span class="type">TRAP TYPE</span>
-				</div>
 			</div>
-
-			<div class="unpad large card-container">
-				<div class="event card">
-					<p class="primary">BURN THEM</p>
-					<p class="secondary">Play this card when a player receives a phone call</p>
-					<span class="type">TRAP TYPE</span>
-				</div>
-			</div>
-		</div>
-		<div layout="column">
-			<h2>BURN Cards</h2>
-			<p>If a card tells you to BURN a player, switch to the BURN deck by clicking
-				the action button in the bottom right, then click the deck. BURNING players
-				does not affect normal turn order and can be done at any time.
-				<br />
-			There are two types of BURN cards: ACTION, and STATUS. ACTION cards are to
-			be performed immediately and discarded, while STATUS cards remain active until
-			another card says otherwise. Active STATUS cards can be found the respective
-			players' hand, which can be accessed from the action button or by swiping up</p>
-		</div>
 			<div layout="row" layout-xs="column">
-				<!-- SOLO BURN DECK -->
-				<div class="unpad large card-container">
-					<div class="burn card">
-						<p class="primary">Irish Standoff</p>
-						<p class="secondary">Give a drink to another player. They may give a drink back to you. Repeat until one of you declines to give another drink.</p>
-						<span class="type">ACTION TYPE</span>
-					</div>
+
+			<md-list-item flex-gt-xs class="md-card-container" ng-click="null">
+				<md-card flex>
+					<div flex>
+				<img class="md-card-image" src="http://placekitten.com/g/300/200" />
+			</div>
+					<md-card-title class="md-title">
+						Playing Some Games
+					</md-card-title>
+				</md-card>
+			</md-list-item>
+
+			<md-list-item flex-gt-xs class="md-card-container" ng-click="null">
+				<md-card flex>
+					<div flex>
+				<img class="md-card-image" src="http://placekitten.com/g/300/200" />
+			</div>
+					<md-card-title class="md-title">
+						Cranking it up to Medium
+					</md-card-title>
+				</md-card>
+			</md-list-item>
+
+			</div>
+		</div>
+	</section>
+
+
+		<md-divider></md-divider>
+		<section layout-padding>
+			<h1 class="md-headline">Firecup Classic</h1>
+			<h3 class="md-subheader">The original party classic! Play rounds of minigames and <strong>burn</strong> the losers with elaborate drinking methods and persistent status effects.</h3>
+
+			<div layout="column" layout-gt-sm="row">
+
+				<div layout="row">
+						<div flex>
+				<img class="md-card-image" src="assets/img/fcc1.png"  />
+			</div>
+
+						<div flex>
+				<img class="md-card-image" src="assets/img/fcc2.png"  />
+			</div>
+
+						<div flex>
+				<img class="md-card-image" src="assets/img/fcc3.png"  />
+			</div>
 				</div>
 
-				<div class="unpad large card-container">
-					<div class="burn card">
-						<p class="primary">Trickle Down Drinkonomics</p>
-						<p class="secondary">You and every player shorter than you must take a drink</p>
-						<span class="type">ACTION TYPE</span>
-					</div>
+				<div layout="row">
+						<div flex>
+				<img class="md-card-image" src="assets/img/fcc4.png"  />
+			</div>
+
+						<div flex>
+				<img class="md-card-image" src="assets/img/fcc5.png"  />
+			</div>
+
+						<div flex>
+				<img class="md-card-image" src="assets/img/fcc6.png"  />
+			</div>
+				</div>
+			</div>
+			<div layout-xs="column" layout="row">
+				<div flex-gt-xs="33">
+					<h1 class="md-headline">NSFW Expansion</h1>
+					<h3 class="md-subheader">200 extra cards to spice up the party. You'll be taking clothes off, putting clothes on, and touching earlobes, so this one is not for the faint of heart. Works best with <strong>Firecup Classic.</strong> All expansions are optional and work in every game mode.</h3>
+				</div>
+				<div flex-gt-xs="66" layout="row">
+						<div flex>
+				<img class="md-card-image" src="assets/img/nsfw1.png"  />
+			</div>
+
+						<div flex>
+				<img class="md-card-image" src="assets/img/nsfw2.png"  />
+			</div>
+
+						<div flex>
+				<img class="md-card-image" src="assets/img/nsfw3.png"  />
+			</div>
+				</div>
+			</div>
+			<div layout="row">
+				<span flex></span>
+				<md-button>PLAY NOW</md-button>
+			</div>
+		</section>
+
+		<md-divider></md-divider>
+		<section layout-padding>
+			<h1 class="md-headline">Firecup Enhanced</h1>
+			<h3 class="md-subheader">An enhanced version of Firecup Classic that lets you draw trap cards and use them to <strong>burn</strong> your friends.</h3>
+
+			<div layout="column" layout-gt-sm="row">
+
+				<div layout="row">
+						<div flex>
+				<img class="md-card-image" src="assets/img/fce1.png"  />
+			</div>
+
+						<div flex>
+				<img class="md-card-image" src="assets/img/fce2.png"  />
+			</div>
+
+						<div flex>
+				<img class="md-card-image" src="assets/img/fce3.png"  />
+			</div>
 				</div>
 
-				<div class="unpad large card-container">
-					<div class="burn card">
-						<p class="primary">BURN THEM</p>
-						<p class="secondary">If you can answer a question with "Because I'm Batman.", BURN the player who asked you.</p>
-						<span class="type">STATUS TYPE</span>
-					</div>
+				<div layout="row">
+						<div flex>
+				<img class="md-card-image" src="assets/img/fce4.png"  />
+			</div>
+
+						<div flex>
+				<img class="md-card-image" src="assets/img/fce5.png"  />
+			</div>
+
+						<div flex>
+				<img class="md-card-image" src="assets/img/fce6.png"  />
+			</div>
 				</div>
 			</div>
-			<h2>Disclaimer</h2>
-		<p>All drinks referred to in the game are defined as large sips of homeopathic
-			snake oil diluted to roughly 5%. All shots are defined as tiny glasses diluted
-			to roughly 40%. Please drink responsibly.</p>
+			<div layout="row">
+				<span flex></span>
+				<md-button>PLAY NOW</md-button>
 			</div>
+		</section>
+
+	<md-divider></md-divider>
+	<section  layout-padding>
+		<h1 class="md-headline">Firetraps</h1>
+		<h3 class="md-subheader">One of our most popular games. Each player gets 6 trap cards with actions on them. When another player triggers your trap, <strong>burn</strong> them and grab a new card.</h3>
+
+		<div layout="column" layout-gt-sm="row">
+
+			<div layout="row">
+					<div flex>
+				<img class="md-card-image" src="assets/img/ft1.png"  />
+			</div>
+
+					<div flex>
+				<img class="md-card-image" src="assets/img/ft2.png"  />
+			</div>
+
+					<div flex>
+				<img class="md-card-image" src="assets/img/ft3.png"  />
+			</div>
+			</div>
+
+			<div layout="row">
+					<div flex>
+				<img class="md-card-image" src="assets/img/ft4.png"  />
+			</div>
+
+					<div flex>
+				<img class="md-card-image" src="assets/img/ft5.png"  />
+			</div>
+
+					<div flex>
+				<img class="md-card-image" src="assets/img/ft6.png"  />
+			</div>
+			</div>
+		</div>
+		<div layout-xs="column" layout="row">
+			<div flex-gt-xs="33">
+				<h1 class="md-headline">Trump Expansion</h1>
+				<h3 class="md-subheader">100 cards for your politically-minded friends. Works best with <strong>Firetraps.</strong> All expansions are optional and work in every game mode.</h3>
+			</div>
+			<div layout="row"flex-gt-xs="66">
+					<div flex>
+				<img class="md-card-image" src="assets/img/trump1.png"  />
+			</div>
+
+					<div flex>
+				<img class="md-card-image" src="assets/img/trump2.png"  />
+			</div>
+
+					<div flex>
+				<img class="md-card-image" src="assets/img/trump3.png"  />
+			</div>
+			</div>
+		</div>
+		<div layout="row">
+			<span flex></span>
+			<md-button>PLAY NOW</md-button>
+		</div>
 	</section>
-	<section class="home action">
-		<md-button ui-sref="game" class="md-raised md-primary large">PLAY GAME</md-button>
-		<md-button ui-sref="list" class="md-raised md-primary large">VIEW CARDS</md-button>
+
+	<md-divider></md-divider>
+	<section  layout-padding>
+		<h1 class="md-headline">Firetraps Lite</h1>
+		<h3 class="md-subheader">A simpler variant of Firetraps without the <strong>burn</strong> cards. Great for movie nights -- if your friend triggers a trap, make them drink, but if a movie character does, EVERYONE drinks.</h3>
+
+		<div layout="column" layout-gt-sm="row">
+
+			<div layout="row">
+					<div flex>
+				<img class="md-card-image" src="assets/img/ftl1.png"  />
+			</div>
+
+					<div flex>
+				<img class="md-card-image" src="assets/img/ftl2.png"  />
+			</div>
+
+					<div flex>
+				<img class="md-card-image" src="assets/img/ftl3.png"  />
+			</div>
+			</div>
+
+			<div layout="row">
+					<div flex>
+				<img class="md-card-image" src="assets/img/ftl4.png"  />
+			</div>
+
+					<div flex>
+				<img class="md-card-image" src="assets/img/ftl5.png"  />
+			</div>
+
+					<div flex>
+				<img class="md-card-image" src="assets/img/ftl6.png"  />
+			</div>
+			</div>
+		</div>
+		<div layout-xs="column" layout="row">
+			<div flex-gt-xs="33">
+				<h1 class="md-headline">Movie Expansion</h1>
+				<h3 class="md-subheader">200 trap cards targeting the TV and the action on it, but many work to <strong>burn</strong> your friends too! Works best with <strong>Firetraps Lite.</strong> All expansions are optional and work in every game mode.</h3>
+			</div>
+			<div layout="row" flex-gt-xs="66">
+					<div flex>
+				<img class="md-card-image" src="assets/img/movie1.png"  />
+			</div>
+
+					<div flex>
+				<img class="md-card-image" src="assets/img/movie2.png"  />
+			</div>
+
+					<div flex>
+				<img class="md-card-image" src="assets/img/movie3.png"  />
+			</div>
+			</div>
+		</div>
+		<div layout="row">
+			<span flex></span>
+			<md-button>PLAY NOW</md-button>
+		</div>
 	</section>
+
 </main>
