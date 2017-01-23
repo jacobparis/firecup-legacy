@@ -1,6 +1,15 @@
 <!-- HEADER -->
-<header>
-	<img src="assets/img/firecupbanner.png" />
+<header layout="column" layout-gt-md="row">
+	<div flex-gt-md>
+		<img src="assets/img/firecupbanner.png" />
+
+	</div>
+	<section class="Dark" flex-gt-md>
+		<h2 class="md-headline">What is Firecup?</h2>
+		<p class="md-subhead">
+			Firecup is the ultimate party game with variants ideal for every party -- all the way from quiet movie nights to off-the-hook college parties. Take everything you loved about the rules of King's Cup and Sociables, add a thousand cards, let people play from their own phones, and you've got a drinking game for adults that no other game can compare to.
+		</p>
+	</section>
 </header>
 <main class="home">
 	<div class="wrapper">
@@ -64,7 +73,7 @@
 			<md-divider></md-divider>
 			<section layout-padding>
 				<h1 class="md-headline">Firecup Lite</h1>
-				<h3 class="md-subheader">The original party classic! Play rounds of minigames and <strong>burn</strong> the losers with elaborate drinking methods and persistent status effects.</h3>
+				<h3 class="md-subhead">The original party classic! Play rounds of minigames and <strong>burn</strong> the losers with elaborate drinking methods and persistent status effects.</h3>
 
 				<div layout="column" layout-gt-sm="row">
 
@@ -98,8 +107,8 @@
 				</div>
 				<div layout-xs="column" layout="row">
 					<div flex-gt-xs="33">
-						<h1 class="md-headline">NSFW Expansion</h1>
-						<h3 class="md-subheader">200 extra cards to spice up the party. You'll be taking clothes off, putting clothes on, and touching earlobes, so this one is not for the faint of heart. Works best with <strong>Firecup Lite.</strong> All expansions are optional and work in every game mode.</h3>
+						<h1 class="md-title">NSFW Expansion</h1>
+						<h3 class="md-subhead">200 extra cards to spice up the party. You'll be taking clothes off, putting clothes on, and touching earlobes, so this one is not for the faint of heart. Works best with <strong>Firecup Lite.</strong> All expansions are optional and work in every game mode.</h3>
 					</div>
 					<div flex-gt-xs="66" layout="row">
 						<div flex>
@@ -117,14 +126,14 @@
 				</div>
 				<div layout="row">
 					<span flex></span>
-					<md-button ui-sref="gameSetup({mode: 'Firecup Lite'})" ng-click="trackEvent('navigation', 'Firecup Lite')">PLAY FIRECUP LITE NOW</md-button>
+					<md-button class="md-raised md-accent" ui-sref="gameSetup({mode: 'Firecup Lite'})" ng-click="trackEvent('navigation', 'Firecup Lite')">PLAY FIRECUP LITE NOW</md-button>
 				</div>
 			</section>
 
 			<md-divider></md-divider>
 			<section layout-padding>
 				<h1 class="md-headline">Firecup</h1>
-				<h3 class="md-subheader">An enhanced version of Firecup Lite that lets you draw trap cards and use them to <strong>burn</strong> your friends.</h3>
+				<h3 class="md-subhead">An enhanced version of Firecup Lite that lets you draw trap cards and use them to <strong>burn</strong> your friends.</h3>
 
 				<div layout="column" layout-gt-sm="row">
 
@@ -158,14 +167,14 @@
 				</div>
 				<div layout="row">
 					<span flex></span>
-					<md-button ui-sref="gameSetup({mode: 'Firecup'})" ng-click="trackEvent('navigation', 'Firecup')">PLAY FIRECUP NOW</md-button>
+					<md-button class="md-raised md-accent" ui-sref="gameSetup({mode: 'Firecup'})" ng-click="trackEvent('navigation', 'Firecup')">PLAY FIRECUP NOW</md-button>
 				</div>
 			</section>
 
 		<md-divider></md-divider>
 		<section  layout-padding>
 			<h1 class="md-headline">Firetraps</h1>
-			<h3 class="md-subheader">One of our most popular games. Each player gets 6 trap cards with actions on them. When another player triggers your trap, <strong>burn</strong> them and grab a new card.</h3>
+			<h3 class="md-subhead">One of our most popular games. Each player gets 6 trap cards with actions on them. When another player triggers your trap, <strong>burn</strong> them and grab a new card.</h3>
 
 			<div layout="column" layout-gt-sm="row">
 
@@ -199,8 +208,8 @@
 			</div>
 			<div layout-xs="column" layout="row">
 				<div flex-gt-xs="33">
-					<h1 class="md-headline">Trump Expansion</h1>
-					<h3 class="md-subheader">100 cards for your politically-minded friends. Works best with <strong>Firetraps.</strong> All expansions are optional and work in every game mode.</h3>
+					<h1 class="md-title">Trump Expansion</h1>
+					<h3 class="md-subhead">100 cards for your politically-minded friends. Works best with <strong>Firetraps.</strong> All expansions are optional and work in every game mode.</h3>
 				</div>
 				<div layout="row"flex-gt-xs="66">
 					<div flex>
@@ -218,14 +227,14 @@
 			</div>
 			<div layout="row">
 				<span flex></span>
-				<md-button ui-sref="gameSetup({mode: 'Firetraps'})" ng-click="trackEvent('navigation', 'Firetraps')">PLAY FIRETRAPS NOW</md-button>
+				<md-button class="md-raised md-accent" ui-sref="gameSetup({mode: 'Firetraps'})" ng-click="trackEvent('navigation', 'Firetraps')">PLAY FIRETRAPS NOW</md-button>
 			</div>
 		</section>
 
 		<md-divider></md-divider>
 		<section  layout-padding>
 			<h1 class="md-headline">Firetraps Lite</h1>
-			<h3 class="md-subheader">A simpler variant of Firetraps without the <strong>burn</strong> cards. Great for movie nights -- if your friend triggers a trap, make them drink, but if a movie character does, EVERYONE drinks.</h3>
+			<h3 class="md-subhead">A simpler variant of Firetraps without the <strong>burn</strong> cards. Great for movie nights -- if your friend triggers a trap, make them drink, but if a movie character does, EVERYONE drinks.</h3>
 
 			<div layout="column" layout-gt-sm="row">
 
@@ -259,8 +268,8 @@
 			</div>
 			<div layout-xs="column" layout="row">
 				<div flex-gt-xs="33">
-					<h1 class="md-headline">Movie Expansion</h1>
-					<h3 class="md-subheader">200 trap cards targeting the TV and the action on it, but many work to <strong>burn</strong> your friends too! Works best with <strong>Firetraps Lite.</strong> All expansions are optional and work in every game mode.</h3>
+					<h1 class="md-title">Movie Expansion</h1>
+					<h3 class="md-subhead">200 trap cards targeting the TV and the action on it, but many work to <strong>burn</strong> your friends too! Works best with <strong>Firetraps Lite.</strong> All expansions are optional and work in every game mode.</h3>
 				</div>
 				<div layout="row" flex-gt-xs="66">
 					<div flex>
@@ -278,7 +287,7 @@
 			</div>
 			<div layout="row">
 				<span flex></span>
-				<md-button ui-sref="gameSetup({mode: 'Firetraps Lite'})" ng-click="trackEvent('navigation', 'Firetraps Lite')">PLAY FIRETRAPS LITE NOW</md-button>
+				<md-button class="md-raised md-accent" ui-sref="gameSetup({mode: 'Firetraps Lite'})" ng-click="trackEvent('navigation', 'Firetraps Lite')">PLAY FIRETRAPS LITE NOW</md-button>
 			</div>
 		</section>
 	</div>
