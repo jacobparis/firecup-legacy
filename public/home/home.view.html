@@ -9,7 +9,7 @@
 			<div layout="column" layout-gt-sm="row">
 				<div layout="row" layout-xs="column">
 
-				<md-list-item flex-gt-xs class="md-card-container" ui-sref="gameSetup({mode: 'Firetraps Lite', themes: ['classic', 'movietraps']})" ng-click="null">
+				<md-list-item flex-gt-xs class="md-card-container" ui-sref="gameSetup({mode: 'Firetraps Lite', themes: ['classic', 'movietraps']})" ng-click="trackEvent('navigation', 'Watching Movies')">
 					<md-card flex>
 						<div flex>
 							<img class="md-card-image" src="assets/img/watchingmovie.png" />
@@ -20,7 +20,7 @@
 					</md-card>
 				</md-list-item>
 
-				<md-list-item flex-gt-xs class="md-card-container" ui-sref="gameSetup({mode: 'Firecup'})" ng-click="null">
+				<md-list-item flex-gt-xs class="md-card-container" ui-sref="gameSetup({mode: 'Firecup'})" ng-click="trackEvent('navigation', 'Having House Party')">
 					<md-card flex>
 						<div flex>
 							<img class="md-card-image" src="assets/img/houseparty.png" />
@@ -34,7 +34,7 @@
 				</div>
 				<div layout="row" layout-xs="column">
 
-				<md-list-item flex-gt-xs class="md-card-container" ui-sref="gameSetup({mode: 'Firetraps'})" ng-click="null">
+				<md-list-item flex-gt-xs class="md-card-container" ui-sref="gameSetup({mode: 'Firetraps'})" ng-click="trackEvent('navigation', 'Playing Games')">
 					<md-card flex>
 						<div flex>
 							<img class="md-card-image" src="assets/img/playinggames.png" />
@@ -45,7 +45,7 @@
 					</md-card>
 				</md-list-item>
 
-				<md-list-item flex-gt-xs class="md-card-container" ui-sref="gameSetup({mode: 'Firecup', themes: ['classic', 'nsfw']})" ng-click="null">
+				<md-list-item flex-gt-xs class="md-card-container" ui-sref="gameSetup({mode: 'Firecup', themes: ['classic', 'nsfw']})" ng-click="trackEvent('navigation', 'Cranking Medium')">
 					<md-card flex>
 						<div flex>
 							<img class="md-card-image" src="assets/img/crankingmedium.png" />
@@ -117,7 +117,7 @@
 				</div>
 				<div layout="row">
 					<span flex></span>
-					<md-button ui-sref="gameSetup({mode: 'Firecup Lite'})">PLAY FIRECUP LITE NOW</md-button>
+					<md-button ui-sref="gameSetup({mode: 'Firecup Lite'})" ng-click="trackEvent('navigation', 'Firecup Lite')">PLAY FIRECUP LITE NOW</md-button>
 				</div>
 			</section>
 
@@ -158,7 +158,7 @@
 				</div>
 				<div layout="row">
 					<span flex></span>
-					<md-button ui-sref="gameSetup({mode: 'Firecup'})">PLAY FIRECUP NOW</md-button>
+					<md-button ui-sref="gameSetup({mode: 'Firecup'})" ng-click="trackEvent('navigation', 'Firecup')">PLAY FIRECUP NOW</md-button>
 				</div>
 			</section>
 
@@ -218,7 +218,7 @@
 			</div>
 			<div layout="row">
 				<span flex></span>
-				<md-button ui-sref="gameSetup({mode: 'Firetraps'})">PLAY FIRETRAPS NOW</md-button>
+				<md-button ui-sref="gameSetup({mode: 'Firetraps'})" ng-click="trackEvent('navigation', 'Firetraps')">PLAY FIRETRAPS NOW</md-button>
 			</div>
 		</section>
 
@@ -278,7 +278,7 @@
 			</div>
 			<div layout="row">
 				<span flex></span>
-				<md-button ui-sref="gameSetup({mode: 'Firetraps Lite'})">PLAY FIRETRAPS LITE NOW</md-button>
+				<md-button ui-sref="gameSetup({mode: 'Firetraps Lite'})" ng-click="trackEvent('navigation', 'Firetraps Lite')">PLAY FIRETRAPS LITE NOW</md-button>
 			</div>
 		</section>
 	</div>

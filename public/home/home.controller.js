@@ -13,9 +13,6 @@ function HomeController($scope, $state, $mdMedia, Analytics) {
   const vm = this;
   Analytics.trackPage('/');
 
-  vm.playFirecup = playFirecup;
+  $scope.trackEvent = Analytics.trackEvent;
 
-  function playFirecup() {
-    $state.go('gameSetup', {mode: 'firecup'});
-  }
 }
