@@ -7,6 +7,21 @@ header {
     color: white;
     padding: 4rem 2rem 2rem 2rem;
   }
+  &.home {
+    @media only screen and (min-width : 1280px) {
+      min-width: 50vw;
+      .wrapper {
+        position: fixed;
+        max-width: 50vw;
+      }
+      .don-share {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+    }
+  }
 }
 
 main.home {
@@ -16,6 +31,9 @@ main.home {
   .wrapper {
     max-width: 80%;
     margin: auto;
+  }
+  @media only screen and (min-width : 1280px) {
+    box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
   }
 }
 
