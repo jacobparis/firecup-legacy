@@ -255,7 +255,7 @@ function GameSetupController($scope, $q, $mdDialog, $state, $stateParams, $locat
       theme: vm.themes
     }))
     .then(function(result) {
-      $state.go('gameSettings', {title: result.title});
+      $state.go('welcome', {title: result.title});
     });
   }
 

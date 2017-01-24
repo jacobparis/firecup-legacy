@@ -2,6 +2,7 @@ angular.module('app', [
   'ngRoute',
   'ngResource',
   'ngMaterial',
+  'ngMeta',
   'ui.router',
   'md.data.table',
   'angular-google-analytics',
@@ -20,8 +21,10 @@ angular.module('app', [
     'AnalyticsProvider',
     'FacebookProvider',
     Config
-  ]);
-
+  ])
+  .run(['ngMeta', function(ngMeta) {
+    ngMeta.init();
+  }]);
 function Config($mdThemingProvider, AnalyticsProvider, FacebookProvider) {
   $mdThemingProvider.theme('default')
     .primaryPalette('red')

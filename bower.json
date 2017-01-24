@@ -13,6 +13,7 @@
     "angular-facebook": "^0.2.3",
     "normalize-strings": "normalize#^1.1.0",
     "normalize-css": "^5.0.0",
-    "angular-bootstrap-feedback": "^1.0.3"
+    "angular-bootstrap-feedback": "^1.0.3",
+    "ngMeta": "^1.0.0"
   }
 }

@@ -86,7 +86,7 @@
 			<md-card-actions layout="row">
 				<span flex></span>
 				<md-button ng-click="vm.logout()">Log out</md-button>
-				<md-button ui-sref="game" class="md-raised md-primary">Continue</md-button>
+				<md-button ui-sref="game({title: vm.title})" class="md-raised md-primary">Continue</md-button>
 			</md-card-actions>
 		</md-card>
 </main>

@@ -2,6 +2,7 @@ angular
   .module('Game')
   .controller('OnboardController', [
     '$scope',
+    '$state',
     'Socket',
     'Facebook',
     'FBService',
@@ -10,7 +11,7 @@ angular
     OnboardController
   ]);
 
-function OnboardController($scope, Socket, Facebook, FBService, DialogService, GameManager) {
+function OnboardController($scope, $state, Socket, Facebook, FBService, DialogService, GameManager) {
   const vm = this;
   $scope.Facebook = Facebook;
   vm.facebook = {
@@ -22,7 +23,7 @@ function OnboardController($scope, Socket, Facebook, FBService, DialogService, G
 
   vm.logout = logout;
   vm.login = login;
-
+  vm.title = $state.params.title;
   (function() {
     checkLoginStatus();
   })();
