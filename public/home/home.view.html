@@ -31,7 +31,7 @@
 			<div layout="column" layout-gt-sm="row">
 				<div layout="row" layout-xs="column">
 
-				<md-list-item flex-gt-xs class="md-card-container" ui-sref="gameSetup({mode: 'Firetraps Lite', themes: ['classic', 'movietraps']})" ng-click="trackEvent('navigation', 'Watching Movies')">
+				<md-list-item flex-gt-xs class="md-card-container"  ng-click="vm.activity = 'Watching Movies'">
 					<md-card flex>
 						<div flex>
 							<img class="md-card-image" src="assets/img/watchingmovie.png" />
@@ -42,7 +42,7 @@
 					</md-card>
 				</md-list-item>
 
-				<md-list-item flex-gt-xs class="md-card-container" ui-sref="gameSetup({mode: 'Firecup'})" ng-click="trackEvent('navigation', 'Having House Party')">
+				<md-list-item flex-gt-xs class="md-card-container" ng-click="vm.activity = 'Having House Party'">
 					<md-card flex>
 						<div flex>
 							<img class="md-card-image" src="assets/img/houseparty.png" />
@@ -56,7 +56,7 @@
 				</div>
 				<div layout="row" layout-xs="column">
 
-				<md-list-item flex-gt-xs class="md-card-container" ui-sref="gameSetup({mode: 'Firetraps'})" ng-click="trackEvent('navigation', 'Playing Games')">
+				<md-list-item flex-gt-xs class="md-card-container"  ng-click="vm.activity = 'Playing Games'">
 					<md-card flex>
 						<div flex>
 							<img class="md-card-image" src="assets/img/playinggames.png" />
@@ -67,7 +67,7 @@
 					</md-card>
 				</md-list-item>
 
-				<md-list-item flex-gt-xs class="md-card-container" ui-sref="gameSetup({mode: 'Firecup', themes: ['classic', 'nsfw']})" ng-click="trackEvent('navigation', 'Cranking Medium')">
+				<md-list-item flex-gt-xs class="md-card-container"  ng-click="vm.activity = 'Cranking Medium'">
 					<md-card flex>
 						<div flex>
 							<img class="md-card-image" src="assets/img/crankingmedium.png" />
@@ -80,6 +80,35 @@
 
 				</div>
 			</div>
+			<div layout-padding ng-if="vm.activity == 'Watching Movies'">
+				If you're having a movie night, we recommend <strong>Firetraps Lite</strong> with the <strong>Movie Traps</strong> expansion. You and your friends will have tons of cards with actions that both your friends and the movie characters can trigger. If your friend sets off a card, make her drink. If the movie sets off a card, everyone drinks!
+				<div layout="row">
+					<span flex></span>
+					<md-button class="md-raised md-accent" ui-sref="gameSetup({mode: 'Firetraps Lite', themes: ['classic', 'movietraps']})" ng-click="vm.navigate('Watching Movies')">START THE PARTY</md-button>
+				</div>
+			</div>
+			<div layout-padding ng-if="vm.activity == 'Having House Party'">
+				If you have a bunch of friends coming over, there's no better way to get the party going than with a game of <strong>Firecup</strong>. Scroll down to check out the rules and see what you're getting into.
+				<div layout="row">
+					<span flex></span>
+					<md-button class="md-raised md-accent" ui-sref="gameSetup({mode: 'Firecup'})" ng-click="vm.navigate('Having House Party')">START THE PARTY</md-button>
+				</div>
+			</div>
+			<div layout-padding ng-if="vm.activity == 'Playing Games'">
+				If tonight is a night for party games like beer pong or flip cup, don't sit everyone else back while two people are the center of attention. Fire up a game of Firetraps and wait for your friends to trigger your traps. When they do, they'll receive a card with the punishment. This game doesn't interfere with other party games so it's always a good bet.
+				<div layout="row">
+					<span flex></span>
+					<md-button class="md-raised md-accent" ui-sref="gameSetup({mode: 'Firetraps'})" ng-click="vm.navigate('Playing Games')">START THE PARTY</md-button>
+				</div>
+			</div>
+			<div layout-padding ng-if="vm.activity == 'Cranking Medium'">
+				If you can't convince your friends to join a game of strip Jumanji, try a game of Firecup with the NSFW expansion instead.
+				<div layout="row">
+					<span flex></span>
+					<md-button class="md-raised md-accent" ui-sref="gameSetup({mode: 'Firecup', themes: ['classic', 'nsfw']})" ng-click="vm.navigate('Cranking Medium')">START THE PARTY</md-button>
+				</div>
+			</div>
+
 		</section>
 
 
@@ -91,7 +120,7 @@
 				</div>
 
 				<h1 class="md-headline">Firecup Lite</h1>
-				<h3 class="md-subhead">The original party classic! Play rounds of minigames and <strong>burn</strong> the losers with elaborate drinking methods and persistent status effects.</h3>
+				<h3 class="md-subhead">The original party classic! Play rounds of minigames and <strong>burn</strong> the losers with elaborate drinking methods and persistent status effects. The only difference between this and regular Firecup is that this version has no trap cards.</h3>
 
 				<div layout="column" layout-gt-sm="row">
 

@@ -11,14 +11,13 @@ angular
 
 function HomeController($scope, $state, $mdMedia, Analytics) {
   $scope.$mdMedia = $mdMedia;
-  $scope.selected;
   const vm = this;
   Analytics.trackPage('/');
 
   $scope.trackEvent = Analytics.trackEvent;
 
   vm.navigate = navigate;
-
+  vm.activity;
   $scope.selected = '';
 
   function navigate(elem) {
