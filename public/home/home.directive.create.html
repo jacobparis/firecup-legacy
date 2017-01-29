@@ -19,27 +19,51 @@
       <div layout="row">
         {{dm.settings[dm.mode].desc}}
       </div>
-      <div layout="row">
-        <md-grid-list md-cols="4" md-row-height="1:1">
-          <md-grid-tile class="selected" col-span="1">
+      <div class="themes" layout="column" layout-gt-xs="row">
+        <div layout="column" >
+          <figure class="selected" layout="row">
             <img src="assets/img/cardsicon.png" />
+            <figcaption>
+              <h3 class="md-title">Base Deck</h3>
+              <p>
+                The original set of cards
+              </p>
+            </figcaption>
             <md-icon>check_circle</md-icon>
-          </md-grid-tile>
-          <md-grid-tile ng-class="{'selected': dm.themes.indexOf('movietraps') > -1}" ng-click="dm.selectTheme('movietraps')" col-span="1">
+          </figure>
+          <figure ng-class="{'selected': dm.themes.indexOf('movietraps') > -1}" ng-click="dm.selectTheme('movietraps')" layout="row">
             <img src="assets/img/movieicon.png" />
+            <figcaption>
+              <h3 class="md-title">Movie Traps</h3>
+              <p>
+                Extra trap cards targeted at movies
+              </p>
+            </figcaption>
             <md-icon ng-show="dm.themes.indexOf('movietraps') > -1">check_circle</md-icon>
-
-          </md-grid-tile>
-          <md-grid-tile ng-class="{'selected': dm.themes.indexOf('trump') > -1}" ng-click="dm.selectTheme('trump')" col-span="1">
+          </figure>
+        </div>
+        <div layout="column">
+          <figure ng-class="{'selected': dm.themes.indexOf('trump') > -1}" ng-click="dm.selectTheme('trump')" layout="row">
             <img src="assets/img/trumpicon.png" />
+            <figcaption>
+              <h3 class="md-title">Trump Cards</h3>
+              <p>
+                Trap, event, and status cards themed around Trump
+              </p>
+            </figcaption>
             <md-icon ng-show="dm.themes.indexOf('trump') > -1">check_circle</md-icon>
-
-          </md-grid-tile>
-          <md-grid-tile ng-class="{'selected': dm.themes.indexOf('nsfw') > -1}" ng-click="dm.selectTheme('nsfw')" col-span="1">
+          </figure>
+          <figure ng-class="{'selected': dm.themes.indexOf('nsfw') > -1}" ng-click="dm.selectTheme('nsfw')" layout="row">
             <img src="assets/img/nsfwicon.png" />
+            <figcaption>
+              <h3 class="md-title">NSFW Expansion</h3>
+              <p>
+                Strip, kiss, and confession cards
+              </p>
+            </figcaption>
             <md-icon ng-show="dm.themes.indexOf('nsfw') > -1">check_circle</md-icon>
-          </md-grid-tile>
-        </md-grid-list>
+          </figure>
+        </div>
       </div>
         <!--md-list-item ng-click="dm.showNSFW = !dm.showNSFW">
           <md-checkbox ng-checked="false"></md-checkbox>
