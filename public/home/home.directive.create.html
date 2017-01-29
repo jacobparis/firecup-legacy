@@ -1,0 +1,60 @@
+<div>
+<span flex></span>
+<md-card>
+  <md-card-title>
+    <span class="md-title">
+      Create {{dm.settings[dm.mode].name}} Game
+    </span>
+  </md-card-title>
+  <form ng-cloak>
+    <md-card-content class="md-padding">
+      <div layout="row">
+        <md-grid-list md-cols="4" md-row-height="1:1">
+          <md-grid-tile ng-class="{'selected': dm.mode == $index}" ng-click="dm.mode = $index" col-span="1" ng-repeat="mode in dm.settings">
+            <img src="{{mode.img}}" />
+            <md-icon ng-show="dm.mode == $index">check_circle</md-icon>
+          </md-grid-tile>
+        </md-grid-list>
+      </div>
+      <div layout="row">
+        {{dm.settings[dm.mode].desc}}
+      </div>
+      <div layout="row">
+        <md-grid-list md-cols="4" md-row-height="1:1">
+          <md-grid-tile class="selected" col-span="1">
+            <img src="assets/img/cardsicon.png" />
+            <md-icon>check_circle</md-icon>
+          </md-grid-tile>
+          <md-grid-tile ng-class="{'selected': dm.themes.indexOf('movietraps') > -1}" ng-click="dm.selectTheme('movietraps')" col-span="1">
+            <img src="assets/img/movieicon.png" />
+            <md-icon ng-show="dm.themes.indexOf('movietraps') > -1">check_circle</md-icon>
+
+          </md-grid-tile>
+          <md-grid-tile ng-class="{'selected': dm.themes.indexOf('trump') > -1}" ng-click="dm.selectTheme('trump')" col-span="1">
+            <img src="assets/img/trumpicon.png" />
+            <md-icon ng-show="dm.themes.indexOf('trump') > -1">check_circle</md-icon>
+
+          </md-grid-tile>
+          <md-grid-tile ng-class="{'selected': dm.themes.indexOf('nsfw') > -1}" ng-click="dm.selectTheme('nsfw')" col-span="1">
+            <img src="assets/img/nsfwicon.png" />
+            <md-icon ng-show="dm.themes.indexOf('nsfw') > -1">check_circle</md-icon>
+          </md-grid-tile>
+        </md-grid-list>
+      </div>
+        <!--md-list-item ng-click="dm.showNSFW = !dm.showNSFW">
+          <md-checkbox ng-checked="false"></md-checkbox>
+          <span>NSFW</span>
+            <md-button ng-href="/nsfw" target="_self" ng-show="dm.showNSFW" class="md-raised md-secondary md-primary">Buy $10 / 200 Cards</md-button>
+        </md-list-item -->
+    </md-card-content>
+
+    <md-card-actions layout="row">
+      <span flex></span>
+      <md-button ng-click="dm.createGame()" md-autofocus>
+        CREATE GAME
+      </md-button>
+    </md-card-actions>
+  </form>
+</md-card>
+<span flex></span>
+</div>

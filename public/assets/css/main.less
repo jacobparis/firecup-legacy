@@ -1,5 +1,6 @@
 header {
   text-align: center;
+
   img {
     max-width: 90%;
   }
@@ -8,7 +9,11 @@ header {
     padding: 4rem 2rem 2rem 2rem;
   }
   &.home {
+      background: url('/assets/img/tabletexture.jpg');
+      box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+      z-index:3;
     @media only screen and (min-width : 1280px) {
+
       min-width: 50vw;
       .wrapper {
         position: fixed;
@@ -34,6 +39,45 @@ main.home {
   }
   @media only screen and (min-width : 1280px) {
     box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+  }
+
+  section {
+    transition: transform 0.4s ease;
+    &.slide-left {
+      transform: translateX(-100%);
+    }
+    .blag {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      opacity: 1;
+      transform: translateX(calc(100% + 1rem));
+      md-card {
+      }
+      &.ng-hide {
+        opacity: 0;
+      }
+    }
+
+    .back-button {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      padding: 40% 0 40% 90%;
+      opacity: 1;
+      cursor: pointer;
+      z-index: 1;
+      opacity: 1;
+      transition: opacity 0.4s ease;
+      &.ng-hide {
+        opacity: 0;
+      }
+    }
   }
 }
 

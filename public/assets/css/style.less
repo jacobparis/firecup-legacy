@@ -36,6 +36,29 @@ md-content {
 }
 md-grid-list {
   width: 100%;
+  md-grid-tile {
+    figure img {
+      max-height: 100%;
+      max-width: 100%;
+      cursor: pointer;
+    }
+
+    &.selected {
+      figure {
+        img {
+          max-height: 90%;
+          max-width: 90%;
+          cursor: pointer;
+        }
+        md-icon {
+          position:absolute;
+          right:0;
+          top:0;
+          color: #00c853;
+        }
+      }
+    }
+  }
 }
 md-radio-button {
   margin-bottom: 0 !important;

@@ -15,21 +15,22 @@ angular
   ]);
 
 function GameSetupController($scope, $q, $mdDialog, $state, $stateParams, $location, Socket, Facebook, FBService, GameManager) {
-  const vm = this;
+  const dm = this;
   $scope.game = GameManager;
   $scope.$location = $location;
   $scope.tokens = TOKENS;
-  vm.createGame = createGame;
-  vm.joinGame = joinGame;
-  vm.logout = logout;
-  vm.showNSFW = false;
+  dm.createGame = createGame;
+  dm.joinGame = joinGame;
+  dm.logout = logout;
+  dm.showNSFW = false;
 
-  vm.mode = 0;
-  vm.themes = ['classic'];
-  vm.selectTheme = selectTheme;
-  vm.settings = [
+  dm.mode = 0;
+  dm.themes = ['classic'];
+  dm.selectTheme = selectTheme;
+  dm.settings = [
     {
       'name': 'Firecup',
+      'img': 'assets/img/firecupgameicon.png',
       'desc': 'An enhanced version of Firecup Lite that lets you draw trap cards and use them to burn your friends.',
       'settings': {
         'shareDevice': true,
@@ -68,6 +69,7 @@ function GameSetupController($scope, $q, $mdDialog, $state, $stateParams, $locat
     },
     {
       'name': 'Firecup Lite',
+      'img': 'assets/img/firecupliteicon.png',
       'desc': 'The original party classic! Play rounds of minigames and burn the losers with elaborate drinking methods and persistent status effects.',
       'settings': {
         'shareDevice': true,
@@ -106,6 +108,7 @@ function GameSetupController($scope, $q, $mdDialog, $state, $stateParams, $locat
     },
     {
       'name': 'Firetraps',
+      'img': 'assets/img/firetrapsicon.png',
       'desc': 'Each player gets 6 trap cards with actions on them. When another player triggers your trap, burn them and grab a new card.',
       'settings': {
         'shareDevice': false,
@@ -137,6 +140,7 @@ function GameSetupController($scope, $q, $mdDialog, $state, $stateParams, $locat
     },
     {
       'name': 'Firetraps Lite',
+      'img': 'assets/img/firetrapsliteicon.png',
       'desc': 'A simpler variant of Firetraps without the burn cards. Great for movie nights -- if your friend triggers a trap, make them drink, but if a movie character does, EVERYONE drinks.',
       'settings': {
         'shareDevice': false,
@@ -163,24 +167,24 @@ function GameSetupController($scope, $q, $mdDialog, $state, $stateParams, $locat
   ];
 
   function selectTheme(theme) {
-    const id = vm.themes.indexOf(theme);
+    const id = dm.themes.indexOf(theme);
 
-    if(id > -1) {vm.themes.splice(id, 1);}
+    if(id > -1) {dm.themes.splice(id, 1);}
 
-    else {vm.themes.push(theme);}
+    else {dm.themes.push(theme);}
 
-    console.log(vm.themes);
+    console.log(dm.themes);
   }
 
-  vm.facebook = {
+  dm.facebook = {
     fbLogin: false,
     name: 'friend!',
     id: 0,
     picture: ''
   };
 
-  vm.login = login;
-  vm.logout = logout;
+  dm.login = login;
+  dm.logout = logout;
 
   function checkLoginStatus() {
     console.log('Check login status');
@@ -190,20 +194,20 @@ function GameSetupController($scope, $q, $mdDialog, $state, $stateParams, $locat
     .then(function(response) {
       if(response.status !== 'connected') {
         console.log('not connected');
-        vm.facebook = {};
+        dm.facebook = {};
         return Promise.reject();
       }
 
-      vm.facebook.fbLogin = true;
+      dm.facebook.fbLogin = true;
       return Promise.all([
         FBService.getUser(),
         FBService.getProfilePicture()
       ])
       .then(function(results) {
         console.log(results);
-        vm.facebook.name = results[0].name;
-        vm.facebook.id = results[0].id;
-        vm.facebook.picture = results[1].data.url;
+        dm.facebook.name = results[0].name;
+        dm.facebook.id = results[0].id;
+        dm.facebook.picture = results[1].data.url;
       });
     });
   }
@@ -212,8 +216,8 @@ function GameSetupController($scope, $q, $mdDialog, $state, $stateParams, $locat
       checkLoginStatus()
       .then(loadPlayers)
       .then(console.log, function() {
-        console.log(vm.players);
-        console.log(vm.facebook);
+        console.log(dm.players);
+        console.log(dm.facebook);
         $scope.$apply();
       });
     });
@@ -228,19 +232,24 @@ function GameSetupController($scope, $q, $mdDialog, $state, $stateParams, $locat
   (function() {
     console.log($stateParams);
     checkLoginStatus();
-    autoSetMode();
+    console.log(_.findIndex(dm.settings, {name: $scope.mode}));
+    console.log($scope.mode);
+    if($scope.mode) {
+      dm.mode = _.findIndex(dm.settings, {name: $scope.mode});
+    }
+  //  autoSetMode();
   })();
 
   function autoSetMode() {
     if($stateParams.mode) {
-      console.log(vm.settings);
+      console.log(dm.settings);
       console.log($stateParams.mode);
-      vm.mode = _.findIndex(vm.settings, {name: $stateParams.mode});
+      dm.mode = _.findIndex(dm.settings, {name: $stateParams.mode});
     }
 
     if($stateParams.themes && $stateParams.themes.length) {
-      vm.themes = $stateParams.themes;
-      console.log(vm.themes);
+      dm.themes = $stateParams.themes;
+      console.log(dm.themes);
     }
   }
   function joinGame(result) {
@@ -251,8 +260,8 @@ function GameSetupController($scope, $q, $mdDialog, $state, $stateParams, $locat
   function createGame() {
     console.log('Create');
 
-    return GameManager.newGame(Object.assign(vm.settings[vm.mode], {
-      theme: vm.themes
+    return GameManager.newGame(Object.assign(dm.settings[dm.mode], {
+      theme: dm.themes
     }))
     .then(function(result) {
       $state.go('welcome', {title: result.title});

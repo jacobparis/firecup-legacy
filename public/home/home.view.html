@@ -84,7 +84,12 @@
 
 
 			<md-divider></md-divider>
-			<section layout-padding>
+			<section layout-padding ng-class="{'slide-left': selected == 'Firecup Lite'}" >
+				<create-game ng-show="selected == 'Firecup Lite'" class="blag" mode="Firecup Lite"></create-game>
+				<div ng-show="selected == 'Firecup Lite'" ng-click="selected = null" class="back-button">
+					<md-icon >arrow_back</md-icon>
+				</div>
+
 				<h1 class="md-headline">Firecup Lite</h1>
 				<h3 class="md-subhead">The original party classic! Play rounds of minigames and <strong>burn</strong> the losers with elaborate drinking methods and persistent status effects.</h3>
 
@@ -139,12 +144,16 @@
 				</div>
 				<div layout="row">
 					<span flex></span>
-					<md-button class="md-raised md-accent" ui-sref="gameSetup({mode: 'Firecup Lite'})" ng-click="trackEvent('navigation', 'Firecup Lite')">PLAY FIRECUP LITE NOW</md-button>
+					<md-button class="md-raised md-accent" ng-click="vm.navigate('Firecup Lite')">PLAY FIRECUP LITE NOW</md-button>
 				</div>
 			</section>
 
 			<md-divider></md-divider>
-			<section layout-padding>
+			<section class="Firecup" ng-class="{'slide-left': selected == 'Firecup'}" layout-padding>
+				<create-game ng-show="selected == 'Firecup'" class="blag" mode="Firecup"></create-game>
+				<div ng-show="selected == 'Firecup'" ng-click="selected = null" class="back-button">
+					<md-icon >arrow_back</md-icon>
+				</div>
 				<h1 class="md-headline">Firecup</h1>
 				<h3 class="md-subhead">An enhanced version of Firecup Lite that lets you draw trap cards and use them to <strong>burn</strong> your friends.</h3>
 
@@ -180,12 +189,17 @@
 				</div>
 				<div layout="row">
 					<span flex></span>
-					<md-button class="md-raised md-accent" ui-sref="gameSetup({mode: 'Firecup'})" ng-click="trackEvent('navigation', 'Firecup')">PLAY FIRECUP NOW</md-button>
+					<md-button class="md-raised md-accent" ng-click="vm.navigate('Firecup')">PLAY FIRECUP NOW</md-button>
 				</div>
 			</section>
 
 		<md-divider></md-divider>
-		<section  layout-padding>
+		<section  layout-padding ng-class="{'slide-left': selected == 'Firetraps'}" >
+			<create-game ng-show="selected == 'Firetraps'" class="blag" mode="Firetraps"></create-game>
+			<div ng-show="selected == 'Firetraps'" ng-click="selected = null" class="back-button">
+				<md-icon >arrow_back</md-icon>
+			</div>
+
 			<h1 class="md-headline">Firetraps</h1>
 			<h3 class="md-subhead">One of our most popular games. Each player gets 6 trap cards with actions on them. When another player triggers your trap, <strong>burn</strong> them and grab a new card.</h3>
 
@@ -240,12 +254,17 @@
 			</div>
 			<div layout="row">
 				<span flex></span>
-				<md-button class="md-raised md-accent" ui-sref="gameSetup({mode: 'Firetraps'})" ng-click="trackEvent('navigation', 'Firetraps')">PLAY FIRETRAPS NOW</md-button>
+				<md-button class="md-raised md-accent" ng-click="vm.navigate('Firetraps')">PLAY FIRETRAPS NOW</md-button>
 			</div>
 		</section>
 
 		<md-divider></md-divider>
-		<section  layout-padding>
+		<section  layout-padding ng-class="{'slide-left': selected == 'Firetraps Lite'}" >
+			<create-game ng-show="selected == 'Firetraps Lite'" class="blag" mode="Firetraps Lite"></create-game>
+			<div ng-show="selected == 'Firetraps Lite'" ng-click="selected = null" class="back-button">
+				<md-icon >arrow_back</md-icon>
+			</div>
+
 			<h1 class="md-headline">Firetraps Lite</h1>
 			<h3 class="md-subhead">A simpler variant of Firetraps without the <strong>burn</strong> cards. Great for movie nights -- if your friend triggers a trap, make them drink, but if a movie character does, EVERYONE drinks.</h3>
 
@@ -300,7 +319,7 @@
 			</div>
 			<div layout="row">
 				<span flex></span>
-				<md-button class="md-raised md-accent" ui-sref="gameSetup({mode: 'Firetraps Lite'})" ng-click="trackEvent('navigation', 'Firetraps Lite')">PLAY FIRETRAPS LITE NOW</md-button>
+				<md-button class="md-raised md-accent" ng-click="vm.navigate('Firetraps Lite')">PLAY FIRETRAPS LITE NOW</md-button>
 			</div>
 		</section>
 	</div>
