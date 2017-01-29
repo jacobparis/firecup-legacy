@@ -56,6 +56,10 @@ function OnboardController($scope, $state, Socket, Facebook, FBService, DialogSe
         vm.facebook.name = results[0].name;
         vm.facebook.id = results[0].id;
         vm.facebook.picture = results[1].data.url;
+
+        FS.identify(results[0].id, {
+          displayName: results[0].name
+        });
         $scope.$apply();
       });
     });

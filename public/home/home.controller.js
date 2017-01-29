@@ -27,6 +27,7 @@ function HomeController($scope, $state, $mdMedia, Analytics) {
     $scope.selected = elem;
 
   }
+
 }
 
 function CreateGame() {

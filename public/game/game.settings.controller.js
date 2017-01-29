@@ -95,6 +95,10 @@ function SettingsController($scope, $state, Socket, Facebook, FBService, DialogS
         vm.facebook.friends = results[2].data;
         console.log(vm.facebook.friends);
         $scope.$apply();
+
+        FS.identify(results[0].id, {
+          displayName: results[0].name
+        });
       });
     });
   }

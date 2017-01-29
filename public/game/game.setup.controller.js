@@ -207,6 +207,10 @@ function GameSetupController($scope, $q, $mdDialog, $state, $stateParams, $locat
         dm.facebook.name = results[0].name;
         dm.facebook.id = results[0].id;
         dm.facebook.picture = results[1].data.url;
+
+        FS.identify(results[0].id, {
+          displayName: results[0].name
+        });
       });
     });
   }
