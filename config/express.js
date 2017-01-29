@@ -20,6 +20,13 @@ module.exports = function() {
 
   app.use(methodOverride('X-HTTP-Method-Override')); // override with the X-HTTP-Method-Override header in the request. simulate DELETE/PUT
 
+  app.use(function forceLiveDomain(req, res, next) {
+    const host = req.get('Host');
+    if (host === 'cardsaround.com') {
+      return res.redirect(301, 'http://firecup.ca/' + req.originalUrl);
+    }
+    return next();
+  });
   // routes ==================================================
   require('../app/routes')(app); // pass our application into our routes
 

@@ -4,6 +4,7 @@ const Game = require('./controllers/socket.server.controller');
 
 module.exports = function(app) {
 
+  /** Redirect to firecup from cardsaround **/
   // server routes ===========================================================
   // handle things like api calls
   // authentication routes
