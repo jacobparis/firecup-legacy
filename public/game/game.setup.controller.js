@@ -13,7 +13,6 @@ angular
     'GameManager',
     GameSetupController
   ]);
-
 function GameSetupController($scope, $q, $mdDialog, $state, $stateParams, $location, Socket, Facebook, FBService, GameManager) {
   const dm = this;
   $scope.game = GameManager;
@@ -232,12 +231,7 @@ function GameSetupController($scope, $q, $mdDialog, $state, $stateParams, $locat
   (function() {
     console.log($stateParams);
     checkLoginStatus();
-    console.log(_.findIndex(dm.settings, {name: $scope.mode}));
-    console.log($scope.mode);
-    if($scope.mode) {
-      dm.mode = _.findIndex(dm.settings, {name: $scope.mode});
-    }
-  //  autoSetMode();
+    autoSetMode();
   })();
 
   function autoSetMode() {
@@ -250,6 +244,10 @@ function GameSetupController($scope, $q, $mdDialog, $state, $stateParams, $locat
     if($stateParams.themes && $stateParams.themes.length) {
       dm.themes = $stateParams.themes;
       console.log(dm.themes);
+    }
+
+    if($scope.mode) {
+      dm.mode = _.findIndex(dm.settings, {name: $scope.mode});
     }
   }
   function joinGame(result) {
