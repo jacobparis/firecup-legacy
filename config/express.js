@@ -2,10 +2,15 @@ let config = require('./config'),
   express = require('express.io'),
   bodyParser = require('body-parser');
 
+const fs = require('fs');
+const options = {
+  key: fs.readFileSync('./privkey.pem'),
+  cert: fs.readFileSync('./cert.pem')
+};
 const methodOverride = require('method-override');
 module.exports = function() {
   const app = express();
-  app.http().io();
+  app.https(options).io();
 
   app.use('/.well-known', express.static('./.well-known'));
   app.use(express.static('./public'));
