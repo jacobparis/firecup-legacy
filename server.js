@@ -6,7 +6,7 @@ let config = require('./config/config'),
 
 let db = mongoose(),
   app = express();
-app.set('port', process.env.PORT || 80);
+app.set('port', process.env.PORT || 443);
 app.listen(app.get('port'));
 
 module.exports = app;
