@@ -1,3 +1,9 @@
+body {
+  @media only screen and (min-width : 960px) {
+      overflow-x: scroll;
+  }
+}
+
 header {
   text-align: center;
 
@@ -13,12 +19,6 @@ header {
       box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
       z-index:3;
     @media only screen and (min-width : 1280px) {
-
-      min-width: 50vw;
-      .wrapper {
-        position: fixed;
-        max-width: 50vw;
-      }
       .don-share {
         position: fixed;
         left: 0;
@@ -41,62 +41,9 @@ main.home {
     box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
   }
 
-  section {
-    transition: transform 0.4s ease;
-    &.slide-left {
-      transform: translateX(-100%);
-    }
-    .blag {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      opacity: 1;
-      transform: translateX(calc(100% + 1rem));
-      md-card {
-      }
-      &.ng-hide {
-        opacity: 0;
-      }
-    }
-
-    .back-button {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgb(250,250,250);
-      padding: 40% 0 40% 90%;
-      opacity: 1;
-      cursor: pointer;
-      z-index: 1;
-      opacity: 1;
-      transition: opacity 0.4s ease;
-      &.ng-hide {
-        opacity: 0;
-      }
-    }
-  }
-}
 strong {
     padding-left: 0 !important;
     padding-right: 0 !important;
-}
-section {
-}
-.md-card-container {
-  .md-button {
-    padding: 0 !important;
-  }
-  .md-card {
-    margin: 1px !important;
-
-  }
-  .md-title {
-    line-height: 1.5rem !important;
-  }
 }
 
 div[flex] .md-card-image {
@@ -106,4 +53,194 @@ div[flex] .md-card-image {
 
 .don-share {
   display: inline-block;
+}
+
+.pagewrap {
+  @media only screen and (min-width : 960px) {
+    position:absolute;
+    height: 100%;
+  }
+}
+header {
+  &.collapsible {
+    @media only screen and (min-width : 960px) {
+      max-width: 40vw;
+      height: 100%;
+    }
+  }
+}
+section {
+  &.collapsible {
+    transition: max-height 0.4s, width 0.4s, background 0.4s;
+    background-size: cover;
+    color: white;
+    &:not(.open) {
+      cursor: pointer;
+    }
+    @media only screen and (max-width : 499px) {
+      width: 100%;
+      max-height: 150px;
+      &.open {
+        max-height: 100%;
+        h3 {
+          min-height: 0;
+        }
+      }
+      header {
+        img {
+          display: none;
+        }
+        h3 {
+          margin: 1rem auto;
+          min-height: 150px;
+        }
+      }
+    }
+    @media only screen and (min-width : 500px) and (max-width : 959px) {
+      width: 100%;
+      max-height: 200px;
+      &.open {
+        max-height: 100%;
+      }
+    }
+    @media only screen and (min-width : 960px) {
+      height: 100%;
+      width: 250px;
+      &.open {
+        width: 600px;
+        main {
+          opacity: 1;
+        }
+        h3 {
+          transform: rotate(0);
+        }
+      }
+      main {
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+      h3 {
+        transform: rotate(-60deg);
+        transition: transform 0.4s;
+      }
+      img {
+        padding: 0 2rem 6rem 2rem;
+      }
+    }
+
+    overflow: hidden;
+    h3 {
+      font-family: 'Tillana', cursive;
+      transition: min-height 0.4s;
+    }
+    main {
+      padding: 1rem 2rem;
+    }
+  }
+  &.static {
+    color: rgba(0,0,0,0.8);
+    background: rgb(250,245,245);
+    padding: 2rem;
+    @media only screen and (min-width : 960px) {
+      width: 600px;
+    }
+  }
+}
+
+#bar-movies, #bar-moviepack {
+  background: #5e35b1;
+  &:not(.open):hover {
+    background: #8e24aa;
+  }
+}
+
+#bar-party {
+  background: #0288d1;
+  &:not(.open):hover {
+    background: #00bcd4;
+  }
+}
+
+#bar-games {
+  background: #c62828;
+  &:not(.open):hover {
+    background: #ef5350;
+  }
+}
+
+#bar-nsfw, #bar-nsfwpack {
+  background: #8e24aa;
+  &:not(.open):hover {
+    background: #e040fb;
+  }
+}
+
+#bar-firecup {
+  background: #d32f2f;
+  &:not(.open):hover {
+    background: #ef5350;
+  }
+}
+
+#bar-firecuplite {
+  background: #f4511e;
+  &:not(.open):hover {
+    background: #f57c00;
+  }
+}
+#bar-firetraps {
+  background: #3f51b5;
+  &:not(.open):hover {
+    background: #1565c0;
+  }
+}
+
+#bar-firetrapslite {
+  background: #2196f3;
+  &:not(.open):hover {
+    background: #4fc3f7;
+  }
+}
+
+#bar-trumppack {
+  background: #ff6f00;
+  &:not(.open):hover {
+    background: #e65100;
+  }
+}
+.share {
+
+  figure {
+    img {
+      max-width: 100%;
+      padding: 0;
+    }
+  }
+}
+.party {
+  @media only screen and (min-width : 500px) {
+
+
+  overflow: hidden;
+  header {
+    position: relative;
+  }
+  img {
+    position: absolute;
+  }
+  h3, main {
+    margin-left: 240px;
+  }
+  }
+  @media only screen and (min-width : 960px) {
+    &:not(.open) {
+      h3 {
+        margin: 400px 0;
+      }
+    }
+    main {
+      margin-top: 100px;
+      margin-left: 0;
+    }
+  }
 }

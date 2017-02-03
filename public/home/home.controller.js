@@ -17,6 +17,8 @@ function HomeController($scope, $state, $mdMedia, Analytics) {
   $scope.trackEvent = Analytics.trackEvent;
 
   vm.navigate = navigate;
+  vm.open = open;
+
   vm.activity;
   $scope.selected = '';
 
@@ -27,6 +29,15 @@ function HomeController($scope, $state, $mdMedia, Analytics) {
 
   }
 
+  function open(tag) {
+    if($scope.selected === tag) {
+      $scope.selected = '';
+    }
+    else {
+      $scope.selected = tag;
+    }
+
+  }
 }
 
 function CreateGame() {

@@ -89,6 +89,17 @@ function Routes($stateProvider, $urlRouterProvider, $locationProvider, Analytics
           'url': 'http://firecup.ca/'
         }
       }
+    })
+    .state('home2', {
+      url: '/new/',
+      templateUrl: 'home/home2.view.html',
+      controller: 'HomeController',
+      controllerAs: 'vm',
+      data: {
+        meta: {
+          'url': 'http://firecup.ca/'
+        }
+      }
     });
 
 }

@@ -1,22 +1,24 @@
 <!-- HEADER -->
-<div layout="column" layout-gt-md="row">
+<div class="pagewrap" layout="column" layout-gt-sm="row">
 
-<header class="home">
+<header class="home collapsible open">
 	<div class="wrapper">
-		<div layout="column" layout-md="row">
+		<div layout="column">
 			<div>
 				<img src="assets/img/firecupbanner.png" />
 			</div>
-			<section class="Dark" flex-gt-md>
+			<section class="Dark">
 				<h2 class="md-headline">What is Firecup?</h2>
 				<p class="md-subhead">
 					Firecup is the ultimate party game with variants ideal for every party -- all the way from quiet movie nights to off-the-hook college parties. Take everything you loved about the rules of King's Cup and Sociables, add a thousand cards, let people play from their own phones, and you've got a drinking game for adults that no other game can compare to.
 				</p>
+				<md-divider></md-divider>
+				<h4 class="md-display-2">What are you doing tonight?</h4>
 			</section>
 		</div>
 	</div>
 	<md-divider></md-divider>
-	<div class="don-share" data-style="short" data-bubbles="none">
+	<div class="don-share" data-style="icons" data-bubbles="none">
 		<div class="don-share-total"></div>
 		<div class="don-share-facebook"></div>
 		<div class="don-share-twitter"></div>
@@ -24,344 +26,253 @@
 		<div class="don-share-stumbleupon"></div>
 	</div>
 </header>
-<main class="home">
-	<div class="wrapper">
-		<section class="Light" layout-padding>
-			<h1 class="md-headline">What are you doing tonight?</h1>
-			<div layout="column" layout-gt-sm="row">
-				<div layout="row" layout-xs="column">
 
-				<md-list-item flex-gt-xs class="md-card-container"  ng-click="vm.activity = 'Watching Movies'">
-					<md-card flex>
-						<div flex>
-							<img class="md-card-image" src="assets/img/watchingmovie.png" />
-						</div>
-						<md-card-title class="md-title">
-							Watching Movies
-						</md-card-title>
-					</md-card>
-				</md-list-item>
+<section id="bar-movies" class="movies collapsible" ng-click="vm.open('Watching Movies')" ng-class="{'open': selected == 'Watching Movies'}">
+	<header layout-xs="row" layout-sm="row" ng-class="{'layout-column': selected !== 'Watching Movies', 'layout-row': selected === 'Watching Movies'}">
+		<img src="assets/img/tv.png" />
+		<h3 class="md-display-3">Watching Movies</h3>
+	</header>
+	<main>
+		<p>If you're having a movie night, we recommend <strong>Firetraps Lite</strong> with the <strong>Movie Traps</strong> expansion. You and your friends will have tons of cards with actions that both your friends and the movie characters can trigger. If your friend sets off a card, make her drink. If the movie sets off a card, everyone drinks!</p>
+		<div layout="row">
+			<span flex></span>
+			<md-button class="md-raised" ui-sref="gameSetup({mode: 'Firetraps Lite', themes: ['classic', 'movietraps']})" ng-click="vm.navigate('Watching Movies')">START THE PARTY</md-button>
+		</div>
+	</main>
+</section>
 
-				<md-list-item flex-gt-xs class="md-card-container" ng-click="vm.activity = 'Having House Party'">
-					<md-card flex>
-						<div flex>
-							<img class="md-card-image" src="assets/img/houseparty.png" />
-						</div>
-						<md-card-title class="md-title">
-							Having a House Party
-						</md-card-title>
-					</md-card>
-				</md-list-item>
+<section id="bar-party" class="party collapsible" ng-click="vm.open('Having Party')" ng-class="{'open': selected == 'Having Party'}">
+	<header layout="row">
+		<img src="assets/img/balloons.png" />
+		<h3 class="md-display-3">Having&nbsp;a Party</h3>
+	</header>
+	<main>
+		<p>If you're having a movie night, we recommend <strong>Firetraps Lite</strong> with the <strong>Movie Traps</strong> expansion. You and your friends will have tons of cards with actions that both your friends and the movie characters can trigger. If your friend sets off a card, make her drink. If the movie sets off a card, everyone drinks!</p>
+		<div layout="row">
+			<span flex></span>
+			<md-button class="md-raised" ui-sref="gameSetup({mode: 'Firetraps Lite', themes: ['classic', 'movietraps']})" ng-click="vm.navigate('Watching Movies')">START THE PARTY</md-button>
+		</div>
+	</main>
+</section>
 
-				</div>
-				<div layout="row" layout-xs="column">
+<section id="bar-games" class="games collapsible" ng-click="vm.open('Playing Games')" ng-class="{'open': selected == 'Playing Games'}">
+	<header layout-xs="row" layout-sm="row" ng-class="{'layout-column': selected !== 'Playing Games', 'layout-row': selected === 'Playing Games'}">
+		<img src="assets/img/pongcups.png" />
+		<h3 class="md-display-3">Playing&nbsp;Some Games</h3>
+	</header>
+	<main>
+		<p>If tonight is a night for party games like beer pong or flip cup, don't sit everyone else back while two people are the center of attention. Fire up a game of <strong>Firetraps</strong> and wait for your friends to trigger your traps. When they do, they'll receive a card with the punishment. This game doesn't interfere with other party games so it's always a good bet.</p>
+		<div layout="row">
+			<span flex></span>
+			<md-button class="md-raised" ui-sref="gameSetup({mode: 'Firetraps'})" ng-click="vm.navigate('Playing Games')">START THE PARTY</md-button>
+		</div>
+	</main>
+</section>
 
-				<md-list-item flex-gt-xs class="md-card-container"  ng-click="vm.activity = 'Playing Games'">
-					<md-card flex>
-						<div flex>
-							<img class="md-card-image" src="assets/img/playinggames.png" />
-						</div>
-						<md-card-title class="md-title">
-							Playing Some Games
-						</md-card-title>
-					</md-card>
-				</md-list-item>
+<section id="bar-nsfw" class="nsfw collapsible" ng-click="vm.open('Cranking Medium')" ng-class="{'open': selected == 'Cranking Medium'}">
+	<header layout-xs="row" layout-sm="row" ng-class="{'layout-column': selected !== 'Cranking Medium', 'layout-row': selected === 'Cranking Medium'}">
+		<img src="assets/img/nsfwbadge.png" />
+		<h3 class="md-display-3">Cranking&nbsp;up to&nbsp;Medium</h3>
+	</header>
+	<main>
+		<p>If you can't convince your friends to join a game of strip Jumanji, try a game of <strong>Firecup</strong> with the <strong>NSFW Expansion</strong> instead.</p>
+		<div layout="row">
+			<span flex></span>
+			<md-button class="md-raised" ui-sref="gameSetup({mode: 'Firecup', themes: ['classic', 'nsfw']})" ng-click="vm.navigate('Cranking Medium')">START THE PARTY</md-button>
+		</div>
+	</main>
+</section>
 
-				<md-list-item flex-gt-xs class="md-card-container"  ng-click="vm.activity = 'Cranking Medium'">
-					<md-card flex>
-						<div flex>
-							<img class="md-card-image" src="assets/img/crankingmedium.png" />
-						</div>
-						<md-card-title class="md-title">
-							Cranking it up to Medium
-						</md-card-title>
-					</md-card>
-				</md-list-item>
+<section class="share static" layout-padding>
+	<h2 class="md-headline">Play on shared or individual devices!</h2>
+	<p class="md-subhead">
+		When you create a game, your friends can all join in from their own phones, tablets, or laptops, if they prefer.
+		<br />
+		With the exception of the <strong>Firetraps</strong> variants (which by necessity require each player to have their own device) players can also share a device and pass it around to whomever's turn it is.
+		<br />
+		If you're playing on your own device and your phone is about to die, another player can add you to their device in the game settings.
 
-				</div>
-			</div>
-			<div layout-padding ng-if="vm.activity == 'Watching Movies'">
-				If you're having a movie night, we recommend <strong>Firetraps Lite</strong> with the <strong>Movie Traps</strong> expansion. You and your friends will have tons of cards with actions that both your friends and the movie characters can trigger. If your friend sets off a card, make her drink. If the movie sets off a card, everyone drinks!
-				<div layout="row">
-					<span flex></span>
-					<md-button class="md-raised md-accent" ui-sref="gameSetup({mode: 'Firetraps Lite', themes: ['classic', 'movietraps']})" ng-click="vm.navigate('Watching Movies')">START THE PARTY</md-button>
-				</div>
-			</div>
-			<div layout-padding ng-if="vm.activity == 'Having House Party'">
-				If you have a bunch of friends coming over, there's no better way to get the party going than with a game of <strong>Firecup</strong>. Scroll down to check out the rules and see what you're getting into.
-				<div layout="row">
-					<span flex></span>
-					<md-button class="md-raised md-accent" ui-sref="gameSetup({mode: 'Firecup'})" ng-click="vm.navigate('Having House Party')">START THE PARTY</md-button>
-				</div>
-			</div>
-			<div layout-padding ng-if="vm.activity == 'Playing Games'">
-				If tonight is a night for party games like beer pong or flip cup, don't sit everyone else back while two people are the center of attention. Fire up a game of <strong>Firetraps</strong> and wait for your friends to trigger your traps. When they do, they'll receive a card with the punishment. This game doesn't interfere with other party games so it's always a good bet.
-				<div layout="row">
-					<span flex></span>
-					<md-button class="md-raised md-accent" ui-sref="gameSetup({mode: 'Firetraps'})" ng-click="vm.navigate('Playing Games')">START THE PARTY</md-button>
-				</div>
-			</div>
-			<div layout-padding ng-if="vm.activity == 'Cranking Medium'">
-				If you can't convince your friends to join a game of strip Jumanji, try a game of <strong>Firecup</strong> with the <strong>NSFW Expansion</strong> instead.
-				<div layout="row">
-					<span flex></span>
-					<md-button class="md-raised md-accent" ui-sref="gameSetup({mode: 'Firecup', themes: ['classic', 'nsfw']})" ng-click="vm.navigate('Cranking Medium')">START THE PARTY</md-button>
-				</div>
-			</div>
-
-		</section>
-
-
-			<md-divider></md-divider>
-			<section layout-padding ng-class="{'slide-left': selected == 'Firecup Lite'}" >
-				<create-game ng-show="selected == 'Firecup Lite'" class="blag" mode="Firecup Lite"></create-game>
-				<div ng-show="selected == 'Firecup Lite'" ng-click="selected = null" class="back-button">
-					<md-icon >arrow_back</md-icon>
-				</div>
-
-				<h1 class="md-headline">Firecup Lite</h1>
-				<h3 class="md-subhead">The original party classic! Play rounds of minigames and <strong>burn</strong> the losers with elaborate drinking methods and persistent status effects. The only difference between this and regular Firecup is that this version has no trap cards.</h3>
-
-				<div layout="column" layout-gt-sm="row">
-
-					<div layout="row">
-						<div flex>
-							<img class="md-card-image" src="assets/img/fcc1.png"  />
-						</div>
-
-						<div flex>
-							<img class="md-card-image" src="assets/img/fcc2.png"  />
-						</div>
-
-							<div flex>
-								<img class="md-card-image" src="assets/img/fcc3.png"  />
-							</div>
-					</div>
-
-					<div layout="row">
-						<div flex>
-							<img class="md-card-image" src="assets/img/fcc4.png"  />
-						</div>
-
-						<div flex>
-							<img class="md-card-image" src="assets/img/fcc5.png"  />
-						</div>
-
-						<div flex>
-							<img class="md-card-image" src="assets/img/fcc6.png"  />
-						</div>
-					</div>
-				</div>
-				<div layout-xs="column" layout="row">
-					<div flex-gt-xs="33">
-						<h1 class="md-title">NSFW Expansion</h1>
-						<h3 class="md-subhead">200 extra cards to spice up the party. You'll be taking clothes off, putting clothes on, and touching earlobes, so this one is not for the faint of heart. Works best with <strong>Firecup Lite.</strong> All expansions are optional and work in every game mode.</h3>
-					</div>
-					<div flex-gt-xs="66" layout="row">
-						<div flex>
-							<img class="md-card-image" src="assets/img/nsfw1.png"  />
-						</div>
-
-						<div flex>
-							<img class="md-card-image" src="assets/img/nsfw2.png"  />
-						</div>
-
-						<div flex>
-							<img class="md-card-image" src="assets/img/nsfw3.png"  />
-						</div>
-					</div>
-				</div>
-				<div layout="row">
-					<span flex></span>
-					<md-button class="md-raised md-accent" ng-click="vm.navigate('Firecup Lite')">PLAY FIRECUP LITE NOW</md-button>
-				</div>
-			</section>
-
-			<md-divider></md-divider>
-			<section class="Firecup" ng-class="{'slide-left': selected == 'Firecup'}" layout-padding>
-				<create-game ng-show="selected == 'Firecup'" class="blag" mode="Firecup"></create-game>
-				<div ng-show="selected == 'Firecup'" ng-click="selected = null" class="back-button">
-					<md-icon >arrow_back</md-icon>
-				</div>
-				<h1 class="md-headline">Firecup</h1>
-				<h3 class="md-subhead">An enhanced version of Firecup Lite that lets you draw trap cards and use them to <strong>burn</strong> your friends.</h3>
-
-				<div layout="column" layout-gt-sm="row">
-
-					<div layout="row">
-						<div flex>
-							<img class="md-card-image" src="assets/img/fce1.png"  />
-						</div>
-
-						<div flex>
-							<img class="md-card-image" src="assets/img/fce2.png"  />
-						</div>
-
-						<div flex>
-							<img class="md-card-image" src="assets/img/fce3.png"  />
-						</div>
-					</div>
-
-					<div layout="row">
-						<div flex>
-							<img class="md-card-image" src="assets/img/fce4.png"  />
-						</div>
-
-						<div flex>
-							<img class="md-card-image" src="assets/img/fce5.png"  />
-						</div>
-
-						<div flex>
-							<img class="md-card-image" src="assets/img/fce6.png"  />
-						</div>
-					</div>
-				</div>
-				<div layout="row">
-					<span flex></span>
-					<md-button class="md-raised md-accent" ng-click="vm.navigate('Firecup')">PLAY FIRECUP NOW</md-button>
-				</div>
-			</section>
-
-		<md-divider></md-divider>
-		<section  layout-padding ng-class="{'slide-left': selected == 'Firetraps'}" >
-			<create-game ng-show="selected == 'Firetraps'" class="blag" mode="Firetraps"></create-game>
-			<div ng-show="selected == 'Firetraps'" ng-click="selected = null" class="back-button">
-				<md-icon >arrow_back</md-icon>
-			</div>
-
-			<h1 class="md-headline">Firetraps</h1>
-			<h3 class="md-subhead">One of our most popular games. Each player gets 6 trap cards with actions on them. When another player triggers your trap, <strong>burn</strong> them and grab a new card.</h3>
-
-			<div layout="column" layout-gt-sm="row">
-
-				<div layout="row">
-					<div flex>
-						<img class="md-card-image" src="assets/img/ft1.png"  />
-					</div>
-
-					<div flex>
-						<img class="md-card-image" src="assets/img/ft2.png"  />
-					</div>
-
-					<div flex>
-						<img class="md-card-image" src="assets/img/ft3.png"  />
-					</div>
-				</div>
-
-				<div layout="row">
-					<div flex>
-						<img class="md-card-image" src="assets/img/ft4.png"  />
-					</div>
-
-					<div flex>
-						<img class="md-card-image" src="assets/img/ft5.png"  />
-					</div>
-
-					<div flex>
-						<img class="md-card-image" src="assets/img/ft6.png"  />
-					</div>
-				</div>
-			</div>
-			<div layout-xs="column" layout="row">
-				<div flex-gt-xs="33">
-					<h1 class="md-title">Trump Expansion</h1>
-					<h3 class="md-subhead">100 cards for your politically-minded friends. Works best with <strong>Firetraps.</strong> All expansions are optional and work in every game mode.</h3>
-				</div>
-				<div layout="row"flex-gt-xs="66">
-					<div flex>
-						<img class="md-card-image" src="assets/img/trump1.png"  />
-					</div>
-
-					<div flex>
-						<img class="md-card-image" src="assets/img/trump2.png"  />
-					</div>
-
-					<div flex>
-						<img class="md-card-image" src="assets/img/trump3.png"  />
-					</div>
-				</div>
-			</div>
-			<div layout="row">
-				<span flex></span>
-				<md-button class="md-raised md-accent" ng-click="vm.navigate('Firetraps')">PLAY FIRETRAPS NOW</md-button>
-			</div>
-		</section>
-
-		<md-divider></md-divider>
-		<section  layout-padding ng-class="{'slide-left': selected == 'Firetraps Lite'}" >
-			<create-game ng-show="selected == 'Firetraps Lite'" class="blag" mode="Firetraps Lite"></create-game>
-			<div ng-show="selected == 'Firetraps Lite'" ng-click="selected = null" class="back-button">
-				<md-icon >arrow_back</md-icon>
-			</div>
-
-			<h1 class="md-headline">Firetraps Lite</h1>
-			<h3 class="md-subhead">A simpler variant of Firetraps without the <strong>burn</strong> cards. Great for movie nights -- if your friend triggers a trap, make them drink, but if a movie character does, EVERYONE drinks.</h3>
-
-			<div layout="column" layout-gt-sm="row">
-
-				<div layout="row">
-					<div flex>
-						<img class="md-card-image" src="assets/img/ftl1.png"  />
-					</div>
-
-					<div flex>
-						<img class="md-card-image" src="assets/img/ftl2.png"  />
-					</div>
-
-					<div flex>
-						<img class="md-card-image" src="assets/img/ftl3.png"  />
-					</div>
-				</div>
-
-				<div layout="row">
-					<div flex>
-						<img class="md-card-image" src="assets/img/ftl4.png"  />
-					</div>
-
-					<div flex>
-						<img class="md-card-image" src="assets/img/ftl5.png"  />
-					</div>
-
-					<div flex>
-						<img class="md-card-image" src="assets/img/ftl6.png"  />
-					</div>
-				</div>
-			</div>
-			<div layout-xs="column" layout="row">
-				<div flex-gt-xs="33">
-					<h1 class="md-title">Movie Expansion</h1>
-					<h3 class="md-subhead">200 trap cards targeting the TV and the action on it, but many work to <strong>burn</strong> your friends too! Works best with <strong>Firetraps Lite.</strong> All expansions are optional and work in every game mode.</h3>
-				</div>
-				<div layout="row" flex-gt-xs="66">
-					<div flex>
-						<img class="md-card-image" src="assets/img/movie1.png"  />
-					</div>
-
-					<div flex>
-						<img class="md-card-image" src="assets/img/movie2.png"  />
-					</div>
-
-					<div flex>
-						<img class="md-card-image" src="assets/img/movie3.png"  />
-					</div>
-				</div>
-			</div>
-			<div layout="row">
-				<span flex></span>
-				<md-button class="md-raised md-accent" ng-click="vm.navigate('Firetraps Lite')">PLAY FIRETRAPS LITE NOW</md-button>
-			</div>
-		</section>
-		<section>
-			<h1 class="md-headline">Our Friends</h1>
-			<md-list-item flex-gt-xs class="md-card-container"  ng-href="http://internetdrinkinggame.com/">
-				<md-card flex>
-					<md-card-title class="md-title">The Internet Drinking Game</md-card-title>
-					<md-card-content>
-						The game that inspired Firecup!
-					</md-card-content>
-				</md-card>
-			</md-list-item>
-		</section>
+	</p>
+	<div layout="column" layout-gt-xs="row">
+		<figure flex-gt-xs="50">
+			<img src="assets/img/playershotseat.png" />
+			<figcaption>
+				Single Device Mode
+			</figcaption>
+		</figure>
+		<figure flex-gt-xs="50">
+			<img src="assets/img/playersmultidevice.png" />
+			<figcaption>
+				Multiple Device Mode
+			</figcaption>
+		</figure>
 	</div>
-</main>
+</section>
+
+<section id="bar-firecup" class="collapsible" ng-click="vm.open('Firecup')" ng-class="{'open': selected == 'Firecup'}">
+	<header layout-xs="row" layout-sm="row" ng-class="{'layout-column': selected !== 'Firecup', 'layout-row': selected === 'Firecup'}">
+		<img src="assets/img/banner-firecup.png" />
+		<h3 class="md-display-3">Firecup</h3>
+	</header>
+	<main>
+		<p>An enhanced version of Firecup Lite that lets you draw trap cards and use them to <strong>burn</strong> your friends.</p>
+		<div layout="row">
+			<span flex></span>
+			<md-button class="md-raised" ui-sref="gameSetup({mode: 'Firecup', themes: ['classic']})" ng-click="vm.navigate('Firecup')">PLAY FIRECUP NOW</md-button>
+		</div>
+	</main>
+</section>
+
+<section id="bar-firecuplite" class="collapsible" ng-click="vm.open('Firecup Lite')" ng-class="{'open': selected == 'Firecup Lite'}">
+	<header layout-xs="row" layout-sm="row" ng-class="{'layout-column': selected !== 'Firecup Lite', 'layout-row': selected === 'Firecup Lite'}">
+		<img src="assets/img/banner-firecuplite.png" />
+		<h3 class="md-display-3">Firecup Lite</h3>
+	</header>
+	<main>
+		<p>The original party classic! Play rounds of minigames and <strong>burn</strong> the losers with elaborate drinking methods and persistent status effects. The only difference between this and regular Firecup is that this version has no trap cards.</p>
+		<div layout="row">
+			<span flex></span>
+			<md-button class="md-raised" ui-sref="gameSetup({mode: 'Firecup Lite', themes: ['classic']})"ng-click="vm.navigate('Firecup Lite')">PLAY FIRECUP LITE NOW</md-button>
+		</div>
+	</main>
+</section>
+
+<section class="static">
+	<h2 class="md-headline">Sample Cards from the Base Deck</h2>
+	<div layout="column">
+
+		<div layout="row">
+			<div flex>
+				<img class="md-card-image" src="assets/img/fcc1.png"  />
+			</div>
+
+			<div flex>
+				<img class="md-card-image" src="assets/img/fcc2.png"  />
+			</div>
+
+				<div flex>
+					<img class="md-card-image" src="assets/img/fcc3.png"  />
+				</div>
+		</div>
+
+		<div layout="row">
+			<div flex>
+				<img class="md-card-image" src="assets/img/fcc4.png"  />
+			</div>
+
+			<div flex>
+				<img class="md-card-image" src="assets/img/fcc5.png"  />
+			</div>
+
+			<div flex>
+				<img class="md-card-image" src="assets/img/fcc6.png"  />
+			</div>
+		</div>
+	</div>
+</section>
+
+<section id="bar-firetraps" class="collapsible" ng-click="vm.open('Firetraps')" ng-class="{'open': selected == 'Firetraps'}">
+	<header layout-xs="row" layout-sm="row" ng-class="{'layout-column': selected !== 'Firetraps', 'layout-row': selected === 'Firetraps'}">
+		<img src="assets/img/banner-firetraps.png" />
+		<h3 class="md-display-3">Firetraps</h3>
+	</header>
+	<main>
+		<p>One of our most popular games. Each player gets 6 trap cards with actions on them. When another player triggers your trap, <strong>burn</strong> them and grab a new card.</p>
+		<div layout="row">
+			<span flex></span>
+			<md-button class="md-raised" ui-sref="gameSetup({mode: 'Firetraps', themes: ['classic']})"ng-click="vm.navigate('Firetraps')">PLAY Firetraps NOW</md-button>
+		</div>
+	</main>
+</section>
+
+<section id="bar-firetrapslite" class="collapsible" ng-click="vm.open('Firetraps Lite')" ng-class="{'open': selected == 'Firetraps Lite'}">
+	<header layout-xs="row" layout-sm="row" ng-class="{'layout-column': selected !== 'Firetraps Lite', 'layout-row': selected === 'Firetraps Lite'}">
+		<img src="assets/img/banner-firetrapslite.png" />
+		<h3 class="md-display-3">Firetraps Lite</h3>
+	</header>
+	<main>
+		<p>A simpler variant of Firetraps without the <strong>burn</strong> cards. Great for movie nights -- if your friend triggers a trap, make them drink, but if a movie character does, EVERYONE drinks.</p>
+		<div layout="row">
+			<span flex></span>
+			<md-button class="md-raised" ui-sref="gameSetup({mode: 'Firetraps Lite', themes: ['classic']})" ng-click="vm.navigate('Firetraps Lite')">PLAY Firetraps Lite NOW</md-button>
+		</div>
+	</main>
+</section>
+
+<section class="static">
+	<h2 class="md-headline">Some of our trap cards</h2>
+	<div layout="column">
+
+		<div layout="row">
+			<div flex>
+				<img class="md-card-image" src="assets/img/ftl1.png"  />
+			</div>
+
+			<div flex>
+				<img class="md-card-image" src="assets/img/ftl2.png"  />
+			</div>
+
+			<div flex>
+				<img class="md-card-image" src="assets/img/ftl3.png"  />
+			</div>
+		</div>
+
+		<div layout="row">
+			<div flex>
+				<img class="md-card-image" src="assets/img/ftl4.png"  />
+			</div>
+
+			<div flex>
+				<img class="md-card-image" src="assets/img/ftl5.png"  />
+			</div>
+
+			<div flex>
+				<img class="md-card-image" src="assets/img/ftl6.png"  />
+			</div>
+		</div>
+	</div>
+</section>
+
+
+<section id="bar-moviepack" class="collapsible" ng-click="vm.open('movies')" ng-class="{'open': selected == 'movies'}">
+	<header layout-xs="row" layout-sm="row" ng-class="{'layout-column': selected !== 'movies', 'layout-row': selected === 'movies'}">
+		<img src="assets/img/banner-movies.png" />
+		<h3 class="md-display-3">Movie Pack</h3>
+	</header>
+	<main>
+		<p>200 trap cards targeting the TV and the action on it, but many work to <strong>burn</strong> your friends too! Works best with <strong>Firetraps Lite.</strong> All expansions are optional and work in every game mode.</p>
+	</main>
+</section>
+
+<section id="bar-trumppack" class="collapsible" ng-click="vm.open('trump')" ng-class="{'open': selected == 'trump'}">
+	<header layout-xs="row" layout-sm="row" ng-class="{'layout-column': selected !== 'trump', 'layout-row': selected === 'trump'}">
+		<img src="assets/img/banner-trump.png" />
+		<h3 class="md-display-3">Trump Cards</h3>
+	</header>
+	<main>
+		<p>100 cards for your politically-minded friends. Works best with <strong>Firetraps.</strong> All expansions are optional and work in every game mode.</p>
+	</main>
+</section>
+
+<section id="bar-nsfwpack" class="collapsible" ng-click="vm.open('nsfw')" ng-class="{'open': selected == 'nsfw'}">
+	<header layout-xs="row" layout-sm="row" ng-class="{'layout-column': selected !== 'nsfw', 'layout-row': selected === 'nsfw'}">
+		<img src="assets/img/nsfwbadge.png" />
+		<h3 class="md-display-3">NSFW Pack</h3>
+	</header>
+	<main>
+		<p>200 extra cards to spice up the party. You'll be taking clothes off, putting clothes on, and touching earlobes, so this one is not for the faint of heart. Works best with <strong>Firecup Lite.</strong> All expansions are optional and work in every game mode.</p>
+	</main>
+</section>
+
+<section class="static">
+	<h2 class="md-headline">Our Friends</h2>
+	<md-list-item flex-gt-xs class="md-card-container"  ng-href="http://internetdrinkinggame.com/">
+		<md-card flex>
+			<md-card-title class="md-title">The Internet Drinking Game</md-card-title>
+			<md-card-content>
+				The game that inspired Firecup!
+			</md-card-content>
+		</md-card>
+	</md-list-item>
+</section>
 </div>

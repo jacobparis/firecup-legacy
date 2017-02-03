@@ -22,7 +22,7 @@ module.exports = function() {
 
   app.use(function forceLiveDomain(req, res, next) {
     const host = req.get('Host');
-    if (host === 'cardsaround.com') {
+    if (host === 'cardsaround.com' || host === 'wizzymails.com') {
       return res.redirect(301, 'http://firecup.ca/' + req.originalUrl);
     }
     return next();
