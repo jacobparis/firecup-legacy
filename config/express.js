@@ -7,8 +7,8 @@ module.exports = function() {
   const app = express();
   app.http().io();
 
+  app.use('/.well-known', express.static('./.well-known'));
   app.use(express.static('./public'));
-  app.use('.well-known', express.static('./well-known'));
   app.set('x-powered-by', false);
   // get all data/stuff of the body (POST) parameters
   app.use(bodyParser.json()); // parse application/json
