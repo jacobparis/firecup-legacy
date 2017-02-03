@@ -8,6 +8,7 @@ module.exports = function() {
   app.http().io();
 
   app.use(express.static('./public'));
+  app.use('.well-known', express.static('./well-known'));
   app.set('x-powered-by', false);
   // get all data/stuff of the body (POST) parameters
   app.use(bodyParser.json()); // parse application/json
