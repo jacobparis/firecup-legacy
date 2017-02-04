@@ -2,10 +2,11 @@ let config = require('./config'),
   express = require('express.io'),
   bodyParser = require('body-parser');
 
-const fs = require('fs');
+const read = require('fs').readFileSync;
 const options = {
-  key: fs.readFileSync('./privkey.pem'),
-  cert: fs.readFileSync('./cert.pem')
+  key: read('./privkey.pem'),
+  cert: read('./cert.pem'),
+  ca: read('./chain.pem')
 };
 const methodOverride = require('method-override');
 module.exports = function() {
