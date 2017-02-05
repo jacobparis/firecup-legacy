@@ -3,15 +3,26 @@ let config = require('./config'),
   bodyParser = require('body-parser');
 
 const read = require('fs').readFileSync;
-const options = {
-  key: read('./privkey.pem'),
-  cert: read('./cert.pem'),
-  ca: read('./chain.pem')
-};
+const exists = require('fs').existsSync;
+const options = {ssl: false};
+
+if(exists('./privkey.pem')) {
+  options = {
+    key: read('./privkey.pem'),
+    cert: read('./cert.pem'),
+    ca: read('./chain.pem'),
+    ssl: true
+  };
+}
 const methodOverride = require('method-override');
 module.exports = function() {
   const app = express();
-  app.https(options).io();
+  if(options.ssl) {
+    app.https(options).io();
+  }
+  else {
+    app.http().io();
+  }
 
   app.use('/.well-known', express.static('./.well-known'));
   app.use(express.static('./public'));
