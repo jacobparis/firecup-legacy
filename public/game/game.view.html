@@ -32,19 +32,18 @@
 				</md-menu-content>
 			</md-menu>
 		</div>
-		<md-tabs md-selected="vm.selectedPlayer" md-stretch-tabs md-dynamic-height>
-			<md-tab ng-if="vm.facebook.picture && player.facebook.id === vm.facebook.id" id="fb_{{player.name}}" ng-repeat="player in game.session.players" >
+		<md-tabs md-selected="vm.selectedPlayer" md-dynamic-height>
+			<md-tab id="tab_{{player.name}}" ng-repeat="player in game.session.players" >
 				<md-tab-label>
-					<img class="avatar" src="{{player.facebook.url}}" />
-					{{(vm.selectedPlayer === $index) ? player.name : ""}}
-					{{(game.session.turn === $index) ? "'S TURN" : ""}}
+					<img ng-if="player.facebook.id" class="avatar" src="{{player.facebook.url}}" />
+					{{(game.session.turn == $index) ? player.name + "'S TURN" : player.name}}
 				</md-tab-label>
 			</md-tab>
-			<md-tab ng-if="!vm.facebook.picture || player.facebook.id !== vm.facebook.id" id="tab_{{player.name}}" ng-repeat="player in game.session.players" >
+			<!--md-tab ng-if="!vm.facebook.picture || player.facebook.id !== vm.facebook.id" id="tab_{{player.name}}" ng-repeat="player in game.session.players" >
 				<md-tab-label>
 					{{(game.session.turn === $index) ? player.name + "'S TURN" : player.name}}
 				</md-tab-label>
-			</md-tab>
+			</md-tab -->
 		</md-tabs>
 	</md-toolbar>
 </header>
