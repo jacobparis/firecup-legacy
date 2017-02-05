@@ -3,7 +3,7 @@ let config = require('./config'),
   bodyParser = require('body-parser');
 
 const read = require('fs').readFileSync;
-const exists = require('fs').exists;
+const exists = require('fs').existsSync;
 const options = {ssl: false};
 
 if(exists('./privkey.pem')) {

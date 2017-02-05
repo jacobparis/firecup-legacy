@@ -4,7 +4,7 @@ let config = require('./config/config'),
   mongoose = require('./config/mongoose'),
   express = require('./config/express');
 
-const exists = require('fs').exists;
+const exists = require('fs').existsSync;
 const sslEh = !!exists('./privkey.pem');
 console.log('SSL' + sslEh);
 
