@@ -19,6 +19,10 @@ module.exports = function() {
   const app = express();
   if(options.ssl) {
     app.https(options).io();
+    app.use(function(req, res, next) {
+      console.log(req);
+      return next();
+    });
   }
   else {
     app.http().io();
