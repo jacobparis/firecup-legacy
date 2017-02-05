@@ -14,12 +14,5 @@ let db = mongoose(),
 app.set('port', sslEh ? 443 : 80);
 app.listen(app.get('port'));
 
-if(sslEh) {
-  const http = require('http');
-  http.createServer(function(req, res) {
-    res.writeHead(301, { 'Location': 'https://' + req.headers.host + req.url });
-    res.end();
-  }).listen(80);
-}
 module.exports = app;
 console.log(process.env.NODE_ENV + ' server running at http://localhost:' + config.port);
