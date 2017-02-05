@@ -216,14 +216,16 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
       // Check cookies for device tokens
       function setCookie(cname, cvalue) {
         const d = new Date();
-        d.setTime(d.getTime() + (86400));
+        d.setTime(d.getTime() + 43200000);
         const expires = 'expires=' + d.toUTCString();
         document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/';
       }
 
       function getCookie(cname) {
-        const name = cname + '=';
+        const name = cname.toUpperCase() + '=';
+        console.log(name);
         const ca = document.cookie.split(';');
+        console.log(ca);
         for(let i = 0; i < ca.length; i++) {
           let c = ca[i];
           while (c.charAt(0) == ' ') {

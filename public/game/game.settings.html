@@ -1,9 +1,9 @@
 <header class="settings" ng-cloak>
 	<md-toolbar>
 		<div class="md-toolbar-tools">
-			<img src="/assets/img/icon.png" />
+			<a href="/"><img src="/assets/img/icon.png" /></a>
 			<h2>
-				{{game.session.title}}
+				Firecup - {{game.session.title}}
 			</h2>
 			<span flex></span>
       <md-button ng-show="!vm.facebook.fbLogin" ng-click="vm.login()">Log In With Facebook</md-button>

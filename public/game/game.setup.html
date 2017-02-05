@@ -1,5 +1,6 @@
 <md-toolbar>
   <div class="md-toolbar-tools">
+    <a href="/"><img src="/assets/img/icon.png" /></a>
     <h2>Create a new game</h2>
     <span flex></span>
     <md-button ng-show="!dm.facebook.fbLogin" ng-click="dm.login()">Log In With Facebook</md-button>
@@ -19,26 +20,5 @@
 </md-toolbar>
 
 <main class="setup">
-<md-card>
-  <md-card-title>
-    <span class="md-title">
-      Join Game
-    </span>
-  </md-card-title>
-  <md-card-content class="md-padding">
-    <p>
-      What is the title of the game your friend has created?
-    </p>
-    <md-input-container class="md-block">
-      <label>Title (eg, 'Laser Kitten Fiesta')</label>
-      <input ng-model="dm.joinRoom">
-    </md-input-container>
-  </md-card-content>
-  <md-card-actions layout="row">
-    <span flex></span>
-    <md-button type="submit" ng-click="dm.joinGame(dm.joinRoom)">Join Game</md-button>
-  </md-card-actions>
-</md-card>
-
 <create-game mode="Firecup"></create-game>
 </main>

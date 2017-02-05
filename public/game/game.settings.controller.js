@@ -135,15 +135,21 @@ function SettingsController($scope, $state, Socket, Facebook, FBService, DialogS
       GameManager.session.totalTurns = room.totalTurns;
       GameManager.session.turn = vm.selectedPlayer = room.turn;
 
+      console.log(GameManager.session.title);
       const token = getCookie(GameManager.session.title);
       if (token !== '') {
         GameManager.session.deviceToken = token;
         console.log('Loaded token ' + GameManager.session.deviceToken + ' from memory');
       }
-      else {
+      else if (token === '') {
+        console.log(token);
         GameManager.session.deviceToken = Math.random().toString(36).substr(2);
         setCookie(GameManager.session.title, GameManager.session.deviceToken);
         console.log('Saved token ' + GameManager.session.deviceToken + ' to memory');
+      }
+      else {
+        console.log('This is weird');
+        console.log(token);
       }
 
       loadPlayers();
@@ -153,14 +159,16 @@ function SettingsController($scope, $state, Socket, Facebook, FBService, DialogS
     // Check cookies for device tokens
     function setCookie(cname, cvalue) {
       const d = new Date();
-      d.setTime(d.getTime() + (86400));
+      d.setTime(d.getTime() + 43200000);
       const expires = 'expires=' + d.toUTCString();
       document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/';
     }
 
     function getCookie(cname) {
-      const name = cname + '=';
+      const name = cname.toUpperCase() + '=';
+      console.log(name);
       const ca = document.cookie.split(';');
+      console.log(ca);
       for(let i = 0; i < ca.length; i++) {
         let c = ca[i];
         while (c.charAt(0) == ' ') {
