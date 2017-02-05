@@ -17,13 +17,8 @@ exports.getRoom = getRoom;
 exports.list = list;
 
 function newGame(req, res, next) {
-  const adjectives = ['active', 'basic', 'blue', 'calm', 'dark', 'eerie', 'fancy', 'giant', 'green', 'happy', 'icy', 'juicy', 'kind', 'large', 'magic', 'mystic', 'neon', 'nifty', 'odd', 'perky', 'quiet', 'red', 'royal', 'scary', 'tiny', 'urban', 'vast', 'warm', 'young', 'zesty'];
-
-  const animals = ['ape', 'beagle', 'cat', 'dog', 'eagle', 'falcon', 'gorilla', 'hamster', 'insect', 'jellyfish', 'koala', 'lobster', 'moose', 'nest', 'owl', 'panda', 'quail', 'rabbit', 'snail', 'tuna', 'viper', 'walrus', 'yak', 'zebra'];
-
-  const places = ['arena', 'alley', 'barn', 'cabin', 'cafe', 'dock', 'farm', 'gym', 'house', 'igloo', 'jail', 'library', 'museum', 'outhouse', 'palace', 'ranch', 'school', 'tent', 'university', 'vault', 'warehouse'];
-
-  const title = _.sample(adjectives) + '-' + _.sample(animals) + '-' + _.sample(places);
+  const alphabet = 'ABCDEFGHIJKLMNPQRSTUVWXYZ12346789';
+  const title = Array.apply(null, {length: 4}).map(function() { return alphabet.charAt(Math.floor(Math.random() * alphabet.length)); }).join('');
   console.log('NEW GAME: ' + title);
   console.log(req.body);
   const settings = {
