@@ -192,6 +192,8 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
         console.log(room);
         GameManager.session.mode = room.mode;
         GameManager.session.players = room.players;
+        GameManager.session.title = room.title;
+
         GameManager.session.settings = room.settings;
         GameManager.session.eventDeck = room.eventDeck;
         GameManager.session.totalTurns = room.totalTurns;

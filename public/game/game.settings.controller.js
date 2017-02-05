@@ -127,6 +127,7 @@ function SettingsController($scope, $state, Socket, Facebook, FBService, DialogS
       console.log(room);
       GameManager.session.mode = room.mode;
       GameManager.session.players = room.players;
+      GameManager.session.title = room.title;
       GameManager.session.settings = room.settings;
       GameManager.session.eventDeck = room.eventDeck;
       GameManager.session.totalTurns = room.totalTurns;
