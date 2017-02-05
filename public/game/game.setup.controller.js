@@ -23,7 +23,7 @@ function GameSetupController($scope, $q, $mdDialog, $state, $stateParams, $locat
   dm.logout = logout;
   dm.showNSFW = false;
 
-  dm.mode = 0;
+  dm.mode;
   dm.themes = ['classic'];
   dm.selectTheme = selectTheme;
   dm.settings = [
