@@ -13,7 +13,26 @@
 					Firecup is the ultimate party game with variants ideal for every party -- all the way from quiet movie nights to off-the-hook college parties. Take everything you loved about the rules of King's Cup and Sociables, add a thousand cards, let people play from their own phones, and you've got a drinking game for adults that no other game can compare to.
 				</p>
 				<md-divider></md-divider>
-				<h4 class="md-display-2">What are you doing tonight?</h4>
+				<h3 class="md-display-1">Join a friend's game</h3>
+				<div layout="row">
+					<form name="joinForm" ng-submit="vm.joinGame()" flex>
+
+					<md-input-container flex="100">
+						<label>4 Letter Game Code (eg: KSCA)</label>
+						<input required md-no-asterisk name="code" ng-pattern="/^[a-zA-Z0-9]{4}$/" ng-model="vm.gamecode">
+						<div ng-messages="joinForm.code.$error" role="alert">
+							<div ng-message="required">
+								If you don't have a code, create a new game
+							</div>
+							<div ng-message="pattern">
+								The Game Codes are 4 letters long
+							</div>
+						</div>
+					</md-input-container>
+
+					<md-button type="submit">JOIN GAME</md-button>
+					</form>
+				</div>
 			</section>
 		</div>
 	</div>

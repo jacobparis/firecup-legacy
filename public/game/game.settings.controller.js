@@ -116,18 +116,20 @@ function SettingsController($scope, $state, Socket, Facebook, FBService, DialogS
   }
 
   function joinGame() {
-    GameManager.session.title = GameManager.session.title || $state.params.title;
+    GameManager.session.title = GameManager.session.title.toUpperCase() || $state.params.title.toUpperCase();
 
     Socket.emit('client:join', {
       room: GameManager.session.title
     });
-
+    console.log('A');
+    console.log($state.params);
+    console.log(GameManager.session.title);
     return GameManager.getRoom()
     .then(function(room) {
       console.log(room);
       GameManager.session.mode = room.mode;
       GameManager.session.players = room.players;
-      GameManager.session.title = room.title;
+      GameManager.session.title = GameManager.session.title || room.title;
       GameManager.session.settings = room.settings;
       GameManager.session.eventDeck = room.eventDeck;
       GameManager.session.totalTurns = room.totalTurns;
@@ -205,6 +207,7 @@ function SettingsController($scope, $state, Socket, Facebook, FBService, DialogS
 
   function addPlayer() {
     console.log(GameManager.session.deviceToken);
+    console.log(GameManager.session.title);
     Socket.emit('player:add', {
       room: GameManager.session.title,
       name: vm.newPlayerName,

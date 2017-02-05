@@ -3,6 +3,7 @@ angular.module('app', [
   'ngRoute',
   'ngResource',
   'ngMaterial',
+  'ngMessages',
   'ngMeta',
   'ui.router',
   'md.data.table',

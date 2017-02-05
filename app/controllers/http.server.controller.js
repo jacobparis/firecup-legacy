@@ -56,6 +56,8 @@ function newGame(req, res, next) {
 }
 
 function getRoom(req, res, next, room) {
+  room = room.toUpperCase();
+
   console.log('GET Room: ' + room);
   if(!room) {return Promise.reject();}
 

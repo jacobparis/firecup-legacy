@@ -24,6 +24,7 @@ exports.drawBurnCards = drawBurnCards;
 exports.saveFeedback = saveFeedback;
 
 function addPlayer(room, name, deviceToken, facebook) {
+  room = room.toUpperCase();
   console.log('Add player ' + name + ' to ' + room);
 
   const query = Game
@@ -55,9 +56,11 @@ function addPlayer(room, name, deviceToken, facebook) {
 }
 
 function updatePlayer(title, doc) {
+
   if(!title) {return Promise.reject();}
   if(!doc.hasOwnProperty('index')) {return Promise.reject();}
 
+  title = title.toUpperCase();
   console.log('Update Player in ' + title);
   const playerObject = Game
   .where('title').equals(title)
@@ -346,6 +349,8 @@ function setTurn(room, index) {
   if(!room) {return Promise.reject();}
   if(index == null) {return Promise.reject();} // eslint-disable-line
 
+  room = room.toUpperCase();
+
   console.log('Set turn to ' + index);
 
   return Game
@@ -370,6 +375,8 @@ function setTurn(room, index) {
 }
 
 function getRoom(room) {
+  room = room.toUpperCase();
+
   console.log('Get Room: ' + room);
   if(!room) {return Promise.reject();}
 
@@ -392,6 +399,7 @@ function buildDeck2() {
 
 function drawBurnCards(room, players) {
   if(!room) {return Promise.reject();}
+  room = room.toUpperCase();
 
   console.log('Draw burn card in ' + room);
   return Game

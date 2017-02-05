@@ -164,6 +164,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
       console.log(GameManager.session.players);
       console.log(vm.facebook.id);
       console.log(GameManager.session.deviceToken);
+      GameManager.session.title = GameManager.session.title || $state.params.title;
       if(GameManager.session.players && GameManager.session.players.length) {
         if(vm.facebook.id && _.find(GameManager.session.players, {'facebook': {id: vm.facebook.id}})) {
           // I am already in the list
@@ -175,13 +176,12 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
           return Promise.resolve();
         }
       }
-
-      $state.go('gameSettings', {title: GameManager.session.title});
+      $state.go('gameSettings', {title: GameManager.session.title.toUpperCase()});
       return Promise.reject();
     }
 
     function joinGame() {
-      GameManager.session.title = GameManager.session.title || $state.params.title;
+      GameManager.session.title = GameManager.session.title.toUpperCase() || $state.params.title.toUpperCase();
 
       Socket.emit('client:join', {
         room: GameManager.session.title
@@ -192,7 +192,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
         console.log(room);
         GameManager.session.mode = room.mode;
         GameManager.session.players = room.players;
-        GameManager.session.title = room.title;
+        GameManager.session.title = GameManager.session.title || room.title;
 
         GameManager.session.settings = room.settings;
         GameManager.session.eventDeck = room.eventDeck;

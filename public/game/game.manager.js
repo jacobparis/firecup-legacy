@@ -32,11 +32,6 @@ function GameManager($resource, $q, Socket, GameResource, DeckService) {
       players: [],
       turn: 0,
       title: '',
-      Title: () => {
-        return gm.session.title.replace(/(-|^)([^-]?)/g, function(_, prep, letter) {
-          return (prep && ' ') + letter.toUpperCase();
-        });
-      },
       settings: {
 
       }
@@ -64,6 +59,7 @@ function GameManager($resource, $q, Socket, GameResource, DeckService) {
   }
 
   function getRoom() {
+    console.log(gm.session.title);
     if(!gm.session.title) {
       return $q.reject('No title found');
     }

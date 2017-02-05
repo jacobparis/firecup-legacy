@@ -18,6 +18,7 @@ function HomeController($scope, $state, $mdMedia, Analytics) {
 
   vm.navigate = navigate;
   vm.open = open;
+  vm.joinGame = joinGame;
 
   vm.activity;
   $scope.selected = '';
@@ -37,6 +38,11 @@ function HomeController($scope, $state, $mdMedia, Analytics) {
       $scope.selected = tag;
     }
 
+  }
+
+  function joinGame() {
+    console.log('Join' + vm.gamecode);
+    $state.go('game', {title: vm.gamecode});
   }
 }
 
