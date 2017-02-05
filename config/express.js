@@ -4,7 +4,7 @@ let config = require('./config'),
 
 const read = require('fs').readFileSync;
 const exists = require('fs').existsSync;
-const options = {ssl: false};
+let options = {ssl: false};
 
 if(exists('./privkey.pem')) {
   options = {
