@@ -1,5 +1,10 @@
 .card-container {
   padding: 1rem;
+  perspective: 1000px;
+  &.facedown .card {
+    transform: rotateY(180deg);
+    transition: all 0s;
+  }
   &.unpad {
     margin-left: -1rem;
   }
@@ -26,7 +31,7 @@
       box-sizing: border-box;
       width: 90vw;
       height: calc(7/5 * 90vw);
-      overflow: hidden;
+      overflow: visible; //overflow: hidden;
       .primary {
         padding: 1rem 0;
         font-size: 9vw;
@@ -47,7 +52,7 @@
       //DESKTOP STYLES
       width: 45vw;
       height: calc(7/5 * 45vw);
-      overflow: hidden;
+      overflow: visible; //overflow: hidden;
       .primary {
         @media (min-width: 800px) {
           padding: 0.5rem 0;
@@ -83,11 +88,14 @@
   height: 100%;
   position: relative;
   border-radius: 0.5rem;
-  overflow: hidden;
+  overflow: visible; //overflow: hidden;
+  transition: 0.6s;
+  transform-style: preserve-3d;
   .BoxShadowHelper(3);
   &.burn {
     background: #2f2f2f;
     color: #f5f5f5;
+    transition: all 0s !important;
   }
   &.clickable {
     cursor: pointer;
@@ -152,9 +160,21 @@
       padding: 0.5rem;
     }
   }
-  &.facedown::after {
-    content: '';
+  .front {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    position:absolute;
+    left:0;
+    top:0;
+    right:0;
+    bottom:0;
+    border-radius: 0.5rem;
+    transform: rotateY(0deg);
+    z-index: 2;
+  }
+  &::after {
     color: white;
+    content: '';
     position: absolute;
     left: 0;
     right: 0;
@@ -162,13 +182,18 @@
     bottom: 0;
     background-size: 100% 100%;
     border-radius: 0.5rem;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform: rotateY(180deg);
   }
   &.event {
-    background-color: white;
+    .front {
+      background-color: white;
     background-image: url(/assets/img/logosilhouette.png);
     background-size: contain;
     background-repeat: no-repeat;
     background-position: 0 40;
+    }
     &::after {
       background-image: url(/assets/img/gamecard.png);
     }
@@ -187,7 +212,6 @@
   &.placeholder {
     background: white;
     &::after {
-      content: '';
       position: absolute;
       left: 0;
       right: 0;

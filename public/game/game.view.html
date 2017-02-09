@@ -54,59 +54,65 @@
 		<!-- HYBRID EVENT / BURN DECK -->
 		<div
 		class="large card-container"
+		ng-cloak
 		ng-if="$mdMedia('xs') && (thisDevice(game.session.turn) || vm.burnCard.length)"
+		 ng-class="{'facedown': (vm.deckChoice == 'event' && game.session.facedown) || (vm.deckChoice == 'burn' && !vm.burnCard.length)}"
 		md-swipe-up="vm.showGridBottomSheet()"
 		md-swipe-left="vm.switchDecks()"
 		md-swipe-right="vm.switchDecks()">
 			<!-- EVENT CARD when SELECTED and YOUR TURN and YOU HAVE NOT BEEN BURNED -->
 			<div
 			class="clickable event card"
-			ng-class="{'facedown': game.session.facedown}"
 			ng-click="vm.drawEvent($event)"
-			ng-if="vm.deckChoice == 'event' && thisDevice(game.session.turn) && !vm.burnCard.length && _.find(game.session.settings.decks, {'type': 'event', 'visible': true})">
-				<p class="primary">{{vm.eventCard.primary}}</p>
-				<p class="secondary">{{vm.eventCard.secondary}}</p>
-				<span class="type">
-					<p class="tertiary">{{vm.eventCard.tertiary}}</p>
-					{{vm.eventCard.type}} TYPE
-				</span>
+			ng-show="vm.deckChoice == 'event' && thisDevice(game.session.turn) && !vm.burnCard.length && _.find(game.session.settings.decks, {'type': 'event', 'visible': true})">
+				<div class="front">
+					<p class="primary">{{vm.eventCard.primary}}</p>
+					<p class="secondary">{{vm.eventCard.secondary}}</p>
+					<span class="type">
+						<p class="tertiary">{{vm.eventCard.tertiary}}</p>
+						{{vm.eventCard.type}} TYPE
+					</span>
+				</div>
 			</div>
 			<!-- BURN CARD when SELECTED and YOUR TURN and YOU HAVE NOT BEEN BURNED just acts as button -->
 			<div
 			class="clickable facedown burn card"
 			ng-click="vm.drawBurn($mdOpenMenu, $event)"
-			ng-if="vm.deckChoice == 'burn' && thisDevice(game.session.turn) && !vm.burnCard.length && _.find(game.session.settings.decks, {'type': 'burn', 'visible': true})">
+			ng-show="!vm.burnCard.length && vm.deckChoice == 'burn' && thisDevice(game.session.turn) ">
 			</div>
 			<!-- BURN CARD when YOU HAVE BEEN BURNED -->
 			<div
 			class="clickable burn card"
-			ng-class="{'facedown': vm.burnCard[0].facedown}"
 			ng-click="vm.drawBurn($mdOpenMenu, $event)"
-			ng-if="vm.burnCard.length && _.find(game.session.settings.decks, {'type': 'burn', 'visible': true})">
-				<p class="primary">{{vm.burnCard[0].primary}}</p>
-				<p class="secondary">{{vm.burnCard[0].secondary}}</p>
-				<span class="type">
-					<p class="tertiary">{{vm.burnCard[0].tertiary}}</p>
-					{{vm.burnCard[0].type}} TYPE
-				</span>
+			ng-show="vm.burnCard.length ">
+				<div class="front">
+					<p class="primary">{{vm.burnCard[0].primary}}</p>
+					<p class="secondary">{{vm.burnCard[0].secondary}}</p>
+					<span class="type">
+						<p class="tertiary">{{vm.burnCard[0].tertiary}}</p>
+						{{vm.burnCard[0].type}} TYPE
+					</span>
+				</div>
 			</div>
 		</div>
 
 		<!-- EVENT CARD when LARGE SCREEN and YOUR TURN and YOU HAVE NOT BEEN BURNED-->
-		<div class="large card-container" ng-if="$mdMedia('gt-xs') && thisDevice(game.session.turn) && !vm.burnCard.length && _.find(game.session.settings.decks, {'type': 'event', 'visible': true})">
-			<div class="clickable event card" ng-class="{'facedown': game.session.facedown}" ng-click="vm.drawEvent($event)">
-				<p class="primary">{{vm.eventCard.primary}}</p>
-				<p class="secondary">{{vm.eventCard.secondary}}</p>
-				<span class="type">
-					<p class="tertiary">{{vm.eventCard.tertiary}}</p>
-					{{vm.eventCard.type}} TYPE
-				</span>
+		<div class="large card-container" ng-class="{'facedown': game.session.facedown}" ng-if="$mdMedia('gt-xs') && thisDevice(game.session.turn) && !vm.burnCard.length && _.find(game.session.settings.decks, {'type': 'event', 'visible': true})">
+			<div class="clickable event card"  ng-click="vm.drawEvent($event)">
+				<div class="front">
+					<p class="primary">{{vm.eventCard.primary}}</p>
+					<p class="secondary">{{vm.eventCard.secondary}}</p>
+					<span class="type">
+						<p class="tertiary">{{vm.eventCard.tertiary}}</p>
+						{{vm.eventCard.type}} TYPE
+					</span>
+				</div>
 			</div>
 		</div>
 
 		<!-- BURN CARD when LARGE SCREEN and YOUR TURN and YOU HAVE NOT BEEN BURNED -->
-		<div ng-if="$mdMedia('gt-xs') && thisDevice(game.session.turn) && !vm.burnCard.length && _.find(game.session.settings.decks, {'type': 'burn', 'visible': true})"  class="large card-container flex-right" >
-			<div class="clickable facedown burn card"
+		<div ng-if="$mdMedia('gt-xs') && thisDevice(game.session.turn) && !vm.burnCard.length && _.find(game.session.settings.decks, {'type': 'burn', 'visible': true})"  class="large card-container facedown flex-right" >
+			<div class="clickable burn card"
 				ng-click="vm.drawBurn($mdOpenMenu, $event)"
 				md-menu-origin>
 			</div>
@@ -141,12 +147,14 @@
 			<div class="clickable burn card"
 				ng-class="{'facedown': vm.burnCard[0].facedown}"
 				ng-click="vm.drawBurn($mdOpenMenu, $event)">
-				<p class="primary">{{vm.burnCard[0].primary}}</p>
-				<p class="secondary">{{vm.burnCard[0].secondary}}</p>
-				<span class="type">
-					<p class="tertiary">{{vm.burnCard[0].tertiary}}</p>
-					{{vm.burnCard[0].type}} TYPE
-				</span>
+				<div class="front">
+					<p class="primary">{{vm.burnCard[0].primary}}</p>
+					<p class="secondary">{{vm.burnCard[0].secondary}}</p>
+					<span class="type">
+						<p class="tertiary">{{vm.burnCard[0].tertiary}}</p>
+						{{vm.burnCard[0].type}} TYPE
+					</span>
+				</div>
 			</div>
 		</div>
 		<!-- CENTER SINGLE DECK when LARGE SCREEN and (NOT YOUR TURN) -->
