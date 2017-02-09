@@ -56,7 +56,7 @@
 		class="large card-container"
 		ng-cloak
 		ng-if="$mdMedia('xs') && (thisDevice(game.session.turn) || vm.burnCard.length)"
-		 ng-class="{'facedown': (vm.deckChoice == 'event' && game.session.facedown) || (vm.deckChoice == 'burn' && !vm.burnCard.length) || vm.burnCard[0].facedown}"
+		 ng-class="{'facedown': (vm.deckChoice == 'event' && game.session.facedown && !vm.burnCard.length) || (vm.deckChoice == 'burn' && !vm.burnCard.length) || vm.burnCard[0].facedown}"
 		md-swipe-up="vm.showGridBottomSheet()"
 		md-swipe-left="vm.switchDecks()"
 		md-swipe-right="vm.switchDecks()">
