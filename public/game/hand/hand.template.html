@@ -1,14 +1,16 @@
 <md-bottom-sheet class="md-grid" layout="column">
   <md-tabs md-selected="hm.handType" md-stretch-tabs md-dynamic-height>
-    <md-tab label="Status Cards ({{hm.tableCards}})" ng-if="game.session.settings.hands[1].public">
+    <md-tab label="Status Cards ({{hm.tableCards}})" ng-if="game.session.ui.status">
       <md-content ng-if="hm.tableCards">
         <md-grid-list
         md-cols="3" md-cols-gt-xs="6" md-row-height="5:7" md-row-height-gt-md="285px" md-gutter="4px">
           <md-grid-tile ng-cloak ng-repeat="card in $parent.hm.table()" md-colspan="1" md-rowspan="1">
             <div class="burn card" ng-click="$parent.$parent.hm.handClick(card)">
-              <p class="primary">{{card.primary}}</p>
-              <p class="secondary" ng-if="card.secondary">{{card.secondary}}</p>
-              <span class="type">STATUS TYPE</span>
+              <div class="front">
+                <p class="primary">{{card.primary}}</p>
+                <p class="secondary" ng-if="card.secondary">{{card.secondary}}</p>
+                <span class="type">STATUS TYPE</span>
+              </div>
             </div>
           </md-grid-tile>
         </md-grid-list>
@@ -17,15 +19,17 @@
         {{$parent.game.session.players[$parent.$parent.$parent.vm.selectedPlayer].name}} has no status cards.
       </md-content>
     </md-tab>
-    <md-tab label="Trap Cards ({{hm.handCards}})" ng-if="$parent.vm.playerIsMe(game.session.players[$parent.vm.selectedPlayer])">
+    <md-tab label="Trap Cards ({{hm.handCards}})" ng-if="game.session.ui.trap && $parent.vm.playerIsMe(game.session.players[$parent.vm.selectedPlayer])">
       <md-content ng-if="hm.handCards">
         <md-grid-list
           md-cols="3" md-cols-gt-xs="6" md-row-height="5:7" md-row-height-gt-md="285px" md-gutter="4px">
           <md-grid-tile ng-cloak ng-repeat="card in $parent.hm.hand()" md-colspan="1" md-rowspan="1">
     				<div class="burn card" ng-click="$parent.$parent.hm.handClick(card)">
-    					<p class="primary">{{card.primary}}</p>
-    					<p class="secondary" ng-if="card.secondary">{{card.secondary}}</p>
-    					<span class="type">TRAP TYPE</span>
+              <div class="front">
+      					<p class="primary">{{card.primary}}</p>
+      					<p class="secondary" ng-if="card.secondary">{{card.secondary}}</p>
+      					<span class="type">TRAP TYPE</span>
+              </div>
     				</div>
           </md-grid-tile>
         </md-grid-list>

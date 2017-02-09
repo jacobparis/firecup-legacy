@@ -335,6 +335,14 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
         GameManager.session.turn = room.turn;
         GameManager.session.facedown = true;
 
+        if(_.find(room.settings.hands, {type: 'status'})) {
+          GameManager.session.ui.status = true;
+        }
+
+        if(_.find(room.settings.hands, {type: 'traps'})) {
+          GameManager.session.ui.traps = true;
+        }
+
         if(GameManager.session.settings.takeTurns) {
           return DialogService.showAlert({
             'title': 'Choose your actions carefully.',
@@ -412,12 +420,20 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
         player: player
       });
 
-      turnChange(GameManager.session.turn);
+      vm.eventCard.flyDown = true;
+      _.delay(function() {
+        vm.eventCard.flyDown = false;
+        turnChange(GameManager.session.turn);
+      }, 500);
     }
     else {
 
       // Is regular card, flipped up. Continue to next player
-      turnChange();
+      vm.eventCard.flyLeft = true;
+      _.delay(function() {
+        vm.eventCard.flyLeft = false;
+        turnChange();
+      }, 500);
     }
   }
 
@@ -461,14 +477,26 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
     }
 
     // Remove top card
-    vm.burnCard.splice(0, 1);
 
-    // Bring up dialog if there's another card waiting
-    if(vm.burnCard.length) {
-      DialogService.showAlert({
-        'text': GameManager.session.players[vm.burnCard[0].player].name + ' has been burned!'
-      });
+    console.log(vm.burnCard.length);
+    if($mdMedia('xs') && vm.burnCard.length <= 1) {
+      console.log('NO WAIT');
+      vm.burnCard.splice(0, 1);
     }
+    else {
+      vm.burnCard[0].flyDown = true;
+      _.delay(function() {
+        vm.burnCard.splice(0, 1);
+        // Bring up dialog if there's another card waiting
+        if(vm.burnCard.length) {
+          DialogService.showAlert({
+            'text': GameManager.session.players[vm.burnCard[0].player].name + ' has been burned!'
+          });
+        }
+      }, 500);
+
+    }
+
   }
 
   function alertTurn() {
@@ -478,6 +506,7 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
   }
   function turnChange(index) {
     // If index is not set, select next player automagically
+    console.log(index);
     index = index || (GameManager.session.turn + 1) % GameManager.session.players.length;
     Socket.emit('turn:set', {
       room: GameManager.session.title,
@@ -549,25 +578,29 @@ function GameController($scope, $q, $mdDialog, $mdBottomSheet, $mdMedia, $state,
     if(playerIsMe(player) && vm.startEh) {
       // Check hand and table lengths
       // The hand (trap cards) should be no more than default 6
-      const hand = GameManager.getHandByPlayer(data.index);
-      if(hand.length > _.find(GameManager.session.settings.hands, {'type': 'trap'}).max) {
-        DialogService.showAlert({
-          'text': player.name + ' has more than ' + _.find(GameManager.session.settings.hands, {'type': 'trap'}).max + ' trap cards! Please discard one.'
-        }).then(function() {
-          vm.selectedPlayer = data.index;
-          showHand();
-        });
+      if(GameManager.session.ui.trap) {
+        const hand = GameManager.getHandByPlayer(data.index);
+        if(hand.length > _.find(GameManager.session.settings.hands, {'type': 'trap'}).max) {
+          DialogService.showAlert({
+            'text': player.name + ' has more than ' + _.find(GameManager.session.settings.hands, {'type': 'trap'}).max + ' trap cards! Please discard one.'
+          }).then(function() {
+            vm.selectedPlayer = data.index;
+            showHand();
+          });
+        }
       }
 
       // The table (status cards) should be no more than default 3
-      const table = GameManager.getTableByPlayer(data.index);
-      if(table.length > _.find(GameManager.session.settings.hands, {'type': 'status'}).max) {
-        DialogService.showAlert({
-          'text': player.name + ' has more than ' + _.find(GameManager.session.settings.hands, {'type': 'status'}).max + ' status cards! Please discard one.'
-        }).then(function() {
-          vm.selectedPlayer = data.index;
-          showHand();
-        });
+      if (GameManager.session.ui.status) {
+        const table = GameManager.getTableByPlayer(data.index);
+        if(GameManager.session.ui.trap && table.length > _.find(GameManager.session.settings.hands, {'type': 'status'}).max) {
+          DialogService.showAlert({
+            'text': player.name + ' has more than ' + _.find(GameManager.session.settings.hands, {'type': 'status'}).max + ' status cards! Please discard one.'
+          }).then(function() {
+            vm.selectedPlayer = data.index;
+            showHand();
+          });
+        }
       }
     }
   });

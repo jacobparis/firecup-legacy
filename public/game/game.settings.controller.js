@@ -135,6 +135,14 @@ function SettingsController($scope, $state, Socket, Facebook, FBService, DialogS
       GameManager.session.totalTurns = room.totalTurns;
       GameManager.session.turn = vm.selectedPlayer = room.turn;
 
+      if(_.find(room.settings.hands, {type: 'status'})) {
+        GameManager.session.ui.status = true;
+      }
+
+      if(_.find(room.settings.hands, {type: 'traps'})) {
+        GameManager.session.ui.traps = true;
+      }
+
       console.log(GameManager.session.title);
       const token = getCookie(GameManager.session.title);
       if (token !== '') {

@@ -75,13 +75,6 @@ function GameSetupController($scope, $q, $mdDialog, $state, $stateParams, $locat
         'takeTurns': true,
         'hands': [
           {
-            'type': 'trap',
-            'min': 0,
-            'max': 6,
-            'public': false,
-            'singleUse': true
-          },
-          {
             'type': 'status',
             'min': 0,
             'max': 3,
@@ -91,7 +84,7 @@ function GameSetupController($scope, $q, $mdDialog, $state, $stateParams, $locat
         'decks': [
           {
             'type': 'event',
-            'contents': ['event', 'trap'],
+            'contents': ['event'],
             'turn': true,
             'visible': true
           },

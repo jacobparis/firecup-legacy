@@ -34,6 +34,10 @@ function GameManager($resource, $q, Socket, GameResource, DeckService) {
       title: '',
       settings: {
 
+      },
+      ui: {
+        status: false,
+        trap: false
       }
     };
 
@@ -54,6 +58,13 @@ function GameManager($resource, $q, Socket, GameResource, DeckService) {
       gm.session.totalTurns = 0;
       gm.session.facedown = true;
 
+      if(_.find(result.settings.hands, {type: 'status'})) {
+        gm.session.ui.status = true;
+      }
+
+      if(_.find(result.settings.hands, {type: 'traps'})) {
+        gm.session.ui.traps = true;
+      }
       return $q.resolve(result);
     });
   }

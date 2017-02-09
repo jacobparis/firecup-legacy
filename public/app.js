@@ -29,7 +29,9 @@ angular.module('app', [
   }]);
 function Config($mdThemingProvider, AnalyticsProvider, FacebookProvider) {
   $mdThemingProvider.theme('default')
-    .primaryPalette('red')
+    .primaryPalette('red', {
+      'default': '800'
+    })
     .accentPalette('orange');
 
   $mdThemingProvider.theme('facebook')
