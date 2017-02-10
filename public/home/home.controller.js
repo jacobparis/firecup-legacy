@@ -21,7 +21,7 @@ function HomeController($scope, $state, $mdMedia, Analytics) {
   vm.joinGame = joinGame;
 
   vm.activity;
-  $scope.selected = '';
+  $scope.selected = 'Watching Movies';
 
   function navigate(elem) {
     Analytics.trackEvent('navigate', elem);
