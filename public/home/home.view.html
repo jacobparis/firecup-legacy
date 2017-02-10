@@ -1,5 +1,4 @@
 <!-- HEADER -->
-<div class="pagewrap" layout="column" layout-gt-sm="row">
 
 <header class="home collapsible open">
 	<div class="wrapper">
@@ -47,8 +46,9 @@
 	</div>
 </header>
 
+<div class="pagewrap" layout="column">
 <section id="bar-movies" class="movies collapsible" ng-click="vm.open('Watching Movies')" ng-class="{'open': selected == 'Watching Movies'}">
-	<header layout-xs="row" layout-sm="row" ng-class="{'layout-column': selected !== 'Watching Movies', 'layout-row': selected === 'Watching Movies'}">
+	<header layout="row">
 		<img src="assets/img/tv.png" />
 		<h3 class="md-display-3">Watching Movies</h3>
 	</header>
@@ -76,7 +76,7 @@
 </section>
 
 <section id="bar-games" class="games collapsible" ng-click="vm.open('Playing Games')" ng-class="{'open': selected == 'Playing Games'}">
-	<header layout-xs="row" layout-sm="row" ng-class="{'layout-column': selected !== 'Playing Games', 'layout-row': selected === 'Playing Games'}">
+	<header layout="row">
 		<img src="assets/img/pongcups.png" />
 		<h3 class="md-display-3">Playing&nbsp;Some Games</h3>
 	</header>
@@ -90,7 +90,7 @@
 </section>
 
 <section id="bar-nsfw" class="nsfw collapsible" ng-click="vm.open('Cranking Medium')" ng-class="{'open': selected == 'Cranking Medium'}">
-	<header layout-xs="row" layout-sm="row" ng-class="{'layout-column': selected !== 'Cranking Medium', 'layout-row': selected === 'Cranking Medium'}">
+	<header layout="row">
 		<img src="assets/img/nsfwbadge.png" />
 		<h3 class="md-display-3">Cranking&nbsp;up to&nbsp;Medium</h3>
 	</header>
@@ -241,7 +241,7 @@
 
 
 <section id="bar-moviepack" class="collapsible" ng-click="vm.open('movies')" ng-class="{'open': selected == 'movies'}">
-	<header layout-xs="row" layout-sm="row" ng-class="{'layout-column': selected !== 'movies', 'layout-row': selected === 'movies'}">
+	<header layout="row">
 		<img src="assets/img/banner-movies.png" />
 		<h3 class="md-display-3">Movie Pack</h3>
 	</header>
@@ -251,7 +251,7 @@
 </section>
 
 <section id="bar-trumppack" class="collapsible" ng-click="vm.open('trump')" ng-class="{'open': selected == 'trump'}">
-	<header layout-xs="row" layout-sm="row" ng-class="{'layout-column': selected !== 'trump', 'layout-row': selected === 'trump'}">
+	<header layout="row">
 		<img src="assets/img/banner-trump.png" />
 		<h3 class="md-display-3">Trump Cards</h3>
 	</header>
@@ -261,7 +261,7 @@
 </section>
 
 <section id="bar-nsfwpack" class="collapsible" ng-click="vm.open('nsfw')" ng-class="{'open': selected == 'nsfw'}">
-	<header layout-xs="row" layout-sm="row" ng-class="{'layout-column': selected !== 'nsfw', 'layout-row': selected === 'nsfw'}">
+	<header layout="row">
 		<img src="assets/img/nsfwbadge.png" />
 		<h3 class="md-display-3">NSFW Pack</h3>
 	</header>
